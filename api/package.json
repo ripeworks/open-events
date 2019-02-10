@@ -1,0 +1,6 @@
+{
+  "name": "open-events-api",
+  "dependencies": {
+    "googleapis": "^37.2.0"
+  }
+}
