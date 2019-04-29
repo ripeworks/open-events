@@ -2,6 +2,8 @@ import App, { Container } from "next/app";
 import Head from "next/head";
 import { ThemeProvider } from "@material-ui/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider } from 'material-ui-pickers';
 import theme from "../theme";
 
 export default class extends App {
@@ -22,8 +24,10 @@ export default class extends App {
           <title>Northport Omena Calendar</title>
         </Head>
         <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Component {...pageProps} />
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <CssBaseline />
+            <Component {...pageProps} />
+          </MuiPickersUtilsProvider>
         </ThemeProvider>
       </Container>
     );

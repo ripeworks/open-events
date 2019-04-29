@@ -18,6 +18,14 @@ class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
           />
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          />
+          <script
+            type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFl6qbeWVjcpMSz0L5pRu257-ZLwBCAHQ&libraries=places"
+          />
         </Head>
         <body>
           <Main />
