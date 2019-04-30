@@ -20,12 +20,13 @@ class EventForm extends React.Component {
     const { form, onSubmit } = this.props;
 
     form.validateFields((err, values) => {
+      if (err) return;
       onSubmit(values);
     });
   };
 
   normalizeFile = e => {
-    return Array.isArray(e) ? e : e && e.fileList;
+    return Array.isArray(e) ? e : e.fileList;
   };
 
   disabledStartDate = date => {
@@ -170,13 +171,13 @@ class EventForm extends React.Component {
                 getValueFromEvent: this.normalizeFile
               })(
                 <Upload
-                  action="/photo"
+                  action="/api/photo"
                   name="photo"
                   listType="picture-card"
                   showUploadList={false}
                 >
-                  {photo ? (
-                    <img src={photo} />
+                  {photo && photo.length > 0 ? (
+                    <img src={photo[0].response && photo[0].response.webViewLink} />
                   ) : (
                     <div>
                       <Icon type="plus" />

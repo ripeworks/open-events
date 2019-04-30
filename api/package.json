@@ -1,6 +1,9 @@
 {
   "name": "open-events-api",
   "dependencies": {
-    "googleapis": "^37.2.0"
+    "async-busboy": "^0.7.0",
+    "googleapis": "^37.2.0",
+    "micro": "^9.3.3",
+    "now-micro": "^0.3.0"
   }
 }
