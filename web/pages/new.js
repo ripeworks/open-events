@@ -7,6 +7,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import { DatePicker, DateTimePicker } from "material-ui-pickers";
+
 import TimePicker from "../components/TimePicker";
 import Editor from "../components/Editor";
 import Location from "../components/Location";
@@ -16,15 +17,14 @@ export default class Page extends React.Component {
     value: {
       title: "",
       startDate: new Date(),
-      startTime: "10:00am",
+      startTime: "10:00 am",
       endDate: new Date(),
-      endTime: "10:30am",
+      endTime: "10:30 am",
       allDay: false,
-      organizer: "",
-      location: {
-        address: "",
-        latlng: ""
-      },
+      organizerName: "",
+      organizerEmail: "",
+      location: "",
+      locationPosition: {},
       cost: "",
       url: "",
       volunteerContact: "",
@@ -44,27 +44,43 @@ export default class Page extends React.Component {
   };
 
   onStartChange = value => {
-    this.onChange({target: {name: "startDate", value}})
-  }
+    this.onChange({ target: { name: "startDate", value } });
+  };
 
   onEndChange = value => {
-    this.onChange({target: {name: "endDate", value}})
-  }
+    this.onChange({ target: { name: "endDate", value } });
+  };
+
+  onLocationChange = location => {
+    console.log(location);
+  };
 
   onSubmit = e => {
     e.preventDefault();
     // submit to API
   };
 
-  controlProps = (name) => {
+  controlProps = name => {
     const { value } = this.state;
 
     return {
       name,
       value: value[name],
       onChange: this.onChange
-    }
-  }
+    };
+  };
+
+  controlCheckboxProps = name => {
+    const { value } = this.state;
+
+    return {
+      name,
+      value: name,
+      checked: value[name],
+      onChange: e =>
+        this.onChange({ target: { name, value: e.target.checked } })
+    };
+  };
 
   render() {
     const { value } = this.state;
@@ -78,23 +94,40 @@ export default class Page extends React.Component {
               <Grid item xs={12}>
                 <TextField
                   {...this.controlProps("title")}
+                  fullWidth
                   placeholder="Title"
                 />
               </Grid>
               <Grid item xs={12}>
-                <DatePicker disablePast value={value.startDate} onChange={this.onStartChange} />
-                <FormControl>
-                  <TimePicker {...this.controlProps("startTime")} />
-                </FormControl>
+                <DatePicker
+                  autoOk
+                  disablePast
+                  value={value.startDate}
+                  onChange={this.onStartChange}
+                />
+                {!value.allDay && (
+                  <FormControl>
+                    <TimePicker {...this.controlProps("startTime")} />
+                  </FormControl>
+                )}
                 to
-                <DatePicker disablePast value={value.endDate} onChange={this.onEndChange} />
-                <FormControl>
-                  <TimePicker {...this.controlProps("endTime")} />
-                </FormControl>
+                <DatePicker
+                  autoOk
+                  disablePast
+                  value={value.endDate}
+                  onChange={this.onEndChange}
+                />
+                {!value.allDay && (
+                  <FormControl>
+                    <TimePicker {...this.controlProps("endTime")} />
+                  </FormControl>
+                )}
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={<Checkbox value="allDay" />}
+                  control={
+                    <Checkbox {...this.controlCheckboxProps("allDay")} />
+                  }
                   label="All day"
                 />
               </Grid>
@@ -102,20 +135,44 @@ export default class Page extends React.Component {
                 <Location {...this.controlProps("location")} />
               </Grid>
               <Grid item xs={12}>
-                <TextField {...this.controlProps("organizer")} placeholder="Organizer" />
+                <TextField
+                  {...this.controlProps("organizerName")}
+                  fullWidth
+                  placeholder="Organizer Name"
+                />
               </Grid>
               <Grid item xs={12}>
-                <TextField {...this.controlProps("url")} placeholder="Website" />
+                <TextField
+                  {...this.controlProps("organizerEmail")}
+                  fullWidth
+                  placeholder="Organizer Email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  {...this.controlProps("url")}
+                  InputProps={{
+                    type: "url"
+                  }}
+                  fullWidth
+                  placeholder="Website"
+                />
               </Grid>
               <Grid item xs={12}>
                 <TextField {...this.controlProps("cost")} placeholder="Cost" />
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={<Checkbox value="needVolunteers" />}
+                  control={
+                    <Checkbox
+                      {...this.controlCheckboxProps("needVolunteers")}
+                    />
+                  }
                   label="Volunteers"
                 />
-                <TextField placeholder="Volunteer" />
+                {value.needVolunteers && (
+                  <TextField placeholder="Volunteer Contact" />
+                )}
               </Grid>
               <Grid item xs={12}>
                 <Editor {...this.controlProps("description")} />

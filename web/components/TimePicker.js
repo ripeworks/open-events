@@ -1,4 +1,4 @@
-import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 
 const times = [];
@@ -18,9 +18,9 @@ for (let i = 0; i < 12; i++) {
 }
 
 export default (props) => {
-    return <Select {...props}>
+    return <TextField select {...props}>
       {times.map(time =>
         <MenuItem key={time} value={time}>{time}</MenuItem>
       )}
-    </Select>
+    </TextField>
 }
