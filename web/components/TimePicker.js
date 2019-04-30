@@ -1,26 +1,30 @@
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
+import { Select } from "antd";
+import moment from "moment";
+const { Option } = Select;
 
 const times = [];
-let ap = 'am';
 
-for (let i = 0; i < 12; i++) {
-  const time = i === 0 ? 12 : i;
-  times.push(`${time}:00 ${ap}`)
-  times.push(`${time}:30 ${ap}`)
+for (let i = 0; i < 24; i += 0.5) {
+  times.push({
+    label: moment()
+      .hours(i)
+      .minutes(i % 1 === 0 ? 0 : 30)
+      .format("h:mm a"),
+    value: i
+  });
 }
 
-ap = 'pm'
-for (let i = 0; i < 12; i++) {
-  const time = i === 0 ? 12 : i;
-  times.push(`${time}:00 ${ap}`)
-  times.push(`${time}:30 ${ap}`)
-}
+export default class extends React.Component {
+  render() {
+    const { start, ...props} = this.props;
+    const options = start ? times.slice(times.findIndex(time => time.value === start) + 1) : times
 
-export default (props) => {
-    return <TextField select {...props}>
-      {times.map(time =>
-        <MenuItem key={time} value={time}>{time}</MenuItem>
-      )}
-    </TextField>
-}
+    return (
+      <Select showSearch {...this.props}>
+        {options.map(time => (
+          <Option key={time.value} value={time.value}>{time.label}</Option>
+        ))}
+      </Select>
+    );
+  }
+};

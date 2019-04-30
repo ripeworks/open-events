@@ -1,0 +1,10 @@
+header {
+  background-color: gray;
+}
+
+hgroup {
+  padding: 4rem 0 8rem 0;
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
