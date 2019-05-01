@@ -13,7 +13,13 @@ import TimePicker from "./TimePicker";
 import Location from "./Location";
 import Upload from "./Upload";
 
+const dateFormat = "MMM D, YYYY"
+
 class EventForm extends React.Component {
+  state = {
+    submitting: false
+  }
+
   onSubmit = e => {
     e.preventDefault();
     const { form, onSubmit } = this.props;
@@ -21,11 +27,13 @@ class EventForm extends React.Component {
     form.validateFields(async (err, values) => {
       if (err) return;
       try {
+        this.setState({ submitting: true });
         await onSubmit(values);
+        form.resetFields();
       } catch(err) {
         console.log(err);
       }
-      form.resetFields();
+      this.setState({ submitting: false });
     });
   };
 
@@ -61,6 +69,7 @@ class EventForm extends React.Component {
     const {
       form: { getFieldDecorator, getFieldValue }
     } = this.props;
+    const { submitting } = this.state;
 
     const isAllDay = getFieldValue("allDay");
     const isFree = getFieldValue("isFree");
@@ -71,7 +80,7 @@ class EventForm extends React.Component {
       <Form onSubmit={this.onSubmit}>
         <Row gutter={16}>
           <Col>
-            <Form.Item label="Title">
+            <Form.Item label="Event Title" extra={<span>e.g. <em>Music in the Park</em></span>}>
               {getFieldDecorator("title", { rules: [{ required: true }] })(
                 <Input size="large" />
               )}
@@ -84,7 +93,7 @@ class EventForm extends React.Component {
               {getFieldDecorator("startDate", {
                 initialValue: moment(),
                 rules: [{ required: true }]
-              })(<DatePicker disabledDate={this.disabledStartDate} onChange={this.onStartDateChange} size="large" format="MM/DD/YYYY" />)}
+              })(<DatePicker disabledDate={this.disabledStartDate} onChange={this.onStartDateChange} size="large" format={dateFormat} />)}
             </Form.Item>
           </Col>
           <Col>
@@ -115,7 +124,7 @@ class EventForm extends React.Component {
               {getFieldDecorator("endDate", {
                 initialValue: moment(),
                 rules: [{ required: true }]
-              })(<DatePicker disabledDate={this.disabledEndDate} size="large" format="MM/DD/YYYY" />)}
+              })(<DatePicker disabledDate={this.disabledEndDate} size="large" format={dateFormat} />)}
             </Form.Item>
           </Col>
         </Row>
@@ -155,7 +164,7 @@ class EventForm extends React.Component {
         </Row>
         <Row gutter={16} type="flex">
           <Col span={12}>
-            <Form.Item label="Description">
+            <Form.Item label="Description" extra="A brief summary of the event">
               {getFieldDecorator("description", {
                 rules: [{ required: true }]
               })(<Input.TextArea autosize={{ minRows: 2 }} />)}
@@ -170,6 +179,7 @@ class EventForm extends React.Component {
               })(
                 <Upload
                   action="/api/photo"
+                  accept="image/jpeg,image/jpg"
                   name="photo"
                 />
               )}
@@ -223,7 +233,7 @@ class EventForm extends React.Component {
         <Row gutter={16}>
           <Col>
             <Form.Item>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" loading={submitting}>
                 Submit
               </Button>
             </Form.Item>

@@ -1,5 +1,5 @@
 const { google } = require("googleapis");
-const credentials = require("../credentials.json");
+const credentials = require("./credentials.json");
 
 const calendarId = "primary"; // Set to main calendar
 const SCOPES = [
@@ -14,9 +14,8 @@ module.exports = async (req, res) => {
   });
 
   const cal = google.calendar({ version: "v3", auth });
-  const events = await cal.events.list({
-    calendarId
-  });
 
-  return events.data;
+
+  const calendars = await cal.calendarList.list();
+  return calendars;
 };
