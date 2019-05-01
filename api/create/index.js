@@ -82,7 +82,7 @@ ${volunteerText(body)}`,
         // colorId: "" // TODO
       }
     });
-    console.log(res);
+    
     return {
       success: true
     };

@@ -1,5 +1,6 @@
 import "antd/dist/antd.css";
 import "../styles/app.css";
+import { message } from "antd";
 import Header from "../components/Header";
 import EventForm from "../components/EventForm";
 
@@ -8,16 +9,20 @@ export default class Page extends React.Component {
     const res = await fetch("/api/create", {
       method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         ...event,
-        photo: photo && photo[0] && photo[0].response.webViewLink
+        photo: event.photo && event.photo[0] && event.photo[0].response.webViewLink
       })
-    })
-    const resJson = await res.json();
-    console.log(resJson);
-  }
+    });
+    const { success } = await res.json();
+    if (success) {
+      message.success("Thank you! Event submitted for review");
+    } else {
+      message.error("Failed to submit event");
+    }
+  };
 
   render() {
     return (

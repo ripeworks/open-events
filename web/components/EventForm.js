@@ -5,28 +5,28 @@ import {
   Row,
   Col,
   Switch,
-  Upload,
-  Icon,
   Button
 } from "antd";
 import moment from "moment";
 
 import TimePicker from "./TimePicker";
 import Location from "./Location";
+import Upload from "./Upload";
 
 class EventForm extends React.Component {
   onSubmit = e => {
     e.preventDefault();
     const { form, onSubmit } = this.props;
 
-    form.validateFields((err, values) => {
+    form.validateFields(async (err, values) => {
       if (err) return;
-      onSubmit(values);
+      try {
+        await onSubmit(values);
+      } catch(err) {
+        console.log(err);
+      }
+      form.resetFields();
     });
-  };
-
-  normalizeFile = e => {
-    return Array.isArray(e) ? e : e.fileList;
   };
 
   disabledStartDate = date => {
@@ -65,7 +65,6 @@ class EventForm extends React.Component {
     const isAllDay = getFieldValue("allDay");
     const isFree = getFieldValue("isFree");
     const needsVolunteers = getFieldValue("needsVolunteers");
-    const photo = getFieldValue("photo");
     const startTime = getFieldValue("startTime");
 
     return (
@@ -168,23 +167,11 @@ class EventForm extends React.Component {
             <Form.Item label="Photo">
               {getFieldDecorator("photo", {
                 valuePropName: "fileList",
-                getValueFromEvent: this.normalizeFile
               })(
                 <Upload
                   action="/api/photo"
                   name="photo"
-                  listType="picture-card"
-                  showUploadList={false}
-                >
-                  {photo && photo.length > 0 ? (
-                    <img src={photo[0].response && photo[0].response.webViewLink} />
-                  ) : (
-                    <div>
-                      <Icon type="plus" />
-                      <div className="ant-upload-text">Upload</div>
-                    </div>
-                  )}
-                </Upload>
+                />
               )}
             </Form.Item>
           </Col>

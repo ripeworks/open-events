@@ -1,5 +1,4 @@
 const { google } = require("googleapis");
-const { json } = require("micro");
 const credentials = require("../credentials.json");
 
 const calendarId = "primary"; // Set to main calendar
