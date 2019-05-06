@@ -5,6 +5,10 @@ section {
   padding: 2rem 3rem;
 }
 
+.ant-upload img {
+  max-width: 70vw;
+}
+
 @media (min-width: 768px) {
   section {
     width: 90%;
