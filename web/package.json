@@ -15,8 +15,7 @@
     "react-big-calendar": "^0.20.3",
     "react-dom": "^16.8.6",
     "slate": "^0.45.1",
-    "slate-react": "^0.21.21",
-    "whatwg-fetch": "^3.0.0"
+    "slate-react": "^0.21.21"
   },
   "devDependencies": {
     "prettier": "^1.17.0"

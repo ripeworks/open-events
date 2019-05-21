@@ -1,6 +1,6 @@
 import "antd/dist/antd.css";
 import "../styles/app.css";
-import "whatwg-fetch";
+import fetch from "unfetch";
 import { Alert, message } from "antd";
 import Header from "../components/Header";
 import EventForm from "../components/EventForm";
