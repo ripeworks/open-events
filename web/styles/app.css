@@ -6,7 +6,7 @@ section {
 }
 
 .ant-upload img {
-  max-width: 70vw;
+  max-width: 40vw;
 }
 
 @media (min-width: 768px) {
