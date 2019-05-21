@@ -37,6 +37,12 @@ export default class Page extends React.Component {
       <main>
         <Header />
         <section>
+          <p>Please fill out the form below to submit an event to the Northport Omena Calendar. Events require approval before they will be visible on the calendar, so please allow up to 72 hours for approval.</p>
+          <p>All events must meet the following criteria to be eligible for posting:</p>
+          <ul>
+            <li>Available to public (no membership only or private events)</li>
+            <li>Take place in Leelanau Township</li>
+          </ul>
           <EventForm onSubmit={this.onSubmit} />
           {success === true && (
             <Alert
