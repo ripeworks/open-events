@@ -9,6 +9,10 @@ section {
   max-width: 40vw;
 }
 
+.rbc-calendar {
+  min-height: 580px;
+}
+
 @media (min-width: 768px) {
   section {
     width: 90%;
