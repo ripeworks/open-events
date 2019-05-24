@@ -6,6 +6,7 @@
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/event/(?<id>[^/]*)", "dest": "/web/?id=$id" },
     { "src": "/(.*)", "dest": "/web/$1" }
   ],
   "alias": "northportomenacalendar.com"

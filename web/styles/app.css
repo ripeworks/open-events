@@ -2,7 +2,7 @@ section {
   background-color: white;
   max-width: 1100px;
   margin: -7rem auto 0 auto;
-  padding: 2rem 3rem;
+  padding: 2rem 1rem;
 }
 
 .ant-upload img {
@@ -13,8 +13,75 @@ section {
   min-height: 580px;
 }
 
+.push-overlay {
+  padding: 0;
+}
+
+.push-modal {
+  min-height: 100%;
+  margin-right: 0;
+}
+
+.push-closeButton {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.push-closeButton svg {
+  fill: white;
+}
+
+.event-image {
+  margin: -1.2rem -1.2rem 0 -1.2rem;
+  height: 25vh;
+  overflow: hidden;
+}
+
+.event-image div {
+  background-position: center center;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.detail h1 {
+  padding-top: 1rem;
+}
+
+.event-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.event-list > div {
+  flex: 1;
+  padding: 8px;
+  width: 100%;
+}
+
+.ant-card-cover div {
+  background-position: center center;
+  background-size: cover;
+  height: 15vh;
+}
+
+@media (min-width: 600px) {
+  section {
+    padding: 2rem 3rem;
+  }
+
+  .event-list > div {
+    width: 50%;
+  }
+}
+
 @media (min-width: 768px) {
   section {
     width: 90%;
+  }
+
+  .event-list > div {
+    width: 33%;
   }
 }

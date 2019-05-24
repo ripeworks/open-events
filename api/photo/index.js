@@ -24,5 +24,13 @@ module.exports = async (req, res) => {
     fields: "id, webViewLink"
   });
 
+  await drive.permissions.create({
+    fileId: driveFile.id,
+    resource: {
+      role: "reader",
+      type: "anyone"
+    }
+  });
+
   return driveFile.data;
 };
