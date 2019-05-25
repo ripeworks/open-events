@@ -49,13 +49,7 @@ section {
   padding-top: 1rem;
 }
 
-.event-list {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.event-list > div {
-  flex: 1;
+.magic-grid > div {
   padding: 8px;
   width: 100%;
 }
@@ -66,12 +60,43 @@ section {
   height: 15vh;
 }
 
+.ant-card .event-date {
+  padding-bottom: 1rem;
+}
+
+.ant-card-meta-title {
+  overflow: visible;
+  white-space: normal;
+}
+
+.map-container {
+  height: 20vh;
+  margin: 1rem 0;
+}
+
+.toolbar {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.toolbar .view-controls {
+  margin-left: auto;
+}
+
+.toolbar .ant-btn-group + .ant-btn-group {
+  margin-left: 1rem;
+}
+
+.toolbar .current-month {
+  padding: 0 2rem;
+}
+
 @media (min-width: 600px) {
   section {
     padding: 2rem 3rem;
   }
 
-  .event-list > div {
+  .magic-grid > div {
     width: 50%;
   }
 }
@@ -81,7 +106,7 @@ section {
     width: 90%;
   }
 
-  .event-list > div {
+  .magic-grid > div {
     width: 33%;
   }
 }

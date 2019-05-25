@@ -1,8 +1,20 @@
-export default ({ start, end, allDay = false }) => {
+export default ({ start, end, allDay = false, block = false }) => {
   const isSameDay = start.isSame(end, "day");
+  const time = allDay ? (
+    isSameDay ? (
+      "All day"
+    ) : (
+      ""
+    )
+  ) : (
+    <span>
+      {!block && " ⋅ "}
+      {start.format("h:mm a")} - {end.format("h:mm a")}
+    </span>
+  );
 
   return (
-    <div>
+    <div className="event-date">
       {isSameDay ? (
         <span>{start.format("dddd, MMMM D")}</span>
       ) : (
@@ -10,18 +22,7 @@ export default ({ start, end, allDay = false }) => {
           {start.format("MMMM D")} - {end.format("MMMM D, YYYY")}
         </span>
       )}
-      {allDay ? (
-        isSameDay ? (
-          "All day"
-        ) : (
-          ""
-        )
-      ) : (
-        <span>
-          {" "}
-          ⋅ {start.format("h:mm a")} - {end.format("h:mm a")}
-        </span>
-      )}
+      {block ? <div>{time}</div> : time}
     </div>
   );
 };

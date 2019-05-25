@@ -2,7 +2,8 @@ import moment from "moment";
 import { Icon } from "antd";
 import EventDate from "./EventDate";
 import EventDescription from "./EventDescription";
-import { getPhotoUrl } from "../utils";
+import Map from "./Map";
+import { getPhotoUrl, getVolunteerText } from "../utils";
 
 const Detail = ({ icon, children }) => (
   <div className="detail">
@@ -30,21 +31,24 @@ const Detail = ({ icon, children }) => (
   </div>
 );
 
-export default class extends React.Component {
+export default class EventDetail extends React.Component {
   render() {
     const { event } = this.props;
     const {
       attachments: [attachment] = [],
-      start: { dateTime: startDateTime },
-      end: { dateTime: endDateTime },
+      start: { dateTime: startDateTime, date: allDayStart },
+      end: { dateTime: endDateTime, date: allDayEnd },
       extendedProperties: {
         shared: { Cost: cost, Organizer: organizer }
       },
       source: { url: websiteUrl } = {}
     } = event;
 
-    const start = moment(startDateTime);
-    const end = moment(endDateTime);
+    const start = moment(startDateTime || allDayStart);
+    const end = moment(endDateTime || allDayEnd);
+    const allDay = !!allDayStart;
+    const volunteerText = getVolunteerText(event.description);
+    console.log(volunteerText);
 
     console.log(event);
 
@@ -62,10 +66,15 @@ export default class extends React.Component {
         <Detail>
           <h1>{event.summary}</h1>
           {organizer && <div>{organizer}</div>}
-          <EventDate start={start} end={end} allDay={false} />
+          <EventDate start={start} end={end} allDay={allDay} />
         </Detail>
         <Detail icon={<Icon type="environment" />}>
           <span>{event.location}</span>
+          <Map
+            location={event.location}
+            containerElement={<div className="map-container" />}
+            mapElement={<div style={{ height: `100%` }} />}
+          />
         </Detail>
         <Detail icon={<Icon type="info-circle" />}>
           <EventDescription description={event.description} />
@@ -73,6 +82,11 @@ export default class extends React.Component {
         {cost && (
           <Detail icon={<Icon type="dollar" />}>
             <p>{cost}</p>
+          </Detail>
+        )}
+        {volunteerText && (
+          <Detail icon={<Icon type="team" />}>
+            <p>Volunteers needed</p>
           </Detail>
         )}
         {websiteUrl && (

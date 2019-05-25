@@ -10,12 +10,13 @@ const { Meta } = Card;
 export default ({ event }) => {
   const {
     attachments: [attachment] = [],
-    start: { dateTime: startDateTime },
-    end: { dateTime: endDateTime }
+    start: { dateTime: startDateTime, date: allDayStart },
+    end: { dateTime: endDateTime, date: allDayEnd }
   } = event;
 
-  const start = moment(startDateTime);
-  const end = moment(endDateTime);
+  const start = moment(startDateTime || allDayStart);
+  const end = moment(endDateTime || allDayEnd);
+  const allDay = !!allDayStart;
   const cardProps = {};
 
   if (attachment) {
@@ -31,7 +32,7 @@ export default ({ event }) => {
       <Link href={`/?id=${event.id}`} as={`/event/${event.id}`}>
         <Card hoverable {...cardProps}>
           <Meta title={event.summary} />
-          <EventDate start={start} end={end} allDay={false} />
+          <EventDate block start={start} end={end} allDay={allDay} />
           <EventDescription summary description={event.description} />
         </Card>
       </Link>
