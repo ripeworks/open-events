@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
   });
 
   await drive.permissions.create({
-    fileId: driveFile.id,
+    fileId: driveFile.data.id,
     resource: {
       role: "reader",
       type: "anyone"

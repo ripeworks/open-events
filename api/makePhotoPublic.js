@@ -10,13 +10,18 @@ const main = async fileId => {
   });
   const drive = google.drive({ version: "v3", auth });
 
-  await drive.permissions.create({
-    fileId,
-    resource: {
-      role: "reader",
-      type: "anyone"
-    }
-  });
+  const files = await drive.files.list();
+  // console.log(files.data.files);
+
+  for (const file of files.data.files) {
+    await drive.permissions.create({
+      fileId: file.id,
+      resource: {
+        role: "reader",
+        type: "anyone"
+      }
+    });
+  }
 };
 
 // TODO loop through all photos and make public
