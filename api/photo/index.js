@@ -12,13 +12,14 @@ module.exports = async (req, res) => {
   const drive = google.drive({ version: "v3", auth });
   const { files } = await asyncBusboy(req);
   const [file] = files;
+  const extension = file.filename.split(".").pop();
 
   const driveFile = await drive.files.create({
     resource: {
       name: file.filename
     },
     media: {
-      mimeType: "image/jpeg",
+      mimeType: `image/${extension}`,
       body: file
     },
     fields: "id, webViewLink"
