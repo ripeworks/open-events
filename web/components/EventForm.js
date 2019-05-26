@@ -1,36 +1,31 @@
-import {
-  Input,
-  DatePicker,
-  Form,
-  Row,
-  Col,
-  Switch,
-  Button
-} from "antd";
+import { Input, DatePicker, Form, Row, Col, Switch, Button } from "antd";
 import moment from "moment";
 
 import TimePicker from "./TimePicker";
 import Location from "./Location";
 import Upload from "./Upload";
+import { getPhotoUrl, getVolunteerText } from "../utils";
 
-const dateFormat = "MMM D, YYYY"
+const dateFormat = "MMM D, YYYY";
 
 class EventForm extends React.Component {
   state = {
     submitting: false
-  }
+  };
 
   onSubmit = e => {
     e.preventDefault();
-    const { form, onSubmit } = this.props;
+    const { event, form, onSubmit } = this.props;
 
     form.validateFields(async (err, values) => {
       if (err) return;
       try {
         this.setState({ submitting: true });
         await onSubmit(values);
-        form.resetFields();
-      } catch(err) {
+        if (!event) {
+          form.resetFields();
+        }
+      } catch (err) {
         console.log(err);
       }
       this.setState({ submitting: false });
@@ -40,30 +35,34 @@ class EventForm extends React.Component {
   disabledStartDate = date => {
     const now = moment();
     if (!date) return false;
-    return date.startOf('date').valueOf() < now.startOf('date').valueOf();
-  }
+    return date.startOf("date").valueOf() < now.startOf("date").valueOf();
+  };
 
   disabledEndDate = date => {
     const start = this.props.form.getFieldValue("startDate");
     if (!start || !date) return false;
-    return date.startOf('date').valueOf() < start.startOf('date').valueOf();
-  }
+    return date.startOf("date").valueOf() < start.startOf("date").valueOf();
+  };
 
   onStartDateChange = date => {
-    const { form: { getFieldValue, setFieldsValue } } = this.props;
+    const {
+      form: { getFieldValue, setFieldsValue }
+    } = this.props;
     const end = getFieldValue("endDate");
-    if (end && date.startOf('date').valueOf() > end.startOf('date').valueOf()) {
-      setFieldsValue({endDate: date})
+    if (end && date.startOf("date").valueOf() > end.startOf("date").valueOf()) {
+      setFieldsValue({ endDate: date });
     }
-  }
+  };
 
   onStartTimeChange = time => {
-    const { form: { getFieldValue, setFieldsValue } } = this.props;
+    const {
+      form: { getFieldValue, setFieldsValue }
+    } = this.props;
     const end = getFieldValue("endTime");
     if (!end || end < time) {
-      setFieldsValue({endTime: time + 0.5})
+      setFieldsValue({ endTime: time + 0.5 });
     }
-  }
+  };
 
   render() {
     const {
@@ -80,7 +79,14 @@ class EventForm extends React.Component {
       <Form onSubmit={this.onSubmit}>
         <Row gutter={16}>
           <Col>
-            <Form.Item label="Event Title" extra={<span>e.g. <em>Music in the Park</em></span>}>
+            <Form.Item
+              label="Event Title"
+              extra={
+                <span>
+                  e.g. <em>Music in the Park</em>
+                </span>
+              }
+            >
               {getFieldDecorator("title", { rules: [{ required: true }] })(
                 <Input size="large" />
               )}
@@ -93,7 +99,14 @@ class EventForm extends React.Component {
               {getFieldDecorator("startDate", {
                 initialValue: moment(),
                 rules: [{ required: true }]
-              })(<DatePicker disabledDate={this.disabledStartDate} onChange={this.onStartDateChange} size="large" format={dateFormat} />)}
+              })(
+                <DatePicker
+                  disabledDate={this.disabledStartDate}
+                  onChange={this.onStartDateChange}
+                  size="large"
+                  format={dateFormat}
+                />
+              )}
             </Form.Item>
           </Col>
           <Col>
@@ -102,7 +115,9 @@ class EventForm extends React.Component {
                 {getFieldDecorator("startTime", {
                   initialValue: 10,
                   rules: [{ required: true }]
-                })(<TimePicker onChange={this.onStartTimeChange} size="large" />)}
+                })(
+                  <TimePicker onChange={this.onStartTimeChange} size="large" />
+                )}
               </Form.Item>
             )}
           </Col>
@@ -124,7 +139,13 @@ class EventForm extends React.Component {
               {getFieldDecorator("endDate", {
                 initialValue: moment(),
                 rules: [{ required: true }]
-              })(<DatePicker disabledDate={this.disabledEndDate} size="large" format={dateFormat} />)}
+              })(
+                <DatePicker
+                  disabledDate={this.disabledEndDate}
+                  size="large"
+                  format={dateFormat}
+                />
+              )}
             </Form.Item>
           </Col>
         </Row>
@@ -148,7 +169,10 @@ class EventForm extends React.Component {
         </Row>
         <Row gutter={16} type="flex">
           <Col>
-            <Form.Item label="Organizer Name" extra="Individual or organization">
+            <Form.Item
+              label="Organizer Name"
+              extra="Individual or organization"
+            >
               {getFieldDecorator("organizerName", {
                 rules: [{ required: true }]
               })(<Input size="large" />)}
@@ -173,13 +197,16 @@ class EventForm extends React.Component {
         </Row>
         <Row gutter={16} type="flex">
           <Col>
-            <Form.Item label="Photo">
+            <Form.Item
+              label="Photo"
+              help="Photo upload recommended (.jpg or .png only)"
+            >
               {getFieldDecorator("photo", {
-                valuePropName: "fileList",
+                valuePropName: "fileList"
               })(
                 <Upload
                   action="/api/photo"
-                  accept="image/jpeg,image/jpg"
+                  accept="image/jpeg,image/jpg,image/png"
                   name="photo"
                 />
               )}
@@ -222,7 +249,10 @@ class EventForm extends React.Component {
           </Col>
           <Col>
             {needsVolunteers && (
-              <Form.Item label="Volunteer Contact" extra="Name and contact method (phone number, email)">
+              <Form.Item
+                label="Volunteer Contact"
+                extra="Name and contact method (phone number, email)"
+              >
                 {getFieldDecorator("volunteerContact", {
                   rules: [{ required: true }]
                 })(<Input size="large" />)}
@@ -244,4 +274,60 @@ class EventForm extends React.Component {
   }
 }
 
-export default Form.create()(EventForm);
+const mapPropsToFields = props => {
+  const { event } = props;
+
+  if (!event) return {};
+
+  const {
+    start: { dateTime: startDateTime, date: startDate },
+    end: { dateTime: endDateTime, date: endDate },
+    extendedProperties: {
+      private: {
+        OrganizerEmail: organizerEmail,
+        VolunteerContact: volunteerContact
+      },
+      shared: { Cost: cost, Organizer: organizerName }
+    },
+    source: { url: websiteUrl } = {}
+  } = event;
+
+  const start = moment(startDateTime || startDate);
+  const end = moment(endDateTime || endDate);
+  const allDay = !!startDate;
+
+  return {
+    title: Form.createFormField({ value: event.summary }),
+    startDate: Form.createFormField({
+      value: moment(startDateTime || startDate)
+    }),
+    startTime: Form.createFormField({
+      value: allDay ? "" : start.hours() + (start.minutes() === 30 ? 0.5 : 0)
+    }),
+    endDate: Form.createFormField({
+      value: moment(endDateTime || endDate)
+    }),
+    endTime: Form.createFormField({
+      value: allDay ? "" : end.hours() + (end.minutes() === 30 ? 0.5 : 0)
+    }),
+    allDay: Form.createFormField({ value: allDay }),
+    location: Form.createFormField({ value: { address: event.location } }),
+    organizerName: Form.createFormField({ value: organizerName }),
+    organizerEmail: Form.createFormField({ value: organizerEmail }),
+    description: Form.createFormField({
+      value: event.description.replace(
+        `\n\n${getVolunteerText(event.description, true)}`,
+        ""
+      )
+    }),
+    url: Form.createFormField({ value: websiteUrl }),
+    isFree: Form.createFormField({ value: cost === "Free" }),
+    cost: Form.createFormField({ value: cost !== "Free" ? cost : "" }),
+    needsVolunteers: Form.createFormField({ value: !!volunteerContact }),
+    volunteerContact: Form.createFormField({ value: volunteerContact })
+  };
+};
+
+export default Form.create({
+  mapPropsToFields
+})(EventForm);

@@ -2,15 +2,123 @@ section {
   background-color: white;
   max-width: 1100px;
   margin: -7rem auto 0 auto;
-  padding: 2rem 3rem;
+  padding: 2rem 1rem;
 }
 
 .ant-upload img {
   max-width: 40vw;
 }
 
+.rbc-calendar {
+  min-height: 580px;
+}
+
+.push-overlay {
+  padding: 0;
+}
+
+.push-modal {
+  min-height: 100%;
+  margin-right: 0;
+}
+
+.push-closeButton {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.push-closeButton svg {
+  fill: white;
+}
+
+.event-image {
+  margin: -1.2rem -1.2rem 0 -1.2rem;
+  height: 25vh;
+  overflow: hidden;
+}
+
+.event-image div {
+  background-position: center center;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.detail h1 {
+  padding-top: 1rem;
+}
+
+.magic-grid > div {
+  padding: 8px;
+  width: 100%;
+}
+
+.ant-card-cover div {
+  background-position: center center;
+  background-size: cover;
+  height: 15vh;
+}
+
+.ant-card .event-date {
+  padding-bottom: 1rem;
+}
+
+.ant-card-meta-title {
+  overflow: visible;
+  white-space: normal;
+}
+
+.map-container {
+  height: 20vh;
+  margin: 1rem 0;
+}
+
+.toolbar {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.toolbar .view-controls {
+  margin-left: auto;
+}
+
+.toolbar .ant-btn-group + .ant-btn-group {
+  margin-left: 1rem;
+}
+
+.toolbar .current-month {
+  padding: 0 2rem;
+}
+
+.button-edit {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 50%;
+  font-size: 24px;
+  padding: 7px;
+  color: white;
+  line-height: 1;
+  position: absolute;
+  top: 14px;
+  right: 65px;
+}
+
+@media (min-width: 600px) {
+  section {
+    padding: 2rem 3rem;
+  }
+
+  .magic-grid > div {
+    width: 50%;
+  }
+}
+
 @media (min-width: 768px) {
   section {
     width: 90%;
+  }
+
+  .magic-grid > div {
+    width: 33%;
   }
 }

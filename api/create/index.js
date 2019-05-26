@@ -22,7 +22,8 @@ const getDateTime = ({ date, time, allDay = false }) => {
     return day;
   }
 
-  dateTime.setHours(time, time % 1 === 0 ? 0 : 30);
+  // for some reason we add 4 here (timezone?)
+  dateTime.setHours(Math.floor(time) + 4, time % 1 === 0 ? 0 : 30);
   return dateTime.toISOString();
 };
 
@@ -68,7 +69,7 @@ ${volunteerText(body)}`,
         extendedProperties: {
           private: {
             OrganizerEmail: body.organizerEmail,
-            VolunteerContact: body.volunteerContact,
+            VolunteerContact: body.volunteerContact
           },
           shared: {
             Organizer: body.organizerName,
@@ -79,7 +80,7 @@ ${volunteerText(body)}`,
           url: body.url
         },
         transparency: "transparent",
-        visibility: "private", // DEFAULT TO PRIVATE
+        visibility: "private" // DEFAULT TO PRIVATE
         // recurrence: [], // TODO
         // colorId: "" // TODO
       }
