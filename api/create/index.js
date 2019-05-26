@@ -22,7 +22,8 @@ const getDateTime = ({ date, time, allDay = false }) => {
     return day;
   }
 
-  dateTime.setHours(time, time % 1 === 0 ? 0 : 30);
+  // for some reason we add 4 here (timezone?)
+  dateTime.setHours(Math.floor(time) + 4, time % 1 === 0 ? 0 : 30);
   return dateTime.toISOString();
 };
 

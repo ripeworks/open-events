@@ -15,14 +15,16 @@ class EventForm extends React.Component {
 
   onSubmit = e => {
     e.preventDefault();
-    const { form, onSubmit } = this.props;
+    const { event, form, onSubmit } = this.props;
 
     form.validateFields(async (err, values) => {
       if (err) return;
       try {
         this.setState({ submitting: true });
         await onSubmit(values);
-        form.resetFields();
+        if (!event) {
+          form.resetFields();
+        }
       } catch (err) {
         console.log(err);
       }
@@ -295,7 +297,6 @@ const mapPropsToFields = props => {
   const allDay = !!startDate;
 
   return {
-    eventId: Form.createFormField({ value: event.id }),
     title: Form.createFormField({ value: event.summary }),
     startDate: Form.createFormField({
       value: moment(startDateTime || startDate)

@@ -32,6 +32,7 @@ export default class Page extends React.Component {
       },
       body: JSON.stringify({
         ...event,
+        eventId: this.props.event.id,
         photo:
           event.photo && event.photo[0] && event.photo[0].response.webViewLink
       })
