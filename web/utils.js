@@ -12,11 +12,11 @@ export const sortEvents = (a, b) => {
   );
 };
 
-export const getVolunteerText = description => {
+export const getVolunteerText = (description, full = false) => {
   const [text, volunteer = ""] =
     description.match(/Interested in being a volunteer\? Contact (.*)/) || [];
 
-  return volunteer;
+  return full ? text : volunteer;
 };
 
 export const geocodeByAddress = address => {

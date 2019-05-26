@@ -48,12 +48,33 @@ export default class EventDetail extends React.Component {
     const end = moment(endDateTime || allDayEnd);
     const allDay = !!allDayStart;
     const volunteerText = getVolunteerText(event.description);
-    console.log(volunteerText);
+
+    const cookies = document.cookie.split(";").reduce((res, c) => {
+      const [key, val] = c
+        .trim()
+        .split("=")
+        .map(decodeURIComponent);
+      try {
+        return Object.assign(res, { [key]: JSON.parse(val) });
+      } catch (e) {
+        return Object.assign(res, { [key]: val });
+      }
+    }, {});
+    const admin = cookies.admin === true;
 
     console.log(event);
 
     return (
       <div>
+        {admin && (
+          <a
+            target="_blank"
+            href={`/event/${event.id}/edit`}
+            className="button-edit"
+          >
+            <Icon type="edit" />
+          </a>
+        )}
         <div className="event-image">
           {attachment && (
             <div

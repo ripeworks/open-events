@@ -4,6 +4,7 @@ import moment from "moment";
 import TimePicker from "./TimePicker";
 import Location from "./Location";
 import Upload from "./Upload";
+import { getPhotoUrl, getVolunteerText } from "../utils";
 
 const dateFormat = "MMM D, YYYY";
 
@@ -271,4 +272,61 @@ class EventForm extends React.Component {
   }
 }
 
-export default Form.create()(EventForm);
+const mapPropsToFields = props => {
+  const { event } = props;
+
+  if (!event) return {};
+
+  const {
+    start: { dateTime: startDateTime, date: startDate },
+    end: { dateTime: endDateTime, date: endDate },
+    extendedProperties: {
+      private: {
+        OrganizerEmail: organizerEmail,
+        VolunteerContact: volunteerContact
+      },
+      shared: { Cost: cost, Organizer: organizerName }
+    },
+    source: { url: websiteUrl } = {}
+  } = event;
+
+  const start = moment(startDateTime || startDate);
+  const end = moment(endDateTime || endDate);
+  const allDay = !!startDate;
+
+  return {
+    eventId: Form.createFormField({ value: event.id }),
+    title: Form.createFormField({ value: event.summary }),
+    startDate: Form.createFormField({
+      value: moment(startDateTime || startDate)
+    }),
+    startTime: Form.createFormField({
+      value: allDay ? "" : start.hours() + (start.minutes() === 30 ? 0.5 : 0)
+    }),
+    endDate: Form.createFormField({
+      value: moment(endDateTime || endDate)
+    }),
+    endTime: Form.createFormField({
+      value: allDay ? "" : end.hours() + (end.minutes() === 30 ? 0.5 : 0)
+    }),
+    allDay: Form.createFormField({ value: allDay }),
+    location: Form.createFormField({ value: { address: event.location } }),
+    organizerName: Form.createFormField({ value: organizerName }),
+    organizerEmail: Form.createFormField({ value: organizerEmail }),
+    description: Form.createFormField({
+      value: event.description.replace(
+        `\n\n${getVolunteerText(event.description, true)}`,
+        ""
+      )
+    }),
+    url: Form.createFormField({ value: websiteUrl }),
+    isFree: Form.createFormField({ value: cost === "Free" }),
+    cost: Form.createFormField({ value: cost !== "Free" ? cost : "" }),
+    needsVolunteers: Form.createFormField({ value: !!volunteerContact }),
+    volunteerContact: Form.createFormField({ value: volunteerContact })
+  };
+};
+
+export default Form.create({
+  mapPropsToFields
+})(EventForm);
