@@ -188,7 +188,8 @@ Moderate.getInitialProps = async ctx => {
 
     if (
       !credentials ||
-      (credentials.name !== "admin" && credentials.pass !== "admin")
+      (credentials.name !== "admin" &&
+        credentials.pass !== process.env.AUTH_PASSWORD)
     ) {
       ctx.res.writeHead(401, {
         "WWW-Authenticate": 'Basic realm="now-basic-auth-node"'
