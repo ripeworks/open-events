@@ -1,5 +1,8 @@
-const withCss = require('@zeit/next-css');
+const withCss = require("@zeit/next-css");
 
 module.exports = withCss({
-  target: "serverless"
+  target: "serverless",
+  env: {
+    API_URL: "https://northportomenacalendar.com"
+  }
 });

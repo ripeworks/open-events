@@ -134,7 +134,7 @@ const Index = ({ events, id }) => {
 };
 
 Index.getInitialProps = async ctx => {
-  const res = await fetch(`http://localhost:3000/api/list`);
+  const res = await fetch(`${process.env.API_URL}/api/list`);
   const { etag, syncToken, items } = await res.json();
   const { id } = ctx.query;
 
