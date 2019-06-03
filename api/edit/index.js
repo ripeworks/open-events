@@ -79,6 +79,14 @@ ${volunteerText(body)}`,
     // colorId: "" // TODO
   };
 
+  if (body.status) {
+    resource.status = body.status;
+  }
+
+  if (body.visibility) {
+    resource.visibility = body.visibility;
+  }
+
   if (body.photo) {
     resource.attachments = [{ fileUrl: body.photo }];
   }
