@@ -7,7 +7,7 @@ import EventForm from "../components/EventForm";
 
 export default class Page extends React.Component {
   static async getInitialProps({ query }) {
-    const res = await fetch(`http://localhost:3000/api/list`);
+    const res = await fetch(`${process.env.API_URL}/api/list`);
     const { etag, syncToken, items } = await res.json();
     const event = items.find(event => event.id === query.id);
 
