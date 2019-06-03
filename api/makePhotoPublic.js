@@ -10,8 +10,13 @@ const main = async fileId => {
   });
   const drive = google.drive({ version: "v3", auth });
 
-  const files = await drive.files.list();
-  // console.log(files.data.files);
+  let files;
+
+  if (fileId) {
+    files = { data: { files: [{ id: fileId }] } };
+  } else {
+    files = await drive.files.list();
+  }
 
   for (const file of files.data.files) {
     await drive.permissions.create({
@@ -23,7 +28,5 @@ const main = async fileId => {
     });
   }
 };
-
-// TODO loop through all photos and make public
 
 main(process.argv[2]);
