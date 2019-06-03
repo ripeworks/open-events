@@ -80,7 +80,9 @@ ${volunteerText(body)}`,
           url: body.url
         },
         transparency: "transparent",
-        visibility: "private" // DEFAULT TO PRIVATE
+        // Default state is (cancelled, public)
+        status: "cancelled",
+        visibility: "public"
         // recurrence: [], // TODO
         // colorId: "" // TODO
       }

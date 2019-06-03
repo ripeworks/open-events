@@ -91,6 +91,10 @@ section {
   padding: 0 2rem;
 }
 
+.toolbar .search-bar {
+  margin-left: auto;
+}
+
 .existing-photo {
   margin-bottom: 10px;
   max-width: 300px;

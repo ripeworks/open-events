@@ -19,7 +19,7 @@ export default ({ actions, event, noLink = false }) => {
   const allDay = !!allDayStart;
   const cardProps = { actions };
 
-  if (attachment) {
+  if (attachment && attachment.fileUrl) {
     cardProps.cover = (
       <div
         style={{ backgroundImage: `url("${getPhotoUrl(attachment.fileUrl)}")` }}
