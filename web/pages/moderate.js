@@ -126,7 +126,7 @@ const Moderate = ({ events, id }) => {
               key={event.id}
               event={event}
               actions={[
-                event.visibility === "private" && (
+                event.status === "cancelled" && (
                   <a onClick={() => onApprove(event)}>
                     <Icon type="check" />
                   </a>
