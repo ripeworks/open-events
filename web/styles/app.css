@@ -91,6 +91,11 @@ section {
   padding: 0 2rem;
 }
 
+.existing-photo {
+  margin-bottom: 10px;
+  max-width: 300px;
+}
+
 .button-edit {
   background: rgba(0, 0, 0, 0.25);
   border-radius: 50%;

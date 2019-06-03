@@ -66,9 +66,11 @@ class EventForm extends React.Component {
 
   render() {
     const {
+      event: editingEvent,
       form: { getFieldDecorator, getFieldValue }
     } = this.props;
     const { submitting } = this.state;
+    const { attachments: [attachment] = [] } = editingEvent || {};
 
     const isAllDay = getFieldValue("allDay");
     const isFree = getFieldValue("isFree");
@@ -162,7 +164,10 @@ class EventForm extends React.Component {
           <Col>
             <Form.Item label="Location">
               {getFieldDecorator("location", { rules: [{ required: true }] })(
-                <Location size="large" />
+                <Location
+                  defaultValue={editingEvent && editingEvent.location}
+                  size="large"
+                />
               )}
             </Form.Item>
           </Col>
@@ -201,6 +206,12 @@ class EventForm extends React.Component {
               label="Photo"
               help="Photo upload recommended (.jpg or .png only)"
             >
+              {editingEvent && attachment && (
+                <img
+                  className="existing-photo"
+                  src={getPhotoUrl(attachment.fileUrl)}
+                />
+              )}
               {getFieldDecorator("photo", {
                 valuePropName: "fileList"
               })(
