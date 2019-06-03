@@ -3,6 +3,7 @@ import { useState } from "react";
 import "antd/dist/antd.css";
 import "../styles/app.css";
 import fetch from "isomorphic-fetch";
+import readAuth from "basic-auth";
 import { Button, Icon, message } from "antd";
 import Link from "next/link";
 import Router from "next/router";
@@ -16,8 +17,8 @@ import { sortEvents } from "../utils";
 
 const ButtonGroup = Button.Group;
 
-const apiEditEvent = async body => {
-  const res = await fetch("/api/edit", {
+const apiPatchEvent = async body => {
+  const res = await fetch("/api/patch", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json"
@@ -30,7 +31,7 @@ const apiEditEvent = async body => {
 
 const onApprove = async event => {
   try {
-    await apiEditEvent({
+    await apiPatchEvent({
       eventId: event.id,
       status: "confirmed",
       visibility: "public"
@@ -43,7 +44,7 @@ const onApprove = async event => {
 
 const onReject = async event => {
   try {
-    await apiEditEvent({
+    await apiPatchEvent({
       eventId: event.id,
       status: "cancelled",
       visibility: "private"
@@ -79,30 +80,33 @@ const Moderate = ({ events, id }) => {
             </Button>
           </ButtonGroup>
         </div>
-        {[...events]
-          .filter(event => {
-            return new Date(event.end.dateTime || event.end.date) >= new Date();
-          })
-          .sort(sortEvents)
-          .map(event => (
-            <EventCard
-              noLink
-              key={event.id}
-              event={event}
-              actions={[
-                <a onClick={() => onApprove(event)}>
-                  <Icon type="check" />
-                </a>,
-                <a onClick={() => onReject(event)}>
-                  <Icon type="stop" />
-                </a>,
-                <Link href={`/moderate?id=${event.id}`}>
-                  <Icon type="edit" />
-                </Link>
-              ]}
-            />
-          ))}
-
+        <div className="moderate-events">
+          {[...events]
+            .filter(event =>
+              view === "approved"
+                ? event.visibility === "public"
+                : event.visibility === "private" && event.status === "confirmed"
+            )
+            .sort(sortEvents)
+            .map(event => (
+              <EventCard
+                noLink
+                key={event.id}
+                event={event}
+                actions={[
+                  <a onClick={() => onApprove(event)}>
+                    <Icon type="check" />
+                  </a>,
+                  <a onClick={() => onReject(event)}>
+                    <Icon type="stop" />
+                  </a>,
+                  <Link href={`/moderate?id=${event.id}`}>
+                    <Icon type="edit" />
+                  </Link>
+                ]}
+              />
+            ))}
+        </div>
         <Modal
           open={typeof window !== "undefined" && !!id}
           classNames={{
@@ -120,6 +124,20 @@ const Moderate = ({ events, id }) => {
 };
 
 Moderate.getInitialProps = async ctx => {
+  if (ctx.req) {
+    const credentials = readAuth(ctx.req);
+
+    if (
+      !credentials ||
+      (credentials.name !== "admin" && credentials.pass !== "admin")
+    ) {
+      ctx.res.writeHead(401, {
+        "WWW-Authenticate": 'Basic realm="now-basic-auth-node"'
+      });
+      ctx.res.end("Restricted area. Please login.");
+    }
+  }
+
   const res = await fetch(`${process.env.API_URL}/api/list`);
   const { etag, syncToken, items } = await res.json();
   const { id } = ctx.query;

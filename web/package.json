@@ -8,6 +8,7 @@
   "dependencies": {
     "@zeit/next-css": "^0.2.1-canary.4",
     "antd": "^3.16.6",
+    "basic-auth": "^2.0.1",
     "immutable": "^4.0.0-rc.12",
     "magic-grid": "^3.2.4",
     "magic-grid-react": "^0.3.1",
