@@ -85,16 +85,9 @@ const Index = ({ events, id }) => {
         </div>
         {view === "list" && (
           <MagicGrid gutter={0}>
-            {[...events]
-              .filter(event => {
-                return (
-                  new Date(event.end.dateTime || event.end.date) >= new Date()
-                );
-              })
-              .sort(sortEvents)
-              .map(event => (
-                <EventCard key={event.id} event={event} />
-              ))}
+            {events.map(event => (
+              <EventCard key={event.id} event={event} />
+            ))}
           </MagicGrid>
         )}
         {view === "calendar" && (
@@ -138,7 +131,14 @@ Index.getInitialProps = async ctx => {
   const { etag, syncToken, items } = await res.json();
   const { id } = ctx.query;
 
-  return { events: items, id };
+  return {
+    events: items
+      .filter(event => {
+        return new Date(event.end.dateTime || event.end.date) >= new Date();
+      })
+      .sort(sortEvents),
+    id
+  };
 };
 
 export default Index;

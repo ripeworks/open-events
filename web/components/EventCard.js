@@ -22,7 +22,7 @@ export default ({ actions, event, noLink = false }) => {
   if (attachment && attachment.fileUrl) {
     cardProps.cover = (
       <div
-        style={{ backgroundImage: `url("${getPhotoUrl(attachment.fileUrl)}")` }}
+        style={{ backgroundImage: `url(${getPhotoUrl(attachment.fileUrl)})` }}
       />
     );
   }
