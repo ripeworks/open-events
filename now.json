@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     { "src": "web/next.config.js", "use": "@now/next" },
-    { "src": "api/**/index.js", "use": "now-micro" }
+    { "src": "api/**/index.js", "use": "@now/node" }
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/$1" },

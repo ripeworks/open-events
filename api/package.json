@@ -3,7 +3,6 @@
   "dependencies": {
     "async-busboy": "^0.7.0",
     "googleapis": "^37.2.0",
-    "micro": "^9.3.4",
-    "now-micro": "^0.4.0"
+    "micro": "^9.3.4"
   }
 }

@@ -1,5 +1,6 @@
 const { google } = require("googleapis");
 const { parse } = require("url");
+const { send } = require("micro");
 const credentials = require("../credentials.json");
 
 const calendarId = "m6vr4kp9epa15isbtbufi06cpk@group.calendar.google.com"; // Set to main calendar
@@ -28,5 +29,5 @@ module.exports = async (req, res) => {
     showDeleted: deleted === "true"
   });
 
-  return events.data;
+  send(res, 200, events.data);
 };

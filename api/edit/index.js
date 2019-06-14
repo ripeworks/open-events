@@ -1,5 +1,5 @@
 const { google } = require("googleapis");
-const { json } = require("micro");
+const { json, send } = require("micro");
 const credentials = require("../credentials.json");
 
 const calendarId = "m6vr4kp9epa15isbtbufi06cpk@group.calendar.google.com"; // Set to main calendar
@@ -98,13 +98,9 @@ ${volunteerText(body)}`,
       resource
     });
 
-    return {
-      success: true
-    };
+    send(res, 200, { success: true });
   } catch (err) {
     console.log(err);
-    return {
-      success: false
-    };
+    send(res, 200, { success: false });
   }
 };

@@ -1,5 +1,6 @@
 const { google } = require("googleapis");
 const asyncBusboy = require("async-busboy");
+const { send } = require("micro");
 const credentials = require("../credentials.json");
 
 const SCOPES = ["https://www.googleapis.com/auth/drive.file"];
@@ -33,5 +34,5 @@ module.exports = async (req, res) => {
     }
   });
 
-  return driveFile.data;
+  send(res, 200, driveFile.data);
 };
