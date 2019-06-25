@@ -37,7 +37,7 @@ const Index = ({ events, id }) => {
 
   return (
     <main>
-      <Header />
+      <Header intro />
       <section>
         <div className="toolbar">
           {view === "calendar" && (

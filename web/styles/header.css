@@ -9,4 +9,17 @@ hgroup {
   width: 90%;
   max-width: 1100px;
   margin: 0 auto;
+  font-size: 1.5em;
+}
+
+details summary {
+  outline: none;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details > summary:first-of-type {
+  list-style-type: none;
 }
