@@ -23,7 +23,8 @@
     "react-google-maps": "^9.4.5",
     "react-responsive-modal": "^4.0.1",
     "slate": "^0.45.1",
-    "slate-react": "^0.21.21"
+    "slate-react": "^0.21.21",
+    "xmlbuilder": "^13.0.2"
   },
   "devDependencies": {
     "prettier": "^1.17.0"

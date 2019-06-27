@@ -2,12 +2,14 @@
   "version": 2,
   "builds": [
     { "src": "web/next.config.js", "use": "@now/next" },
-    { "src": "api/**/index.js", "use": "@now/node" }
+    { "src": "api/**/index.js", "use": "@now/node" },
+    { "src": "web/sitemap.js", "use": "@now/node" }
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/$1" },
     { "src": "/event/(?<id>[^/]*)", "dest": "/web/?id=$id" },
     { "src": "/event/(?<id>[^/]*)/edit", "dest": "/web/edit?id=$id" },
+    { "src": "/sitemap.xml", "dest": "web/sitemap.js" },
     { "src": "/(.*)", "dest": "/web/$1" }
   ],
   "alias": "northportomenacalendar.com"
