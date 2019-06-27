@@ -119,7 +119,9 @@ const Index = ({ events, id }) => {
           }}
           onClose={() => Router.push("/")}
         >
-          {id && <EventDetail event={events.find(event => event.id === id)} />}
+          {id && (
+            <EventDetail page event={events.find(event => event.id === id)} />
+          )}
         </Modal>
       </section>
     </main>

@@ -1,4 +1,5 @@
 import moment from "moment";
+import Head from "next/head";
 import { Icon } from "antd";
 import EventDate from "./EventDate";
 import EventDescription from "./EventDescription";
@@ -33,7 +34,7 @@ const Detail = ({ icon, children }) => (
 
 export default class EventDetail extends React.Component {
   render() {
-    const { event } = this.props;
+    const { event, page = false } = this.props;
     const {
       attachments: [attachment] = [],
       start: { dateTime: startDateTime, date: allDayStart },
@@ -48,6 +49,14 @@ export default class EventDetail extends React.Component {
     const end = moment(endDateTime || allDayEnd);
     const allDay = !!allDayStart;
     const volunteerText = getVolunteerText(event.description);
+
+    const [
+      ,
+      locationStreet,
+      locationCity,
+      locationState,
+      locationCountry
+    ] = event.location.split(",");
 
     console.log(event);
 
@@ -96,6 +105,33 @@ export default class EventDetail extends React.Component {
               </a>
             </p>
           </Detail>
+        )}
+        {page && (
+          <Head>
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  "@context": "http://schema.org",
+                  "@type": "Event",
+                  name: event.summary,
+                  startDate: start.toISOString(),
+                  endDate: end.toISOString(),
+                  ...(attachment
+                    ? { image: getPhotoUrl(attachment.fileUrl) }
+                    : {}),
+                  url: `https://northportomenacalendar.com/event/${event.id}`,
+                  description: event.description,
+                  location: {
+                    "@type": "PostalAddress",
+                    addressLocality: locationCity,
+                    addressRegion: locationState,
+                    streetAddress: locationStreet
+                  }
+                })
+              }}
+            />
+          </Head>
         )}
       </div>
     );
