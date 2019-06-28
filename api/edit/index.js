@@ -2,7 +2,7 @@ const { google } = require("googleapis");
 const { json, send } = require("micro");
 const credentials = require("../credentials.json");
 
-const calendarId = "m6vr4kp9epa15isbtbufi06cpk@group.calendar.google.com"; // Set to main calendar
+const calendarId = process.env.CALENDAR_ID;
 const SCOPES = [
   "https://www.googleapis.com/auth/calendar",
   "https://www.googleapis.com/auth/calendar.events"
@@ -91,7 +91,7 @@ ${volunteerText(body)}`,
   }
 
   try {
-    const res = await cal.events.patch({
+    await cal.events.patch({
       calendarId,
       eventId: body.eventId,
       supportsAttachments: true,

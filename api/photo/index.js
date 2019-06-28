@@ -1,3 +1,5 @@
+const https = require("https");
+const url = require("url");
 const { google } = require("googleapis");
 const asyncBusboy = require("async-busboy");
 const { send } = require("micro");
@@ -5,7 +7,42 @@ const credentials = require("../credentials.json");
 
 const SCOPES = ["https://www.googleapis.com/auth/drive.file"];
 
+const pickObjectKeys = (object, keys) => {
+  return keys.reduce((obj, key) => {
+    if (object[key]) obj[key] = object[key];
+    return obj;
+  }, {});
+};
+
 module.exports = async (req, res) => {
+  // support image proxy
+  if (req.method === "GET") {
+    const { id } = req.query;
+    const options = {
+      host: "drive.google.com",
+      path: `/uc?export=view&id=${id}`,
+      headers: {}
+    };
+    await new Promise(resolve => {
+      https.get(options, redirect => {
+        const { hostname, pathname } = url.parse(redirect.headers.location);
+        https.get({ host: hostname, path: pathname }, proxy => {
+          res.writeHead(
+            proxy.statusCode,
+            pickObjectKeys(proxy.headers, [
+              "content-length",
+              "content-type",
+              "transfer-encoding"
+            ])
+          );
+          proxy.pipe(res);
+          res.on("end", () => resolve());
+        });
+      });
+    });
+    return;
+  }
+
   const auth = await google.auth.getClient({
     credentials,
     scopes: SCOPES

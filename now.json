@@ -5,7 +5,17 @@
     { "src": "api/**/index.js", "use": "@now/node" },
     { "src": "web/sitemap.js", "use": "@now/node" }
   ],
+  "env": {
+    "AUTH_PASSWORD": "z5dEz7Slc3",
+    "CALENDAR_ID": "m6vr4kp9epa15isbtbufi06cpk@group.calendar.google.com"
+  },
   "routes": [
+    {
+      "src": "/api/photo/(?<id>[^/]*)",
+      "dest": "/api/photo/index.js?id=$id",
+      "headers": { "cache-control": "public,max-age=31536000,immutable" },
+      "methods": ["GET"]
+    },
     { "src": "/api/(.*)", "dest": "/api/$1" },
     { "src": "/event/(?<id>[^/]*)", "dest": "/web/?id=$id" },
     { "src": "/event/(?<id>[^/]*)/edit", "dest": "/web/edit?id=$id" },
