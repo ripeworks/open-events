@@ -108,6 +108,8 @@ export default class EventDetail extends React.Component {
         )}
         {page && (
           <Head>
+            <title>{event.summary} | Northport Omena Calendar</title>
+            <meta name="description" content={event.description} />
             <script
               type="application/ld+json"
               dangerouslySetInnerHTML={{
