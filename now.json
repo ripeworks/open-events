@@ -22,5 +22,5 @@
     { "src": "/sitemap.xml", "dest": "web/sitemap.js" },
     { "src": "/(.*)", "dest": "/web/$1" }
   ],
-  "alias": "northportomenacalendar.com"
+  "aliases": ["northportomenacalendar.com", "www.northportomenacalendar.com"]
 }
