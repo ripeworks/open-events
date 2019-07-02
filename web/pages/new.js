@@ -3,8 +3,17 @@ import "../styles/app.css";
 import fetch from "unfetch";
 import { Alert, Button, Icon, message } from "antd";
 import Link from "next/link";
+import Router from "next/router";
 import Header from "../components/Header";
 import EventForm from "../components/EventForm";
+
+Router.events.on("routeChangeComplete", url => {
+  process.env.GA_ID &&
+    window.gtag &&
+    window.gtag("config", process.env.GA_ID, {
+      page_location: url
+    });
+});
 
 export default class Page extends React.Component {
   state = {

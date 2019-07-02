@@ -31,6 +31,14 @@ const setMonth = (date, value) => {
   }
 };
 
+Router.events.on("routeChangeComplete", url => {
+  process.env.GA_ID &&
+    window.gtag &&
+    window.gtag("config", process.env.GA_ID, {
+      page_location: url
+    });
+});
+
 const Index = ({ events, id }) => {
   const [view, setView] = useState("list");
   const [calendarDate, setDate] = useState(new Date());
