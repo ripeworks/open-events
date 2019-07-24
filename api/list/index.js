@@ -23,11 +23,24 @@ module.exports = async (req, res) => {
 
   // https://developers.google.com/calendar/v3/reference/events/list
   const cal = google.calendar({ version: "v3", auth });
-  const events = await cal.events.list({
+  const params = {
     calendarId,
-    maxResults: 250, // TODO fix this. Need pagination!
+    maxResults: 250,
     showDeleted: deleted === "true"
-  });
+  };
 
-  send(res, 200, events.data);
+  const fetchPage = async (pageToken = undefined) => {
+    const events = await cal.events.list({ ...params, pageToken });
+    if (events.data.nextPageToken) {
+      return [
+        ...events.data.items,
+        ...(await fetchPage(events.data.nextPageToken))
+      ];
+    } else {
+      return events.data.items;
+    }
+  };
+  const items = await fetchPage();
+
+  send(res, 200, { items });
 };
