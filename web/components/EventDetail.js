@@ -125,10 +125,14 @@ export default class EventDetail extends React.Component {
                   url: `https://northportomenacalendar.com/event/${event.id}`,
                   description: event.description,
                   location: {
-                    "@type": "PostalAddress",
-                    addressLocality: locationCity,
-                    addressRegion: locationState,
-                    streetAddress: locationStreet
+                    "@type": "Place",
+                    name: event.location,
+                    address: {
+                      "@type": "PostalAddress",
+                      addressLocality: locationCity,
+                      addressRegion: locationState,
+                      streetAddress: locationStreet
+                    }
                   }
                 })
               }}
