@@ -110,6 +110,7 @@ export default class extends React.Component {
 
   onSave = async () => {
     this.setState({ loading: true });
+    const { onChange } = this.props;
     const { croppedAreaPixels, imageBase64 } = this.state;
     const croppedImage = await getCroppedImg(imageBase64, croppedAreaPixels);
 
@@ -123,17 +124,14 @@ export default class extends React.Component {
     const json = await res.json();
     const fileList = [{ ...this.state.fileList[0], response: json }];
 
-    this.setState(
-      {
-        loading: false,
-        imageBase64: null,
-        imageUrl: getPhotoUrl(json.webViewLink),
-        fileList
-      },
-      () => {
-        onChange(fileList);
-      }
-    );
+    onChange(fileList);
+
+    this.setState({
+      loading: false,
+      imageBase64: null,
+      imageUrl: getPhotoUrl(json.webViewLink),
+      fileList
+    });
   };
 
   render() {
@@ -170,7 +168,7 @@ export default class extends React.Component {
           <div className="crop-container">
             <Cropper
               image={imageBase64}
-              accept={4 / 3}
+              aspect={2}
               crop={crop}
               zoom={zoom}
               onCropChange={crop => this.setState({ crop })}

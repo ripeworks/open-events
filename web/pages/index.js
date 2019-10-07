@@ -6,6 +6,7 @@ import "../styles/app.css";
 import fetch from "isomorphic-fetch";
 import { Button, Icon } from "antd";
 import Link from "next/link";
+import Head from "next/head";
 import Router from "next/router";
 import BigCalendar from "react-big-calendar";
 import moment from "moment";
@@ -46,6 +47,11 @@ const Index = ({ events, id }) => {
   return (
     <main>
       <Header intro />
+      {!id && (
+        <Head>
+          <link rel="canonical" href="https://northportomenacalendar.com" />
+        </Head>
+      )}
       <section>
         <div className="toolbar">
           {view === "calendar" && (

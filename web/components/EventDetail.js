@@ -109,6 +109,10 @@ export default class EventDetail extends React.Component {
         {page && (
           <Head>
             <title>{event.summary} | Northport Omena Calendar</title>
+            <link
+              rel="canonical"
+              href={`https://northportomenacalendar.com/event/${event.id}`}
+            />
             <meta name="description" content={event.description} />
             <script
               type="application/ld+json"
