@@ -19,7 +19,7 @@
     "react": "^16.8.6",
     "react-big-calendar": "^0.20.3",
     "react-dom": "^16.8.6",
-    "react-easy-crop": "^1.13.0",
+    "react-easy-crop": "^1.16.1",
     "react-google-maps": "^9.4.5",
     "react-responsive-modal": "^4.0.1",
     "slate": "^0.45.1",

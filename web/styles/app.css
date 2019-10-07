@@ -116,6 +116,12 @@ section {
   right: 65px;
 }
 
+.crop-container {
+  width: 100%;
+  height: 400px;
+  position: relative;
+}
+
 @media (min-width: 600px) {
   section {
     padding: 2rem 3rem;
