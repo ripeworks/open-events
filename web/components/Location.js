@@ -1,6 +1,8 @@
 import { AutoComplete } from "antd";
 import { geocodeByAddress, getLatLng } from "../utils";
 
+const { Option } = AutoComplete;
+
 export default class extends React.Component {
   state = {
     places: []
@@ -10,8 +12,15 @@ export default class extends React.Component {
     this.autocompleteService = new window.google.maps.places.AutocompleteService();
   }
 
+  // user selected an option
   onChange = async value => {
     const { onChange } = this.props;
+
+    // support custom values
+    if (value.text && value.text.match(/custom/i)) {
+      onChange({ address: value, latlng: null });
+      return;
+    }
 
     const geocodeRes = await geocodeByAddress(value);
     const latLng = getLatLng(geocodeRes);
@@ -38,6 +47,10 @@ export default class extends React.Component {
         }
       );
     });
+
+    // allow entering custom location
+    places.push({ value: inputValue, text: `Custom: ${inputValue}` });
+
     this.setState({ places });
   };
 
@@ -50,6 +63,7 @@ export default class extends React.Component {
         dataSource={this.state.places}
         onSearch={this.loadOptions}
         onSelect={this.onChange}
+        optionLabelProp="value"
       />
     );
   }

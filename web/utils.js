@@ -28,7 +28,7 @@ export const geocodeByAddress = address => {
       if (status !== window.google.maps.GeocoderStatus.OK) {
         reject(
           new Error(
-            `Geocoding query for a place with an ID of '${placeId}' failed - response status: ${status}`
+            `Geocoding query for '${address}' failed - response status: ${status}`
           )
         );
 
