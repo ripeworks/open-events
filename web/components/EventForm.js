@@ -4,6 +4,7 @@ import moment from "moment";
 import TimePicker from "./TimePicker";
 import Location from "./Location";
 import Upload from "./Upload";
+import RecurrenceForm from "./RecurrenceForm";
 import { getPhotoUrl, getVolunteerText } from "../utils";
 
 const dateFormat = "MMM D, YYYY";
@@ -151,11 +152,18 @@ class EventForm extends React.Component {
             </Form.Item>
           </Col>
         </Row>
-        <Row gutter={16}>
+        <Row gutter={16} type="flex" align="bottom">
           <Col>
             <Form.Item label="All day">
               {getFieldDecorator("allDay", { valuePropName: "checked" })(
                 <Switch />
+              )}
+            </Form.Item>
+          </Col>
+          <Col>
+            <Form.Item>
+              {getFieldDecorator("repeats", {})(
+                <RecurrenceForm date={getFieldValue("startDate")} />
               )}
             </Form.Item>
           </Col>
@@ -300,12 +308,14 @@ const mapPropsToFields = props => {
       },
       shared: { Cost: cost, Organizer: organizerName }
     },
+    recurrence,
     source: { url: websiteUrl } = {}
   } = event;
 
   const start = moment(startDateTime || startDate);
   const end = moment(endDateTime || endDate);
   const allDay = !!startDate;
+  const [rrule = ""] = recurrence || [];
 
   return {
     title: Form.createFormField({ value: event.summary }),
@@ -331,6 +341,7 @@ const mapPropsToFields = props => {
         ""
       )
     }),
+    repeats: Form.createFormField({ value: rrule }),
     url: Form.createFormField({ value: websiteUrl }),
     isFree: Form.createFormField({ value: cost === "Free" }),
     cost: Form.createFormField({ value: cost !== "Free" ? cost : "" }),

@@ -1,4 +1,19 @@
-export default ({ start, end, allDay = false, block = false }) => {
+import RRule from "rrule";
+
+const getRuleText = rrule => {
+  const rule = RRule.fromString(rrule);
+
+  return rule.toText();
+};
+
+export default ({
+  start,
+  end,
+  allDay = false,
+  block = false,
+  recurrence = []
+}) => {
+  const [rrule] = recurrence;
   const isSameDay = start.isSame(end, "day");
   const time = allDay ? (
     isSameDay ? (
@@ -23,6 +38,7 @@ export default ({ start, end, allDay = false, block = false }) => {
         </span>
       )}
       {block ? <div>{time}</div> : time}
+      {rrule ? <div>{getRuleText(rrule)}</div> : null}
     </div>
   );
 };

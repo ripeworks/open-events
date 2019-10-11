@@ -42,6 +42,7 @@ export default class EventDetail extends React.Component {
       extendedProperties: {
         shared: { Cost: cost, Organizer: organizer }
       },
+      recurrence,
       source: { url: websiteUrl } = {}
     } = event;
 
@@ -74,7 +75,12 @@ export default class EventDetail extends React.Component {
         <Detail>
           <h1>{event.summary}</h1>
           {organizer && <div>{organizer}</div>}
-          <EventDate start={start} end={end} allDay={allDay} />
+          <EventDate
+            start={start}
+            end={end}
+            allDay={allDay}
+            recurrence={recurrence}
+          />
         </Detail>
         <Detail icon={<Icon type="environment" />}>
           <span>{event.location}</span>

@@ -81,8 +81,8 @@ ${volunteerText(body)}`,
         transparency: "transparent",
         // Default state is (cancelled, public)
         status: "cancelled",
-        visibility: "public"
-        // recurrence: [], // TODO
+        visibility: "public",
+        recurrence: body.repeats ? [body.repeats] : null
         // colorId: "" // TODO
       }
     });

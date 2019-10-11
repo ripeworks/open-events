@@ -73,8 +73,8 @@ ${volunteerText(body)}`,
     source: {
       url: body.url
     },
-    transparency: "transparent"
-    // recurrence: [], // TODO
+    transparency: "transparent",
+    recurrence: body.repeats ? [body.repeats] : null
     // colorId: "" // TODO
   };
 
