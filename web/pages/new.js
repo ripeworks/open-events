@@ -71,6 +71,12 @@ export default class Page extends React.Component {
             <li>Available to public (no membership only or private events)</li>
             <li>Take place in Leelanau Township</li>
           </ul>
+          <p>
+            For questions, help, or requests please contact:{" "}
+            <a href="mailto:leelanaucommunitycalendar@gmail.com">
+              leelanaucommunitycalendar@gmail.com
+            </a>
+          </p>
           <EventForm onSubmit={this.onSubmit} />
           {success === true && (
             <Alert
