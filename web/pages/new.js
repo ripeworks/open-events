@@ -6,6 +6,7 @@ import Link from "next/link";
 import Router from "next/router";
 import Header from "../components/Header";
 import EventForm from "../components/EventForm";
+import { Base64 } from "js-base64";
 
 Router.events.on("routeChangeComplete", url => {
   process.env.GA_ID &&
@@ -17,6 +18,7 @@ Router.events.on("routeChangeComplete", url => {
 
 export default class Page extends React.Component {
   state = {
+    newEventId: null,
     success: null
   };
 
@@ -32,8 +34,8 @@ export default class Page extends React.Component {
           event.photo && event.photo[0] && event.photo[0].response.webViewLink
       })
     });
-    const { success } = await res.json();
-    this.setState({ success });
+    const { id, success } = await res.json();
+    this.setState({ newEventId: id, success });
 
     if (!success) {
       message.error("Failed to submit event");
@@ -41,7 +43,8 @@ export default class Page extends React.Component {
   };
 
   render() {
-    const { success } = this.state;
+    const { newEventId, success } = this.state;
+    const token = newEventId ? Base64.encode(`${newEventId}::$%^&`) : null;
 
     return (
       <main>
@@ -73,7 +76,21 @@ export default class Page extends React.Component {
             <Alert
               closable
               message="Thank you!"
-              description="Your event has been submitted for review."
+              description={
+                <>
+                  <p>Your event has been submitted for review.</p>
+                  <p>
+                    Need to make changes? Use this link to go back and make
+                    changes:{" "}
+                    <a
+                      href={`${process.env.API_URL}/edit?token=${token}`}
+                      target="_blank"
+                    >
+                      {process.env.API_URL}/edit/?token={token}
+                    </a>
+                  </p>
+                </>
+              }
               type="success"
               showIcon
             />

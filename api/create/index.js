@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
   const dateKey = body.allDay ? "date" : "dateTime";
 
   try {
-    await cal.events.insert({
+    const newEvent = await cal.events.insert({
       calendarId,
       supportsAttachments: true,
       resource: {
@@ -87,7 +87,7 @@ ${volunteerText(body)}`,
       }
     });
 
-    send(res, 200, { success: true });
+    send(res, 200, { id: newEvent.data.id, success: true });
   } catch (err) {
     console.log(err);
     send(res, 200, { success: false });
