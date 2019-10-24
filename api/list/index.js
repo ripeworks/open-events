@@ -28,8 +28,7 @@ module.exports = async (req, res) => {
     calendarId,
     maxResults: 2500,
     singleEvents: single === "true",
-    showDeleted: deleted === "true",
-    timeMax: timeMax.toISOString()
+    showDeleted: deleted === "true"
   };
 
   // only show next 6 months of events
