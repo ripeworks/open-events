@@ -18,16 +18,26 @@ module.exports = async (req, res) => {
   // pageToken (for pagination)
   // q (for searching)
   // timeMin, timeMax for date range (use when querying via month?)
+  // singleEvents: true (the remove recurrence field)
   // format: 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z
-  const { deleted } = parse(req.url, true).query;
+  const { deleted, single } = parse(req.url, true).query;
 
   // https://developers.google.com/calendar/v3/reference/events/list
   const cal = google.calendar({ version: "v3", auth });
   const params = {
     calendarId,
-    maxResults: 250,
-    showDeleted: deleted === "true"
+    maxResults: 2500,
+    singleEvents: single === "true",
+    showDeleted: deleted === "true",
+    timeMax: timeMax.toISOString()
   };
+
+  // only show next 6 months of events
+  if (single === "true") {
+    const timeMax = new Date();
+    timeMax.setMonth(timeMax.getMonth() + 6);
+    params.timeMax = timeMax.toISOString();
+  }
 
   const fetchPage = async (pageToken = undefined) => {
     const events = await cal.events.list({ ...params, pageToken });
