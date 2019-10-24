@@ -20,13 +20,45 @@ const { Option } = Select;
 
 const plural = (word, value) => (value === 1 ? word : `${word}s`);
 
-const getRRule = ({ frequency, repeats, date, end, until, count, byDay }) => {
+const wordNums = ["First", "Second", "Third", "Fourth", "Last"];
+
+const getWeekOfMonth = date => {
+  return Math.ceil(date.date() / 7);
+};
+
+const getRRule = ({
+  frequency,
+  repeats,
+  date,
+  end,
+  until,
+  count,
+  byDay,
+  byMonth
+}) => {
   const rule = new RRule({
     freq: RRule[frequency],
     interval: repeats,
     dtstart: moment(date).toDate(),
     until: end === "on" ? until : null,
-    byweekday: frequency === "WEEKLY" ? byDay.map(day => RRule[day]) : null,
+    byweekday:
+      frequency === "WEEKLY"
+        ? (byDay || []).map(day => RRule[day])
+        : frequency === "MONTHLY" && byMonth === "BYMONTHWEEK"
+        ? RRule[
+            moment(date)
+              .format("dd")
+              .toUpperCase()
+          ]
+        : null,
+    bymonthday:
+      frequency === "MONTHLY" && byMonth === "BYMONTHDAY"
+        ? moment(date).date()
+        : null,
+    bysetpos:
+      frequency === "MONTHLY" && byMonth === "BYMONTHWEEK"
+        ? getWeekOfMonth(moment(date))
+        : null,
     count: end === "after" ? count : null
   });
 
@@ -52,9 +84,12 @@ const RecurrenceForm = ({ date, onChange, value }) => {
   const [repeats, setRepeats] = useState(1);
   const [frequency, setFrequency] = useState("DAILY");
   const [byDay, setByDay] = useState([]);
+  const [byMonth, setByMonth] = useState("BYMONTHDAY");
   const [end, setEnd] = useState("never");
   const [count, setCount] = useState(1);
   const [until, setUntil] = useState(moment(date).add(1, "y"));
+
+  const mDate = moment(date);
 
   const weekOptions = [
     { label: "S", value: "SU" },
@@ -64,11 +99,6 @@ const RecurrenceForm = ({ date, onChange, value }) => {
     { label: "T", value: "TH" },
     { label: "F", value: "FR" },
     { label: "S", value: "SA" }
-  ];
-
-  const monthOptions = [
-    { label: "Monthly on day 8" },
-    { label: "Monthly on the second Tuesday" }
   ];
 
   return (
@@ -110,7 +140,8 @@ const RecurrenceForm = ({ date, onChange, value }) => {
             end,
             until,
             count,
-            byDay
+            byDay,
+            byMonth
           });
           onChange(rule);
           setModal(false);
@@ -151,12 +182,23 @@ const RecurrenceForm = ({ date, onChange, value }) => {
               />
             </div>
           )}
-          {/* {frequency === "MONTHLY" && (
-            <div>
-              <p />
-              <Select />
+          {frequency === "MONTHLY" && (
+            <div style={{ padding: "10px 0 0 0" }}>
+              <Select
+                size="large"
+                value={byMonth}
+                onChange={val => setByMonth(val)}
+              >
+                <Option value="BYMONTHDAY">
+                  Monthly on day {mDate.format("D")}
+                </Option>
+                <Option value="BYMONTHWEEK">
+                  Monthly on the {wordNums[getWeekOfMonth(mDate) - 1]}{" "}
+                  {mDate.format("dddd")}
+                </Option>
+              </Select>
             </div>
-          )} */}
+          )}
         </div>
 
         <div className="ant-form-item">
