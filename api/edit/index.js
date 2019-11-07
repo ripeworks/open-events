@@ -19,11 +19,18 @@ const getDateTime = ({ date, time, allDay = false }) => {
 
   if (allDay) {
     const [day] = dateTime.toISOString().split("T");
-    return day;
+    return {
+      date: day,
+      dateTime: null
+    }
   }
 
   dateTime.setHours(Math.floor(time), time % 1 === 0 ? 0 : 30);
-  return dateTime.toISOString().replace(/Z$/, "");
+  
+  return {
+    dateTime: dateTime.toISOString().replace(/Z$/, ""),
+    date: null
+  };
 };
 
 module.exports = async (req, res) => {
@@ -45,7 +52,7 @@ module.exports = async (req, res) => {
 
 ${volunteerText(body)}`,
     start: {
-      [dateKey]: getDateTime({
+      ...getDateTime({
         date: body.startDate,
         time: body.startTime,
         allDay: body.allDay
@@ -53,7 +60,7 @@ ${volunteerText(body)}`,
       timeZone: "America/Detroit"
     },
     end: {
-      [dateKey]: getDateTime({
+      ...getDateTime({
         date: body.endDate,
         time: body.endTime,
         allDay: body.allDay
