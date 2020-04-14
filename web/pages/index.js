@@ -4,7 +4,7 @@ import "antd/dist/antd.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "../styles/app.css";
 import fetch from "isomorphic-fetch";
-import { Button, Icon } from "antd";
+import { Alert, Button, Icon } from "antd";
 import Link from "next/link";
 import Head from "next/head";
 import Router from "next/router";
@@ -53,6 +53,43 @@ const Index = ({ events, id }) => {
         </Head>
       )}
       <section>
+        <div className="flush">
+          <Alert
+            banner
+            message="COVID-19 CALENDAR UPDATE"
+            description={
+              <div>
+                <p>
+                  Dear neighbors, visitors, calendar partners and interested
+                  parties:
+                </p>
+                <p>
+                  All Leelanau Township events and meetings have been cancelled
+                  until further notice.
+                  <br />
+                  We have decided not to remove calendar submissions that have
+                  been posted for future months as we don’t know when a life of
+                  public activity will resume in our community. Future events
+                  submissions are welcome even in this time of uncertainty.
+                  <br />
+                  In the meantime, for  daily updates relating to Covid-19
+                  please go to 
+                  <a href="http://www.bldhd.org/coronavirus-covid-19">
+                    http://www.bldhd.org/coronavirus-covid-19
+                  </a>
+                  .
+                </p>
+                <p>
+                  Stay home. Stay safe. Wash your hands frequently. Be kind,
+                  gracious and hopeful for a return to enjoyable community
+                  events, peace and good health for all of Leelanau Township as
+                  soon as possible.
+                </p>
+              </div>
+            }
+            type="warning"
+          />
+        </div>
         <div className="toolbar">
           {view === "calendar" && (
             <ButtonGroup>

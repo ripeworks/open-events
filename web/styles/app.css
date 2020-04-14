@@ -5,6 +5,13 @@ section {
   padding: 2rem 1rem;
 }
 
+.flush {
+  margin-bottom: 2rem;
+  margin-left: -1rem;
+  margin-right: -1rem;
+  margin-top: -2rem;
+}
+
 .ant-upload img {
   max-width: 40vw;
 }
@@ -125,6 +132,11 @@ section {
 @media (min-width: 600px) {
   section {
     padding: 2rem 3rem;
+  }
+
+  .flush {
+    margin-left: -3rem;
+    margin-right: -3rem;
   }
 
   .magic-grid > div {
