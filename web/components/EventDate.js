@@ -1,18 +1,19 @@
+import React from "react";
 import RRule from "rrule";
 
-const getRuleText = rrule => {
+const getRuleText = (rrule) => {
   const rule = RRule.fromString(rrule);
 
   return rule.toText();
 };
 
-export default ({
+export default function EventDate({
   start,
   end,
   allDay = false,
   block = false,
-  recurrence = []
-}) => {
+  recurrence = [],
+}) {
   const [rrule] = recurrence;
   const isSameDay = start.isSame(end, "day");
   const time = allDay ? (
@@ -41,4 +42,4 @@ export default ({
       {rrule ? <div>{getRuleText(rrule)}</div> : null}
     </div>
   );
-};
+}

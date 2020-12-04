@@ -1,21 +1,21 @@
+import React from "react";
 import { Button, Modal, Upload, Icon } from "antd";
 import Cropper from "react-easy-crop";
-import fetch from "unfetch";
 import { getPhotoUrl } from "../utils";
 
-const readFile = file => {
-  return new Promise(resolve => {
+const readFile = (file) => {
+  return new Promise((resolve) => {
     const reader = new FileReader();
     reader.addEventListener("load", () => resolve(reader.result), false);
     reader.readAsDataURL(file);
   });
 };
 
-const createImage = url =>
+const createImage = (url) =>
   new Promise((resolve, reject) => {
     const image = new Image();
     image.addEventListener("load", () => resolve(image));
-    image.addEventListener("error", error => reject(error));
+    image.addEventListener("error", (error) => reject(error));
     image.setAttribute("crossOrigin", "anonymous"); // needed to avoid cross-origin issues on CodeSandbox
     image.src = url;
   });
@@ -64,8 +64,8 @@ async function getCroppedImg(imageSrc, pixelCrop, rotation = 0) {
   // return canvas.toDataURL('image/jpeg');
 
   // As a blob
-  return new Promise(resolve => {
-    canvas.toBlob(file => {
+  return new Promise((resolve) => {
+    canvas.toBlob((file) => {
       resolve(file);
     }, "image/jpeg");
   });
@@ -78,7 +78,7 @@ export default class extends React.Component {
     croppedAreaPixels: null,
     loading: false,
     imageBase64: null,
-    fileList: this.props.fileList || []
+    fileList: this.props.fileList || [],
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -89,12 +89,12 @@ export default class extends React.Component {
     }
   }
 
-  beforeUpload = async file => {
+  beforeUpload = async (file) => {
     const imageBase64 = await readFile(file);
 
-    this.setState(state => ({
+    this.setState((state) => ({
       imageBase64,
-      fileList: [...state.fileList, file]
+      fileList: [...state.fileList, file],
     }));
 
     // prevent Upload from uploading
@@ -119,7 +119,7 @@ export default class extends React.Component {
 
     const res = await fetch("/api/photo", {
       body,
-      method: "POST"
+      method: "POST",
     });
     const json = await res.json();
     const fileList = [{ ...this.state.fileList[0], response: json }];
@@ -130,7 +130,7 @@ export default class extends React.Component {
       loading: false,
       imageBase64: null,
       imageUrl: getPhotoUrl(json.webViewLink),
-      fileList
+      fileList,
     });
   };
 
@@ -171,11 +171,11 @@ export default class extends React.Component {
               aspect={2}
               crop={crop}
               zoom={zoom}
-              onCropChange={crop => this.setState({ crop })}
+              onCropChange={(crop) => this.setState({ crop })}
               onCropComplete={(croppedArea, croppedAreaPixels) =>
                 this.setState({ croppedAreaPixels })
               }
-              onZoomChange={zoom => this.setState({ zoom })}
+              onZoomChange={(zoom) => this.setState({ zoom })}
             />
           </div>
         </Modal>

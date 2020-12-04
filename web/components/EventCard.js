@@ -1,3 +1,4 @@
+import React from "react";
 import { Card } from "antd";
 import Link from "next/link";
 import EventDate from "./EventDate";
@@ -7,11 +8,11 @@ import { getPhotoUrl } from "../utils";
 
 const { Meta } = Card;
 
-export default ({ actions, event, noLink = false }) => {
+export default function EventCard({ actions, event, noLink = false }) {
   const {
     attachments: [attachment] = [],
     start: { dateTime: startDateTime, date: allDayStart },
-    end: { dateTime: endDateTime, date: allDayEnd }
+    end: { dateTime: endDateTime, date: allDayEnd },
   } = event;
 
   const start = moment(startDateTime || allDayStart);
@@ -50,4 +51,4 @@ export default ({ actions, event, noLink = false }) => {
       </Link>
     </div>
   );
-};
+}

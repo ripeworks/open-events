@@ -1,3 +1,4 @@
+import React from "react";
 import { Input, DatePicker, Form, Row, Col, Switch, Button } from "antd";
 import moment from "moment";
 
@@ -11,10 +12,10 @@ const dateFormat = "MMM D, YYYY";
 
 class EventForm extends React.Component {
   state = {
-    submitting: false
+    submitting: false,
   };
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
     const { event, form, onSubmit } = this.props;
 
@@ -33,21 +34,21 @@ class EventForm extends React.Component {
     });
   };
 
-  disabledStartDate = date => {
+  disabledStartDate = (date) => {
     const now = moment();
     if (!date) return false;
     return date.startOf("date").valueOf() < now.startOf("date").valueOf();
   };
 
-  disabledEndDate = date => {
+  disabledEndDate = (date) => {
     const start = this.props.form.getFieldValue("startDate");
     if (!start || !date) return false;
     return date.startOf("date").valueOf() < start.startOf("date").valueOf();
   };
 
-  onStartDateChange = date => {
+  onStartDateChange = (date) => {
     const {
-      form: { getFieldValue, setFieldsValue }
+      form: { getFieldValue, setFieldsValue },
     } = this.props;
     const end = getFieldValue("endDate");
     if (end && date.startOf("date").valueOf() > end.startOf("date").valueOf()) {
@@ -55,9 +56,9 @@ class EventForm extends React.Component {
     }
   };
 
-  onStartTimeChange = time => {
+  onStartTimeChange = (time) => {
     const {
-      form: { getFieldValue, setFieldsValue }
+      form: { getFieldValue, setFieldsValue },
     } = this.props;
     const end = getFieldValue("endTime");
     if (!end || end < time) {
@@ -68,7 +69,7 @@ class EventForm extends React.Component {
   render() {
     const {
       event: editingEvent,
-      form: { getFieldDecorator, getFieldValue }
+      form: { getFieldDecorator, getFieldValue },
     } = this.props;
     const { submitting } = this.state;
     const { attachments: [attachment] = [] } = editingEvent || {};
@@ -101,7 +102,7 @@ class EventForm extends React.Component {
             <Form.Item label="Date">
               {getFieldDecorator("startDate", {
                 initialValue: moment(),
-                rules: [{ required: true }]
+                rules: [{ required: true }],
               })(
                 <DatePicker
                   disabledDate={this.disabledStartDate}
@@ -117,7 +118,7 @@ class EventForm extends React.Component {
               <Form.Item>
                 {getFieldDecorator("startTime", {
                   initialValue: 10,
-                  rules: [{ required: true }]
+                  rules: [{ required: true }],
                 })(
                   <TimePicker onChange={this.onStartTimeChange} size="large" />
                 )}
@@ -132,7 +133,7 @@ class EventForm extends React.Component {
               <Form.Item>
                 {getFieldDecorator("endTime", {
                   initialValue: 10.5,
-                  rules: [{ required: true }]
+                  rules: [{ required: true }],
                 })(<TimePicker start={startTime || 10} size="large" />)}
               </Form.Item>
             )}
@@ -141,7 +142,7 @@ class EventForm extends React.Component {
             <Form.Item>
               {getFieldDecorator("endDate", {
                 initialValue: moment(),
-                rules: [{ required: true }]
+                rules: [{ required: true }],
               })(
                 <DatePicker
                   disabledDate={this.disabledEndDate}
@@ -187,14 +188,14 @@ class EventForm extends React.Component {
               extra="Individual or organization"
             >
               {getFieldDecorator("organizerName", {
-                rules: [{ required: true }]
+                rules: [{ required: true }],
               })(<Input size="large" />)}
             </Form.Item>
           </Col>
           <Col>
             <Form.Item label="Organizer Email">
               {getFieldDecorator("organizerEmail", {
-                rules: [{ required: true }]
+                rules: [{ required: true }],
               })(<Input size="large" type="email" />)}
             </Form.Item>
           </Col>
@@ -203,7 +204,7 @@ class EventForm extends React.Component {
           <Col span={12}>
             <Form.Item label="Description" extra="A brief summary of the event">
               {getFieldDecorator("description", {
-                rules: [{ required: true }]
+                rules: [{ required: true }],
               })(<Input.TextArea autosize={{ minRows: 2 }} />)}
             </Form.Item>
           </Col>
@@ -221,7 +222,7 @@ class EventForm extends React.Component {
                 />
               )}
               {getFieldDecorator("photo", {
-                valuePropName: "fileList"
+                valuePropName: "fileList",
               })(
                 <Upload
                   action="/api/photo"
@@ -244,7 +245,7 @@ class EventForm extends React.Component {
             <Form.Item label="Free Event">
               {getFieldDecorator("isFree", {
                 initialValue: true,
-                valuePropName: "checked"
+                valuePropName: "checked",
               })(<Switch />)}
             </Form.Item>
           </Col>
@@ -262,7 +263,7 @@ class EventForm extends React.Component {
           <Col>
             <Form.Item label="Needs Volunteers">
               {getFieldDecorator("needsVolunteers", {
-                valuePropName: "checked"
+                valuePropName: "checked",
               })(<Switch />)}
             </Form.Item>
           </Col>
@@ -273,7 +274,7 @@ class EventForm extends React.Component {
                 extra="Name and contact method (phone number, email)"
               >
                 {getFieldDecorator("volunteerContact", {
-                  rules: [{ required: true }]
+                  rules: [{ required: true }],
                 })(<Input size="large" />)}
               </Form.Item>
             )}
@@ -293,7 +294,7 @@ class EventForm extends React.Component {
   }
 }
 
-const mapPropsToFields = props => {
+const mapPropsToFields = (props) => {
   const { event } = props;
 
   if (!event) return {};
@@ -304,12 +305,12 @@ const mapPropsToFields = props => {
     extendedProperties: {
       private: {
         OrganizerEmail: organizerEmail,
-        VolunteerContact: volunteerContact
+        VolunteerContact: volunteerContact,
       },
-      shared: { Cost: cost, Organizer: organizerName }
+      shared: { Cost: cost, Organizer: organizerName },
     },
     recurrence,
-    source: { url: websiteUrl } = {}
+    source: { url: websiteUrl } = {},
   } = event;
 
   const start = moment(startDateTime || startDate);
@@ -320,16 +321,16 @@ const mapPropsToFields = props => {
   return {
     title: Form.createFormField({ value: event.summary }),
     startDate: Form.createFormField({
-      value: moment(startDateTime || startDate)
+      value: moment(startDateTime || startDate),
     }),
     startTime: Form.createFormField({
-      value: allDay ? "" : start.hours() + (start.minutes() === 30 ? 0.5 : 0)
+      value: allDay ? "" : start.hours() + (start.minutes() === 30 ? 0.5 : 0),
     }),
     endDate: Form.createFormField({
-      value: moment(endDateTime || endDate)
+      value: moment(endDateTime || endDate),
     }),
     endTime: Form.createFormField({
-      value: allDay ? "" : end.hours() + (end.minutes() === 30 ? 0.5 : 0)
+      value: allDay ? "" : end.hours() + (end.minutes() === 30 ? 0.5 : 0),
     }),
     allDay: Form.createFormField({ value: allDay }),
     location: Form.createFormField({ value: { address: event.location } }),
@@ -339,17 +340,17 @@ const mapPropsToFields = props => {
       value: event.description.replace(
         `\n\n${getVolunteerText(event.description, true)}`,
         ""
-      )
+      ),
     }),
     repeats: Form.createFormField({ value: rrule }),
     url: Form.createFormField({ value: websiteUrl }),
     isFree: Form.createFormField({ value: cost === "Free" }),
     cost: Form.createFormField({ value: cost !== "Free" ? cost : "" }),
     needsVolunteers: Form.createFormField({ value: !!volunteerContact }),
-    volunteerContact: Form.createFormField({ value: volunteerContact })
+    volunteerContact: Form.createFormField({ value: volunteerContact }),
   };
 };
 
 export default Form.create({
-  mapPropsToFields
+  mapPropsToFields,
 })(EventForm);

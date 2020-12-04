@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Dropdown,
@@ -11,7 +11,7 @@ import {
   Radio,
   Select,
   Row,
-  Col
+  Col,
 } from "antd";
 import moment from "moment";
 import { RRule } from "rrule";
@@ -22,7 +22,7 @@ const plural = (word, value) => (value === 1 ? word : `${word}s`);
 
 const wordNums = ["First", "Second", "Third", "Fourth", "Last"];
 
-const getWeekOfMonth = date => {
+const getWeekOfMonth = (date) => {
   return Math.ceil(date.date() / 7);
 };
 
@@ -34,7 +34,7 @@ const getRRule = ({
   until,
   count,
   byDay,
-  byMonth
+  byMonth,
 }) => {
   const rule = new RRule({
     freq: RRule[frequency],
@@ -43,7 +43,7 @@ const getRRule = ({
     until: end === "on" ? until : null,
     byweekday:
       frequency === "WEEKLY"
-        ? (byDay || []).map(day => RRule[day])
+        ? (byDay || []).map((day) => RRule[day])
         : frequency === "MONTHLY" && byMonth === "BYMONTHWEEK"
         ? RRule[
             moment(date)
@@ -59,7 +59,7 @@ const getRRule = ({
       frequency === "MONTHLY" && byMonth === "BYMONTHWEEK"
         ? getWeekOfMonth(moment(date))
         : null,
-    count: end === "after" ? count : null
+    count: end === "after" ? count : null,
   });
 
   const [dtStart, rrule] = rule.toString().split("\n");
@@ -67,7 +67,7 @@ const getRRule = ({
   return rrule;
 };
 
-const getRuleText = rrule => {
+const getRuleText = (rrule) => {
   const rule = RRule.fromString(rrule);
 
   return rule.toText();
@@ -76,7 +76,7 @@ const getRuleText = rrule => {
 const radioStyles = {
   display: "block",
   height: "40px",
-  lineHeight: "40px"
+  lineHeight: "40px",
 };
 
 const RecurrenceForm = ({ date, onChange, value }) => {
@@ -98,7 +98,7 @@ const RecurrenceForm = ({ date, onChange, value }) => {
     { label: "W", value: "WE" },
     { label: "T", value: "TH" },
     { label: "F", value: "FR" },
-    { label: "S", value: "SA" }
+    { label: "S", value: "SA" },
   ];
 
   return (
@@ -141,7 +141,7 @@ const RecurrenceForm = ({ date, onChange, value }) => {
             until,
             count,
             byDay,
-            byMonth
+            byMonth,
           });
           onChange(rule);
           setModal(false);
@@ -156,14 +156,14 @@ const RecurrenceForm = ({ date, onChange, value }) => {
                 min={1}
                 size="large"
                 value={repeats}
-                onChange={val => setRepeats(val)}
+                onChange={(val) => setRepeats(val)}
               />
             </Col>
             <Col>
               <Select
                 size="large"
                 value={frequency}
-                onChange={val => setFrequency(val)}
+                onChange={(val) => setFrequency(val)}
               >
                 <Option value="DAILY">{plural("Day", repeats)}</Option>
                 <Option value="WEEKLY">{plural("Week", repeats)}</Option>
@@ -178,7 +178,7 @@ const RecurrenceForm = ({ date, onChange, value }) => {
               <Checkbox.Group
                 options={weekOptions}
                 value={byDay}
-                onChange={val => setByDay(val)}
+                onChange={(val) => setByDay(val)}
               />
             </div>
           )}
@@ -187,7 +187,7 @@ const RecurrenceForm = ({ date, onChange, value }) => {
               <Select
                 size="large"
                 value={byMonth}
-                onChange={val => setByMonth(val)}
+                onChange={(val) => setByMonth(val)}
               >
                 <Option value="BYMONTHDAY">
                   Monthly on day {mDate.format("D")}
@@ -207,7 +207,7 @@ const RecurrenceForm = ({ date, onChange, value }) => {
             <Radio.Group
               size="large"
               value={end}
-              onChange={e => setEnd(e.target.value)}
+              onChange={(e) => setEnd(e.target.value)}
             >
               <Radio style={radioStyles} value="never">
                 Never
@@ -218,7 +218,7 @@ const RecurrenceForm = ({ date, onChange, value }) => {
                   disabled={end !== "on"}
                   dateFormat="MMM D, YYYY"
                   value={until}
-                  onChange={val => setUntil(val)}
+                  onChange={(val) => setUntil(val)}
                   style={{ marginLeft: "10px" }}
                 />
               </Radio>
@@ -228,7 +228,7 @@ const RecurrenceForm = ({ date, onChange, value }) => {
                   disabled={end !== "after"}
                   min={1}
                   value={count}
-                  onChange={val => setCount(val)}
+                  onChange={(val) => setCount(val)}
                 />{" "}
                 {plural("Occurrence", count)}
               </Radio>

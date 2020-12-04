@@ -1,8 +1,7 @@
 // @flow
-import { useState } from "react";
+import React, { useState } from "react";
 import "antd/dist/antd.css";
 import "../styles/app.css";
-import fetch from "isomorphic-fetch";
 import readAuth from "basic-auth";
 import { Button, Icon, message, Empty, Input } from "antd";
 import Link from "next/link";
@@ -19,24 +18,24 @@ import { sortEvents } from "../utils";
 const Search = Input.Search;
 const ButtonGroup = Button.Group;
 
-const apiPatchEvent = async body => {
+const apiPatchEvent = async (body) => {
   const res = await fetch("/api/patch", {
     method: "PUT",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   });
   const { success } = await res.json();
   if (!success) throw new Error("Failed to modify event");
 };
 
-const onApprove = async event => {
+const onApprove = async (event) => {
   try {
     await apiPatchEvent({
       eventId: event.id,
       status: "confirmed",
-      visibility: "public"
+      visibility: "public",
     });
     message.success("Event Approved!");
     Router.replace("/moderate");
@@ -45,12 +44,12 @@ const onApprove = async event => {
   }
 };
 
-const onReject = async event => {
+const onReject = async (event) => {
   try {
     await apiPatchEvent({
       eventId: event.id,
       status: "cancelled",
-      visibility: "private"
+      visibility: "private",
     });
     message.success("Event Rejected!");
     Router.replace("/moderate");
@@ -62,10 +61,10 @@ const onReject = async event => {
 const filterFields = ["summary", "description"];
 const filterEvents = (filter, { data }) => {
   const reg = new RegExp(filter, "gi");
-  return data.filter(row => {
+  return data.filter((row) => {
     const fieldValues = filterFields;
     const matches = fieldValues.filter(
-      field => !!String(row[field]).match(reg)
+      (field) => !!String(row[field]).match(reg)
     );
     return matches.length > 0;
   });
@@ -79,9 +78,9 @@ const Moderate = ({ events, id }) => {
   const eventList = [
     ...(search && view === "approved"
       ? filterEvents(search, { data: events })
-      : events)
+      : events),
   ]
-    .filter(event =>
+    .filter((event) =>
       view === "approved"
         ? event.status === "confirmed"
         : event.visibility === "public" && event.status === "cancelled"
@@ -114,13 +113,13 @@ const Moderate = ({ events, id }) => {
               <Search
                 allowClear
                 placeholder="Search events"
-                onChange={e => onSearch(e.target.value)}
+                onChange={(e) => onSearch(e.target.value)}
               />
             </div>
           )}
         </div>
         <div className="moderate-events">
-          {eventList.map(event => (
+          {eventList.map((event) => (
             <EventCard
               noLink
               key={event.id}
@@ -139,7 +138,7 @@ const Moderate = ({ events, id }) => {
                 </a>,
                 <Link href={`/moderate?id=${event.id}`}>
                   <Icon type="edit" />
-                </Link>
+                </Link>,
               ]}
             />
           ))}
@@ -158,23 +157,25 @@ const Moderate = ({ events, id }) => {
           classNames={{
             overlay: "push-overlay",
             modal: "push-modal",
-            closeButton: "push-closeButton"
+            closeButton: "push-closeButton",
           }}
           onClose={() => Router.push("/moderate")}
         >
-          {id && <EventEdit event={events.find(event => event.id === id)} />}
+          {id && <EventEdit event={events.find((event) => event.id === id)} />}
         </Modal>
         <Modal
           open={typeof window !== "undefined" && !!previewId}
           classNames={{
             overlay: "push-overlay",
             modal: "push-modal",
-            closeButton: "push-closeButton"
+            closeButton: "push-closeButton",
           }}
           onClose={() => setPreviewId(null)}
         >
           {previewId && (
-            <EventDetail event={events.find(event => event.id === previewId)} />
+            <EventDetail
+              event={events.find((event) => event.id === previewId)}
+            />
           )}
         </Modal>
       </section>
@@ -182,7 +183,7 @@ const Moderate = ({ events, id }) => {
   );
 };
 
-Moderate.getInitialProps = async ctx => {
+Moderate.getInitialProps = async (ctx) => {
   if (ctx.req) {
     const credentials = readAuth(ctx.req);
 
@@ -192,7 +193,7 @@ Moderate.getInitialProps = async ctx => {
         credentials.pass !== process.env.AUTH_PASSWORD)
     ) {
       ctx.res.writeHead(401, {
-        "WWW-Authenticate": 'Basic realm="now-basic-auth-node"'
+        "WWW-Authenticate": 'Basic realm="now-basic-auth-node"',
       });
       ctx.res.end("Restricted area. Please login.");
     }

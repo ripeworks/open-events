@@ -1,9 +1,5 @@
 // @flow
-import { useState } from "react";
-import "antd/dist/antd.css";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import "../styles/app.css";
-import fetch from "isomorphic-fetch";
+import React, { useState } from "react";
 import { Alert, Button, Icon } from "antd";
 import Link from "next/link";
 import Head from "next/head";
@@ -32,11 +28,11 @@ const setMonth = (date, value) => {
   }
 };
 
-Router.events.on("routeChangeComplete", url => {
+Router.events.on("routeChangeComplete", (url) => {
   process.env.GA_ID &&
     window.gtag &&
     window.gtag("config", process.env.GA_ID, {
-      page_location: url
+      page_location: url,
     });
 });
 
@@ -136,7 +132,7 @@ const Index = ({ events, id }) => {
         </div>
         {view === "list" && (
           <MagicGrid gutter={0}>
-            {events.map(event => (
+            {events.map((event) => (
               <EventCard key={event.id} event={event} />
             ))}
           </MagicGrid>
@@ -146,14 +142,14 @@ const Index = ({ events, id }) => {
             localizer={localizer}
             events={events}
             titleAccessor="summary"
-            startAccessor={event =>
+            startAccessor={(event) =>
               new Date(event.start.dateTime || `${event.start.date}T00:00:00`)
             }
-            endAccessor={event =>
+            endAccessor={(event) =>
               new Date(event.end.dateTime || `${event.end.date}T23:59:59`)
             }
-            allDayAccessor={event => !!event.start.date}
-            onSelectEvent={event => {
+            allDayAccessor={(event) => !!event.start.date}
+            onSelectEvent={(event) => {
               Router.push(`/?id=${event.id}`, `/event/${event.id}`);
             }}
             date={calendarDate}
@@ -166,12 +162,12 @@ const Index = ({ events, id }) => {
           classNames={{
             overlay: "push-overlay",
             modal: "push-modal",
-            closeButton: "push-closeButton"
+            closeButton: "push-closeButton",
           }}
           onClose={() => Router.push("/")}
         >
           {id && (
-            <EventDetail page event={events.find(event => event.id === id)} />
+            <EventDetail page event={events.find((event) => event.id === id)} />
           )}
         </Modal>
       </section>
@@ -179,18 +175,18 @@ const Index = ({ events, id }) => {
   );
 };
 
-Index.getInitialProps = async ctx => {
+Index.getInitialProps = async (ctx) => {
   const res = await fetch(`${process.env.API_URL}/api/list?single=true`);
   const { etag, syncToken, items } = await res.json();
   const { id } = ctx.query;
 
   return {
     events: items
-      .filter(event => {
+      .filter((event) => {
         return new Date(event.end.dateTime || event.end.date) >= new Date();
       })
       .sort(sortEvents),
-    id
+    id,
   };
 };
 

@@ -1,6 +1,5 @@
 // @flow
-import "antd/dist/antd.css";
-import "../styles/app.css";
+import React from "react";
 import Router from "next/router";
 import Modal from "react-responsive-modal";
 import { Base64 } from "js-base64";
@@ -18,7 +17,7 @@ const Edit = ({ event }) => {
           classNames={{
             overlay: "push-overlay",
             modal: "push-modal",
-            closeButton: "push-closeButton"
+            closeButton: "push-closeButton",
           }}
           onClose={() => Router.push("/")}
         >
@@ -29,7 +28,7 @@ const Edit = ({ event }) => {
   );
 };
 
-Edit.getInitialProps = async ctx => {
+Edit.getInitialProps = async (ctx) => {
   if (!ctx.req) {
     const err = new Error();
     err.code = "ENOENT";
@@ -46,7 +45,7 @@ Edit.getInitialProps = async ctx => {
 
   const res = await fetch(`${process.env.API_URL}/api/list?deleted=true`);
   const { items } = await res.json();
-  const event = items.find(event => event.id === eventId);
+  const event = items.find((event) => event.id === eventId);
 
   if (!event) {
     const err = new Error();

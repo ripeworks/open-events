@@ -1,6 +1,4 @@
-import "antd/dist/antd.css";
-import "../styles/app.css";
-import fetch from "unfetch";
+import React from "react";
 import { Alert, Button, Icon, message } from "antd";
 import Link from "next/link";
 import Router from "next/router";
@@ -8,31 +6,31 @@ import Header from "../components/Header";
 import EventForm from "../components/EventForm";
 import { Base64 } from "js-base64";
 
-Router.events.on("routeChangeComplete", url => {
+Router.events.on("routeChangeComplete", (url) => {
   process.env.GA_ID &&
     window.gtag &&
     window.gtag("config", process.env.GA_ID, {
-      page_location: url
+      page_location: url,
     });
 });
 
 export default class Page extends React.Component {
   state = {
     newEventId: null,
-    success: null
+    success: null,
   };
 
-  onSubmit = async event => {
+  onSubmit = async (event) => {
     const res = await fetch("/api/create", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         ...event,
         photo:
-          event.photo && event.photo[0] && event.photo[0].response.webViewLink
-      })
+          event.photo && event.photo[0] && event.photo[0].response.webViewLink,
+      }),
     });
     const { id, success } = await res.json();
     this.setState({ newEventId: id, success });

@@ -1,11 +1,12 @@
+import React from "react";
 import { AutoComplete } from "antd";
 import { geocodeByAddress, getLatLng } from "../utils";
 
 const { Option } = AutoComplete;
 
-export default class extends React.Component {
+export default class Location extends React.Component {
   state = {
-    places: []
+    places: [],
   };
 
   componentDidMount() {
@@ -13,7 +14,7 @@ export default class extends React.Component {
   }
 
   // user selected an option
-  onChange = async value => {
+  onChange = async (value) => {
     const { onChange } = this.props;
 
     // support custom values
@@ -26,11 +27,11 @@ export default class extends React.Component {
     const latLng = getLatLng(geocodeRes);
     onChange({
       address: value,
-      latlng: latLng
+      latlng: latLng,
     });
   };
 
-  loadOptions = async inputValue => {
+  loadOptions = async (inputValue) => {
     if (!inputValue) return;
 
     const places = await new Promise((resolve, reject) => {
@@ -43,7 +44,7 @@ export default class extends React.Component {
             reject();
             return;
           }
-          resolve(predictions.map(place => place.description));
+          resolve(predictions.map((place) => place.description));
         }
       );
     });

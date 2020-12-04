@@ -1,3 +1,4 @@
+import React from "react";
 import moment from "moment";
 import Head from "next/head";
 import { Icon } from "antd";
@@ -40,10 +41,10 @@ export default class EventDetail extends React.Component {
       start: { dateTime: startDateTime, date: allDayStart },
       end: { dateTime: endDateTime, date: allDayEnd },
       extendedProperties: {
-        shared: { Cost: cost, Organizer: organizer }
+        shared: { Cost: cost, Organizer: organizer },
       },
       recurrence,
-      source: { url: websiteUrl } = {}
+      source: { url: websiteUrl } = {},
     } = event;
 
     const start = moment(startDateTime || allDayStart);
@@ -56,7 +57,7 @@ export default class EventDetail extends React.Component {
       locationStreet,
       locationCity,
       locationState,
-      locationCountry
+      locationCountry,
     ] = event.location.split(",");
 
     console.log(event);
@@ -67,7 +68,7 @@ export default class EventDetail extends React.Component {
           {attachment && (
             <div
               style={{
-                backgroundImage: `url("${getPhotoUrl(attachment.fileUrl)}")`
+                backgroundImage: `url("${getPhotoUrl(attachment.fileUrl)}")`,
               }}
             />
           )}
@@ -141,10 +142,10 @@ export default class EventDetail extends React.Component {
                       "@type": "PostalAddress",
                       addressLocality: locationCity,
                       addressRegion: locationState,
-                      streetAddress: locationStreet
-                    }
-                  }
-                })
+                      streetAddress: locationStreet,
+                    },
+                  },
+                }),
               }}
             />
           </Head>

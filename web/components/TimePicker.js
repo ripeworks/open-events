@@ -1,3 +1,4 @@
+import React from "react";
 import { Select } from "antd";
 import moment from "moment";
 const { Option } = Select;
@@ -10,21 +11,25 @@ for (let i = 0; i < 24; i += 0.5) {
       .hours(i)
       .minutes(i % 1 === 0 ? 0 : 30)
       .format("h:mm a"),
-    value: i
+    value: i,
   });
 }
 
-export default class extends React.Component {
+export default class TimePicker extends React.Component {
   render() {
-    const { start, ...props} = this.props;
-    const options = start ? times.slice(times.findIndex(time => time.value === start) + 1) : times
+    const { start, ...props } = this.props;
+    const options = start
+      ? times.slice(times.findIndex((time) => time.value === start) + 1)
+      : times;
 
     return (
       <Select showSearch {...this.props}>
-        {options.map(time => (
-          <Option key={time.value} value={time.value}>{time.label}</Option>
+        {options.map((time) => (
+          <Option key={time.value} value={time.value}>
+            {time.label}
+          </Option>
         ))}
       </Select>
     );
   }
-};
+}

@@ -6,7 +6,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "@zeit/next-css": "^0.2.1-canary.4",
     "antd": "^3.16.6",
     "basic-auth": "^2.0.1",
     "classnames": "^2.2.6",
@@ -15,11 +14,11 @@
     "magic-grid": "^3.2.4",
     "magic-grid-react": "^0.3.1",
     "moment": "^2.24.0",
-    "next": "^8.1.0",
+    "next": "^10.0.3",
     "prop-types": "^15.7.2",
-    "react": "^16.8.6",
+    "react": "^17.0.1",
     "react-big-calendar": "^0.20.3",
-    "react-dom": "^16.8.6",
+    "react-dom": "^17.0.1",
     "react-easy-crop": "^1.16.1",
     "react-google-maps": "^9.4.5",
     "react-responsive-modal": "^4.0.1",

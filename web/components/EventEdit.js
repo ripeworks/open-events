@@ -1,20 +1,20 @@
-import fetch from "isomorphic-fetch";
+import React from "react";
 import { Alert, message } from "antd";
 import EventForm from "./EventForm";
 
 export default class EventEdit extends React.Component {
-  onSubmit = async event => {
+  onSubmit = async (event) => {
     const res = await fetch("/api/edit", {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         ...event,
         eventId: this.props.event.id,
         photo:
-          event.photo && event.photo[0] && event.photo[0].response.webViewLink
-      })
+          event.photo && event.photo[0] && event.photo[0].response.webViewLink,
+      }),
     });
     const { success } = await res.json();
 
