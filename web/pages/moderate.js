@@ -1,7 +1,5 @@
 // @flow
 import React, { useState } from "react";
-import "antd/dist/antd.css";
-import "../styles/app.css";
 import readAuth from "basic-auth";
 import { Button, Icon, message, Empty, Input } from "antd";
 import Link from "next/link";

@@ -5,7 +5,7 @@ const credentials = require("../credentials.json");
 const calendarId = process.env.CALENDAR_ID;
 const SCOPES = [
   "https://www.googleapis.com/auth/calendar",
-  "https://www.googleapis.com/auth/calendar.events"
+  "https://www.googleapis.com/auth/calendar.events",
 ];
 
 const volunteerText = ({ needsVolunteers, volunteerContact }) => {
@@ -29,7 +29,7 @@ const getDateTime = ({ date, time, allDay = false }) => {
 module.exports = async (req, res) => {
   const auth = await google.auth.getClient({
     credentials,
-    scopes: SCOPES
+    scopes: SCOPES,
   });
 
   const cal = google.calendar({ version: "v3", auth });
@@ -40,11 +40,12 @@ module.exports = async (req, res) => {
     const newEvent = await cal.events.insert({
       calendarId,
       supportsAttachments: true,
+      // conferenceDataVersion: 1,
       resource: {
         guestsCanInviteOthers: false,
         guestsCanSeeOtherGuests: false,
         summary: body.title,
-        location: body.location.address,
+        location: body.location?.address,
         description: `${body.description}
 
 ${volunteerText(body)}`,
@@ -52,39 +53,41 @@ ${volunteerText(body)}`,
           [dateKey]: getDateTime({
             date: body.startDate,
             time: body.startTime,
-            allDay: body.allDay
+            allDay: body.allDay,
           }),
-          timeZone: "America/Detroit"
+          timeZone: "America/Detroit",
         },
         end: {
           [dateKey]: getDateTime({
             date: body.endDate,
             time: body.endTime,
-            allDay: body.allDay
+            allDay: body.allDay,
           }),
-          timeZone: "America/Detroit"
+          timeZone: "America/Detroit",
         },
         attachments: body.photo ? [{ fileUrl: body.photo }] : null,
         extendedProperties: {
           private: {
             OrganizerEmail: body.organizerEmail,
-            VolunteerContact: body.volunteerContact
+            VolunteerContact: body.volunteerContact,
           },
           shared: {
             Organizer: body.organizerName,
-            Cost: body.isFree ? "Free" : body.cost
-          }
+            Cost: body.isFree ? "Free" : body.cost,
+            MeetingUrl: body.meetingUrl,
+            MeetingPassword: body.meetingPassword,
+          },
         },
         source: {
-          url: body.url
+          url: body.url,
         },
         transparency: "transparent",
         // Default state is (cancelled, public)
         status: "cancelled",
         visibility: "public",
-        recurrence: body.repeats ? [body.repeats] : null
+        recurrence: body.repeats ? [body.repeats] : null,
         // colorId: "" // TODO
-      }
+      },
     });
 
     send(res, 200, { id: newEvent.data.id, success: true });

@@ -5,13 +5,13 @@ const credentials = require("../credentials.json");
 const calendarId = process.env.CALENDAR_ID;
 const SCOPES = [
   "https://www.googleapis.com/auth/calendar",
-  "https://www.googleapis.com/auth/calendar.events"
+  "https://www.googleapis.com/auth/calendar.events",
 ];
 
 module.exports = async (req, res) => {
   const auth = await google.auth.getClient({
     credentials,
-    scopes: SCOPES
+    scopes: SCOPES,
   });
 
   const cal = google.calendar({ version: "v3", auth });
@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
     await cal.events.patch({
       calendarId,
       eventId: body.eventId,
-      resource
+      resource,
     });
 
     send(res, 200, { success: true });

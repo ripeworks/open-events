@@ -326,7 +326,12 @@ const mapPropsToFields = (props) => {
         OrganizerEmail: organizerEmail,
         VolunteerContact: volunteerContact,
       },
-      shared: { Cost: cost, Organizer: organizerName },
+      shared: {
+        Cost: cost,
+        Organizer: organizerName,
+        MeetingUrl: meetingUrl,
+        MeetingPassword: meetingPassword,
+      },
     },
     recurrence,
     source: { url: websiteUrl } = {},
@@ -361,6 +366,8 @@ const mapPropsToFields = (props) => {
         ""
       ),
     }),
+    meetingUrl: Form.createFormField({ value: meetingUrl }),
+    meetingPassword: Form.createFormField({ value: meetingPassword }),
     repeats: Form.createFormField({ value: rrule }),
     url: Form.createFormField({ value: websiteUrl }),
     isFree: Form.createFormField({ value: cost === "Free" }),

@@ -41,7 +41,12 @@ export default class EventDetail extends React.Component {
       start: { dateTime: startDateTime, date: allDayStart },
       end: { dateTime: endDateTime, date: allDayEnd },
       extendedProperties: {
-        shared: { Cost: cost, Organizer: organizer },
+        shared: {
+          Cost: cost,
+          Organizer: organizer,
+          MeetingUrl: meetingUrl,
+          MeetingPassword: meetingPassword,
+        },
       },
       recurrence,
       source: { url: websiteUrl } = {},
@@ -52,13 +57,8 @@ export default class EventDetail extends React.Component {
     const allDay = !!allDayStart;
     const volunteerText = getVolunteerText(event.description);
 
-    const [
-      ,
-      locationStreet,
-      locationCity,
-      locationState,
-      locationCountry,
-    ] = event.location.split(",");
+    const [, locationStreet, locationCity, locationState, locationCountry] =
+      event.location?.split(",") || [];
 
     console.log(event);
 
@@ -85,12 +85,28 @@ export default class EventDetail extends React.Component {
         </Detail>
         <Detail icon={<Icon type="environment" />}>
           <span>{event.location}</span>
-          <Map
-            location={event.location}
-            containerElement={<div className="map-container" />}
-            mapElement={<div style={{ height: `100%` }} />}
-          />
+          {!!event.location && (
+            <Map
+              location={event.location}
+              containerElement={<div className="map-container" />}
+              mapElement={<div style={{ height: `100%` }} />}
+            />
+          )}
         </Detail>
+        {!!meetingUrl && (
+          <Detail icon={<Icon type="laptop" />}>
+            <span>
+              <a href={meetingUrl} target="_blank">
+                {meetingUrl}
+              </a>
+              {!!meetingPassword && (
+                <div>
+                  <em>Code: {meetingPassword}</em>
+                </div>
+              )}
+            </span>
+          </Detail>
+        )}
         <Detail icon={<Icon type="info-circle" />}>
           <EventDescription description={event.description} />
         </Detail>
@@ -135,16 +151,20 @@ export default class EventDetail extends React.Component {
                     : {}),
                   url: `https://northportomenacalendar.com/event/${event.id}`,
                   description: event.description,
-                  location: {
-                    "@type": "Place",
-                    name: event.location,
-                    address: {
-                      "@type": "PostalAddress",
-                      addressLocality: locationCity,
-                      addressRegion: locationState,
-                      streetAddress: locationStreet,
-                    },
-                  },
+                  ...(event.location
+                    ? {
+                        location: {
+                          "@type": "Place",
+                          name: event.location,
+                          address: {
+                            "@type": "PostalAddress",
+                            addressLocality: locationCity,
+                            addressRegion: locationState,
+                            streetAddress: locationStreet,
+                          },
+                        },
+                      }
+                    : {}),
                 }),
               }}
             />

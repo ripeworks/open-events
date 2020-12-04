@@ -5,7 +5,7 @@ const credentials = require("../credentials.json");
 const calendarId = process.env.CALENDAR_ID;
 const SCOPES = [
   "https://www.googleapis.com/auth/calendar",
-  "https://www.googleapis.com/auth/calendar.events"
+  "https://www.googleapis.com/auth/calendar.events",
 ];
 
 const volunteerText = ({ needsVolunteers, volunteerContact }) => {
@@ -21,22 +21,22 @@ const getDateTime = ({ date, time, allDay = false }) => {
     const [day] = dateTime.toISOString().split("T");
     return {
       date: day,
-      dateTime: null
-    }
+      dateTime: null,
+    };
   }
 
   dateTime.setHours(Math.floor(time), time % 1 === 0 ? 0 : 30);
-  
+
   return {
     dateTime: dateTime.toISOString().replace(/Z$/, ""),
-    date: null
+    date: null,
   };
 };
 
 module.exports = async (req, res) => {
   const auth = await google.auth.getClient({
     credentials,
-    scopes: SCOPES
+    scopes: SCOPES,
   });
 
   const cal = google.calendar({ version: "v3", auth });
@@ -55,33 +55,35 @@ ${volunteerText(body)}`,
       ...getDateTime({
         date: body.startDate,
         time: body.startTime,
-        allDay: body.allDay
+        allDay: body.allDay,
       }),
-      timeZone: "America/Detroit"
+      timeZone: "America/Detroit",
     },
     end: {
       ...getDateTime({
         date: body.endDate,
         time: body.endTime,
-        allDay: body.allDay
+        allDay: body.allDay,
       }),
-      timeZone: "America/Detroit"
+      timeZone: "America/Detroit",
     },
     extendedProperties: {
       private: {
         OrganizerEmail: body.organizerEmail,
-        VolunteerContact: body.volunteerContact
+        VolunteerContact: body.volunteerContact,
       },
       shared: {
         Organizer: body.organizerName,
-        Cost: body.isFree ? "Free" : body.cost
-      }
+        Cost: body.isFree ? "Free" : body.cost,
+        MeetingUrl: body.meetingUrl,
+        MeetingPassword: body.meetingPassword,
+      },
     },
     source: {
-      url: body.url
+      url: body.url,
     },
     transparency: "transparent",
-    recurrence: body.repeats ? [body.repeats] : null
+    recurrence: body.repeats ? [body.repeats] : null,
     // colorId: "" // TODO
   };
 
@@ -102,7 +104,7 @@ ${volunteerText(body)}`,
       calendarId,
       eventId: body.eventId,
       supportsAttachments: true,
-      resource
+      resource,
     });
 
     send(res, 200, { success: true });
