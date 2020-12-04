@@ -83,16 +83,16 @@ export default class EventDetail extends React.Component {
             recurrence={recurrence}
           />
         </Detail>
-        <Detail icon={<Icon type="environment" />}>
-          <span>{event.location}</span>
-          {!!event.location && (
+        {!!event.location && (
+          <Detail icon={<Icon type="environment" />}>
+            <span>{event.location}</span>
             <Map
               location={event.location}
               containerElement={<div className="map-container" />}
               mapElement={<div style={{ height: `100%` }} />}
             />
-          )}
-        </Detail>
+          </Detail>
+        )}
         {!!meetingUrl && (
           <Detail icon={<Icon type="laptop" />}>
             <span>
