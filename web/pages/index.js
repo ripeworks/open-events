@@ -180,19 +180,20 @@ const Index = ({ events, id }) => {
   );
 };
 
-Index.getInitialProps = async (ctx) => {
+export async function getInitialProps() {
   const res = await fetch(`${process.env.API_URL}/api/list?single=true`);
   const { etag, syncToken, items } = await res.json();
-  const { id } = ctx.query;
 
   return {
-    events: items
-      .filter((event) => {
-        return new Date(event.end.dateTime || event.end.date) >= new Date();
-      })
-      .sort(sortEvents),
-    id,
+    props: {
+      events: items
+        .filter((event) => {
+          return new Date(event.end.dateTime || event.end.date) >= new Date();
+        })
+        .sort(sortEvents),
+    },
+    revalidate: 300,
   };
-};
+}
 
 export default Index;

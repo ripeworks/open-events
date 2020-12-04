@@ -31,31 +31,35 @@ async function main() {
   });
   const cal = google.calendar({ version: "v3", auth });
 
-  const toDisplay = data.items.filter((event) => keepIds.includes(event.id));
+  // const toDisplay = data.items.filter((event) => keepIds.includes(event.id));
+  // for (const event of toDisplay) {
+  //   await cal.events.patch({
+  //     calendarId,
+  //     eventId: event.id,
+  //     resource: {
+  //       status: "confirmed",
+  //     },
+  //   });
+  // }
 
-  for (const event of toDisplay) {
-    await cal.events.patch({
-      calendarId,
-      eventId: event.id,
-      resource: {
-        status: "confirmed",
-      },
-    });
+  const toDelete = data.items.filter(
+    (event) =>
+      !keepIds.includes(event.recurringEventId) && !keepIds.includes(event.id)
+  );
+  for (const event of toDelete) {
+    try {
+      await cal.events.patch({
+        calendarId,
+        eventId: event.id,
+        resource: {
+          status: "cancelled",
+          visibility: "private",
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
-
-  //   const toDelete = data.items.filter(
-  //     (event) => !keepIds.includes(event.recurringEventId)
-  //   );
-  //   for (const event of toDelete) {
-  //     try {
-  //       await cal.events.delete({
-  //         calendarId,
-  //         eventId: event.id,
-  //       });
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   }
 
   process.exit(0);
 }

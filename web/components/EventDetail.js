@@ -94,7 +94,7 @@ export default class EventDetail extends React.Component {
           </Detail>
         )}
         {!!meetingUrl && (
-          <Detail icon={<Icon type="laptop" />}>
+          <Detail icon={<Icon type="video-camera" />}>
             <span>
               <a href={meetingUrl} target="_blank">
                 {meetingUrl}
