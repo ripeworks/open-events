@@ -5,10 +5,13 @@ import EventDate from "./EventDate";
 import EventDescription from "./EventDescription";
 import moment from "moment";
 import { getPhotoUrl } from "../utils";
+import { useContextualRouting } from "next-use-contextual-routing";
 
 const { Meta } = Card;
 
 export default function EventCard({ actions, event, noLink = false }) {
+  const { makeContextualHref } = useContextualRouting();
+
   const {
     attachments: [attachment] = [],
     start: { dateTime: startDateTime, date: allDayStart },
@@ -42,7 +45,11 @@ export default function EventCard({ actions, event, noLink = false }) {
 
   return (
     <div>
-      <Link href={`/?id=${event.id}`} as={`/event/${event.id}`}>
+      <Link
+        href={makeContextualHref({ eventId: event.id })}
+        as={`/event/${event.id}`}
+        scroll={false}
+      >
         <Card hoverable {...cardProps}>
           <Meta title={event.summary} />
           <EventDate block start={start} end={end} allDay={allDay} />

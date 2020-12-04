@@ -76,6 +76,7 @@ class EventForm extends React.Component {
 
     const isAllDay = getFieldValue("allDay");
     const isFree = getFieldValue("isFree");
+    const meetingUrl = getFieldValue("meetingUrl");
     const needsVolunteers = getFieldValue("needsVolunteers");
     const startTime = getFieldValue("startTime");
 
@@ -169,18 +170,6 @@ class EventForm extends React.Component {
             </Form.Item>
           </Col>
         </Row>
-        <Row gutter={16}>
-          <Col>
-            <Form.Item label="Location">
-              {getFieldDecorator("location", { rules: [{ required: true }] })(
-                <Location
-                  defaultValue={editingEvent && editingEvent.location}
-                  size="large"
-                />
-              )}
-            </Form.Item>
-          </Col>
-        </Row>
         <Row gutter={16} type="flex">
           <Col>
             <Form.Item
@@ -207,6 +196,36 @@ class EventForm extends React.Component {
                 rules: [{ required: true }],
               })(<Input.TextArea autosize={{ minRows: 2 }} />)}
             </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={16}>
+          <Col>
+            <Form.Item label="Location">
+              {getFieldDecorator("location", {})(
+                <Location
+                  defaultValue={editingEvent && editingEvent.location}
+                  size="large"
+                />
+              )}
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={16} type="flex">
+          <Col span={18}>
+            <Form.Item label="Virtual Meeting Link">
+              {getFieldDecorator("meetingUrl", {})(
+                <Input size="large" type="url" />
+              )}
+            </Form.Item>
+          </Col>
+          <Col>
+            {!!meetingUrl && (
+              <Form.Item label="Access Code">
+                {getFieldDecorator("meetingPassword", {})(
+                  <Input size="large" />
+                )}
+              </Form.Item>
+            )}
           </Col>
         </Row>
         <Row gutter={16} type="flex">

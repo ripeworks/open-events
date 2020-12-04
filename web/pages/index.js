@@ -3,11 +3,12 @@ import React, { useState } from "react";
 import { Alert, Button, Icon } from "antd";
 import Link from "next/link";
 import Head from "next/head";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import BigCalendar from "react-big-calendar";
 import moment from "moment";
 import Modal from "react-responsive-modal";
 import MagicGrid from "magic-grid-react";
+import { useContextualRouting } from "next-use-contextual-routing";
 
 import Header from "../components/Header";
 import EventDetail from "../components/EventDetail";
@@ -37,6 +38,10 @@ Router.events.on("routeChangeComplete", (url) => {
 });
 
 const Index = ({ events, id }) => {
+  const router = useRouter();
+  const { eventId } = router.query;
+  const { returnHref } = useContextualRouting();
+
   const [view, setView] = useState("list");
   const [calendarDate, setDate] = useState(new Date());
 
@@ -158,16 +163,16 @@ const Index = ({ events, id }) => {
           />
         )}
         <Modal
-          open={typeof window !== "undefined" && !!id}
+          open={!!eventId}
           classNames={{
             overlay: "push-overlay",
             modal: "push-modal",
             closeButton: "push-closeButton",
           }}
-          onClose={() => Router.push("/")}
+          onClose={() => router.push(returnHref)}
         >
-          {id && (
-            <EventDetail page event={events.find((event) => event.id === id)} />
+          {!!eventId && (
+            <EventDetail event={events.find((event) => event.id === eventId)} />
           )}
         </Modal>
       </section>

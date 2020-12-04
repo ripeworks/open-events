@@ -17,7 +17,6 @@
       "methods": ["GET"]
     },
     { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/event/(?<id>[^/]*)", "dest": "/web/?id=$id" },
     { "src": "/event/(?<id>[^/]*)/edit", "dest": "/web/edit?id=$id" },
     { "src": "/sitemap.xml", "dest": "web/sitemap.js" },
     { "src": "/(.*)", "dest": "/web/$1" }
