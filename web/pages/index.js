@@ -65,26 +65,37 @@ const Index = ({ events, id }) => {
                   parties:
                 </p>
                 <p>
-                  All Leelanau Township events and meetings have been cancelled
-                  until further notice.
+                  The Northport Omena Calendar is rebooted for 2021 meetings and
+                  events. Future event submissions are welcome from Calendar
+                  Partners even in this time of uncertainty.
                   <br />
-                  We have decided not to remove calendar submissions that have
-                  been posted for future months as we don’t know when a life of
-                  public activity will resume in our community. Future events
-                  submissions are welcome even in this time of uncertainty.
+                  Village and Township meetings will be posted on the calendar
+                  and will include details for accessing virtual meetings.
+                  Community events that are held safely outdoors or are
+                  attentive to the limitations of indoor social distancing
+                  attendance requirements will also be noted. We are hopeful
+                  a life of public activity and socialization will resume in
+                  2021.
                   <br />
-                  In the meantime, for  daily updates relating to Covid-19
-                  please go to 
+                  In the meantime, for daily updates related to Covid-19 please
+                  visit 
                   <a href="http://www.bldhd.org/coronavirus-covid-19">
                     http://www.bldhd.org/coronavirus-covid-19
                   </a>
                   .
                 </p>
                 <p>
-                  Stay home. Stay safe. Wash your hands frequently. Be kind,
-                  gracious and hopeful for a return to enjoyable community
-                  events, peace and good health for all of Leelanau Township as
-                  soon as possible.
+                  Stay safe. Wash your hands frequently. Wear a mask when
+                  interacting with others outside of your immediate "bubble" of
+                  family, friends and associates. Be kind, gracious, respectful
+                  and attentive to others. Remain hopeful for a return to
+                  enjoyable community events, peace and good health for all of
+                  Leelanau Township as soon as possible.
+                </p>
+                <p>
+                  Inquiries, suggestions and comments related to improving the
+                  usefulness of the Northport Omena Calendar may be sent to
+                  leelanaucommunitycalendar@gmail.com.
                 </p>
               </div>
             }
