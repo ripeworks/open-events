@@ -13,7 +13,6 @@ const keepIds = [
   "rc44mfd0ij6sqq5pbnt4uh0nac",
   "u04aqe05bt9e8ado5h9k506mag",
   "58km8oteh97mt0i4n5f1vjd6e4",
-  "f4cos5n9t08hpjb5f4isn4o5hg",
   "g6uhoqchf9pnq4uiiuh8et5ovc",
   "eo46oo02io1qivplperu0713qg",
   "87prh0vj2glnkc6ep4ekcftbhs",
@@ -48,6 +47,7 @@ async function main() {
   );
   for (const event of toDelete) {
     try {
+      console.log(event);
       if (event.visibility !== "private") {
         await cal.events.patch({
           calendarId,
