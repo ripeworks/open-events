@@ -40,7 +40,7 @@ Router.events.on("routeChangeComplete", (url) => {
 const Index = ({ events, id }) => {
   const router = useRouter();
   const { eventId } = router.query;
-  const { returnHref } = useContextualRouting();
+  const { makeContextualHref, returnHref } = useContextualRouting();
 
   const [view, setView] = useState("list");
   const [calendarDate, setDate] = useState(new Date());
@@ -166,7 +166,11 @@ const Index = ({ events, id }) => {
             }
             allDayAccessor={(event) => !!event.start.date}
             onSelectEvent={(event) => {
-              Router.push(`/?id=${event.id}`, `/event/${event.id}`);
+              router.push(
+                makeContextualHref({ eventId: event.id }),
+                `/event/${event.id}`,
+                { scroll: false }
+              );
             }}
             date={calendarDate}
             popup
