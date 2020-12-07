@@ -48,14 +48,16 @@ async function main() {
   );
   for (const event of toDelete) {
     try {
-      await cal.events.patch({
-        calendarId,
-        eventId: event.id,
-        resource: {
-          status: "cancelled",
-          visibility: "private",
-        },
-      });
+      if (event.visibility !== "private") {
+        await cal.events.patch({
+          calendarId,
+          eventId: event.id,
+          resource: {
+            status: "cancelled",
+            visibility: "private",
+          },
+        });
+      }
     } catch (err) {
       console.log(err);
     }

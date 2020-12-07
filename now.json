@@ -2,8 +2,7 @@
   "version": 2,
   "builds": [
     { "src": "web/next.config.js", "use": "@now/next" },
-    { "src": "api/**/index.js", "use": "@now/node" },
-    { "src": "web/sitemap.js", "use": "@now/node" }
+    { "src": "api/**/index.js", "use": "@now/node" }
   ],
   "env": {
     "AUTH_PASSWORD": "z5dEz7Slc3",
@@ -18,7 +17,11 @@
     },
     { "src": "/api/(.*)", "dest": "/api/$1" },
     { "src": "/event/(?<id>[^/]*)/edit", "dest": "/web/edit?id=$id" },
-    { "src": "/sitemap.xml", "dest": "web/sitemap.js" },
+    {
+      "src": "/event/(?<id>[^/]*)",
+      "dest": "/web/event/[eventId]?eventId=$id"
+    },
+    { "src": "/sitemap.xml", "dest": "web/api/sitemap" },
     { "src": "/(.*)", "dest": "/web/$1" }
   ],
   "alias": ["northportomenacalendar.com", "www.northportomenacalendar.com"],
