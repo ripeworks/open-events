@@ -1,4 +1,4 @@
-export const getPhotoUrl = url => {
+export const getPhotoUrl = (url) => {
   const urlParts = url.split("/");
   const id = urlParts[urlParts.length - 2];
 
@@ -13,6 +13,13 @@ export const sortEvents = (a, b) => {
   );
 };
 
+export const sortEventsDesceding = (a, b) => {
+  return (
+    new Date(b.start.dateTime || b.start.date) -
+    new Date(a.start.dateTime || a.start.date)
+  );
+};
+
 export const getVolunteerText = (description, full = false) => {
   const [text, volunteer = ""] =
     description.match(/Interested in being a volunteer\? Contact (.*)/) || [];
@@ -20,7 +27,7 @@ export const getVolunteerText = (description, full = false) => {
   return full ? text : volunteer;
 };
 
-export const geocodeByAddress = address => {
+export const geocodeByAddress = (address) => {
   const geocoder = new window.google.maps.Geocoder();
 
   return new Promise((resolve, reject) => {
@@ -44,6 +51,6 @@ export const getLatLng = ([result]) => {
   const { geometry } = result;
   return {
     lat: geometry.location.lat(),
-    lng: geometry.location.lng()
+    lng: geometry.location.lng(),
   };
 };

@@ -11,7 +11,7 @@ import Header from "../components/Header";
 import EventEdit from "../components/EventEdit";
 import EventDetail from "../components/EventDetail";
 import EventCard from "../components/EventCard";
-import { sortEvents } from "../utils";
+import { sortEventsDescending } from "../utils";
 
 const Search = Input.Search;
 const ButtonGroup = Button.Group;
@@ -83,7 +83,7 @@ const Moderate = ({ events, id }) => {
         ? event.status === "confirmed"
         : event.visibility === "public" && event.status === "cancelled"
     )
-    .sort(sortEvents);
+    .sort(sortEventsDescending);
 
   return (
     <main>
