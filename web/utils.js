@@ -13,7 +13,7 @@ export const sortEvents = (a, b) => {
   );
 };
 
-export const sortEventsDesceding = (a, b) => {
+export const sortEventsDescending = (a, b) => {
   return (
     new Date(b.start.dateTime || b.start.date) -
     new Date(a.start.dateTime || a.start.date)
