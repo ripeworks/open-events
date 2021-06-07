@@ -27,8 +27,8 @@ export default function Header({ intro = false }) {
               things to do in Leelanau Township.
             </p>
             <details>
-              <summary>
-                <a>Learn More</a>
+              <summary className="ant-btn-link">
+                <span>Learn More</span>
               </summary>
               <p>
                 The event calendar is a one-stop place to connect you -- our

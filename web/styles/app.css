@@ -139,6 +139,31 @@ section {
   position: relative;
 }
 
+.ant-btn-link {
+  cursor: pointer;
+  color: #1890ff;
+  background: 0 0;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.ant-btn-link:hover,
+.ant-btn-link:focus {
+  color: #40a9ff;
+  background: 0 0;
+  border-color: #40a9ff;
+}
+
+.ant-btn-link:hover,
+.ant-btn-link:focus,
+.ant-btn-link:active {
+  border-color: transparent;
+}
+
+.ant-btn-link:hover {
+  background: 0 0;
+}
+
 @media (min-width: 600px) {
   section {
     padding: 2rem 3rem;
