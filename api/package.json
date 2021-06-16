@@ -2,7 +2,7 @@
   "name": "open-events-api",
   "dependencies": {
     "async-busboy": "^0.7.0",
-    "googleapis": "^37.2.0",
+    "googleapis": "^39.1.0",
     "mailgun.js": "^3.4.0",
     "micro": "^9.3.4"
   }
