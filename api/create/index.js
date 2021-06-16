@@ -45,7 +45,7 @@ module.exports = async (req, res) => {
         guestsCanInviteOthers: false,
         guestsCanSeeOtherGuests: false,
         summary: body.title,
-        location: body.location?.address,
+        location: body.location ? body.location.address : "",
         description: `${body.description}
 
 ${volunteerText(body)}`,
@@ -78,9 +78,7 @@ ${volunteerText(body)}`,
             MeetingPassword: body.meetingPassword,
           },
         },
-        source: {
-          url: body.url,
-        },
+        ...(body.url ? { source: { url: body.url } } : {}),
         transparency: "transparent",
         // Default state is (cancelled, public)
         status: "cancelled",
@@ -93,6 +91,6 @@ ${volunteerText(body)}`,
     send(res, 200, { id: newEvent.data.id, success: true });
   } catch (err) {
     console.log(err);
-    send(res, 200, { success: false });
+    send(res, 200, { success: false, message: err.message });
   }
 };
