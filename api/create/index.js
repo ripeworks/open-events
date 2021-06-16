@@ -1,7 +1,7 @@
 const { google } = require("googleapis");
 const { json, send } = require("micro");
 const Mailgun = require("mailgun.js");
-const credentials = JSON.stringify(process.env.GOOGLE_CREDENTIALS_JSON);
+const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON);
 
 const calendarId = process.env.CALENDAR_ID;
 const SCOPES = [
