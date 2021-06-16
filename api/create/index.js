@@ -1,6 +1,7 @@
 const { google } = require("googleapis");
 const { json, send } = require("micro");
-const credentials = require("../credentials.json");
+const Mailgun = require("mailgun.js");
+const credentials = JSON.stringify(process.env.GOOGLE_CREDENTIALS_JSON);
 
 const calendarId = process.env.CALENDAR_ID;
 const SCOPES = [
@@ -88,7 +89,30 @@ ${volunteerText(body)}`,
       },
     });
 
-    send(res, 200, { id: newEvent.data.id, success: true });
+    const editToken = Buffer.from(`${newEvent.data.id}::$%^&`).toString(
+      "base64"
+    );
+    const editUrl = `${process.env.APP_URL}/edit?token=${token}`;
+
+    // send email with edit link
+    if (body.organizerEmail && process.env.MAILGUN_KEY) {
+      const mailgun = Mailgun.client({
+        username: "api",
+        key: process.env.MAILGUN_KEY,
+      });
+      await mailgun.messages.create(process.env.MAILGUN_DOMAIN, {
+        from: `Northport Omena Calendar <info@${process.env.MAILGUN_DOMAIN}>`,
+        to: body.organizerEmail,
+        subject: "New Event Submission - Northport Omena Calendar",
+        template: "new_event_submission",
+        "h:X-Mailgun-Variables": JSON.stringify({
+          event_name: body.title,
+          edit_url: editUrl,
+        }),
+      });
+    }
+
+    send(res, 200, { id: newEvent.data.id, editUrl, success: true });
   } catch (err) {
     console.log(err);
     send(res, 200, { success: false, message: err.message });

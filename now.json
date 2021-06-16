@@ -4,10 +4,6 @@
     { "src": "web/next.config.js", "use": "@now/next" },
     { "src": "api/**/index.js", "use": "@now/node" }
   ],
-  "env": {
-    "AUTH_PASSWORD": "z5dEz7Slc3",
-    "CALENDAR_ID": "m6vr4kp9epa15isbtbufi06cpk@group.calendar.google.com"
-  },
   "routes": [
     {
       "src": "/api/photo/(?<id>[^/]*)",
@@ -20,9 +16,5 @@
     { "src": "/event/(?<id>[^/]*)/edit", "dest": "/web/edit?id=$id" },
     { "src": "/sitemap.xml", "dest": "web/api/sitemap" },
     { "src": "/(.*)", "dest": "/web/$1" }
-  ],
-  "alias": ["northportomenacalendar.com", "www.northportomenacalendar.com"],
-  "github": {
-    "autoAlias": false
-  }
+  ]
 }

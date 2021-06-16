@@ -1,18 +1,18 @@
 const { google } = require("googleapis");
 const { parse } = require("url");
 const { send } = require("micro");
-const credentials = require("../credentials.json");
+const credentials = JSON.stringify(process.env.GOOGLE_CREDENTIALS_JSON);
 
 const calendarId = process.env.CALENDAR_ID;
 const SCOPES = [
   "https://www.googleapis.com/auth/calendar",
-  "https://www.googleapis.com/auth/calendar.events"
+  "https://www.googleapis.com/auth/calendar.events",
 ];
 
 module.exports = async (req, res) => {
   const auth = await google.auth.getClient({
     credentials,
-    scopes: SCOPES
+    scopes: SCOPES,
   });
 
   // pageToken (for pagination)
@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
     calendarId,
     maxResults: 2500,
     singleEvents: single === "true",
-    showDeleted: deleted === "true"
+    showDeleted: deleted === "true",
   };
 
   // only show next 6 months of events
@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
     if (events.data.nextPageToken) {
       return [
         ...events.data.items,
-        ...(await fetchPage(events.data.nextPageToken))
+        ...(await fetchPage(events.data.nextPageToken)),
       ];
     } else {
       return events.data.items;

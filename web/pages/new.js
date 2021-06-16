@@ -17,6 +17,7 @@ Router.events.on("routeChangeComplete", (url) => {
 export default class Page extends React.Component {
   state = {
     newEventId: null,
+    newEditUrl: null,
     success: null,
   };
 
@@ -32,8 +33,8 @@ export default class Page extends React.Component {
           event.photo && event.photo[0] && event.photo[0].response.webViewLink,
       }),
     });
-    const { id, success } = await res.json();
-    this.setState({ newEventId: id, success });
+    const { id, editUrl, success } = await res.json();
+    this.setState({ newEventId: id, newEditUrl: editUrl, success });
 
     if (!success) {
       message.error("Failed to submit event");
@@ -41,8 +42,7 @@ export default class Page extends React.Component {
   };
 
   render() {
-    const { newEventId, success } = this.state;
-    const token = newEventId ? Base64.encode(`${newEventId}::$%^&`) : null;
+    const { newEventId, newEditUrl, success } = this.state;
 
     return (
       <main>
@@ -83,16 +83,15 @@ export default class Page extends React.Component {
               description={
                 <>
                   <p>Your event has been submitted for review.</p>
-                  <p>
-                    Need to make changes? Use this link to go back and make
-                    changes:{" "}
-                    <a
-                      href={`${process.env.API_URL}/edit?token=${token}`}
-                      target="_blank"
-                    >
-                      {process.env.API_URL}/edit/?token={token}
-                    </a>
-                  </p>
+                  {!!newEditUrl && (
+                    <p>
+                      Need to make changes? Use this link to go back and make
+                      changes:{" "}
+                      <a href={newEditUrl} target="_blank">
+                        {newEditUrl}
+                      </a>
+                    </p>
+                  )}
                 </>
               }
               type="success"
