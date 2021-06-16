@@ -3,7 +3,7 @@ const url = require("url");
 const { google } = require("googleapis");
 const asyncBusboy = require("async-busboy");
 const { send } = require("micro");
-const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON);
+const credentials = require("../credentials");
 
 const SCOPES = ["https://www.googleapis.com/auth/drive.file"];
 

@@ -1,5 +1,5 @@
 const { google } = require("googleapis");
-const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON);
+const credentials = require("./credentials");
 const data = require("/Users/mkruk/Desktop/northport_omena_calendar_backup.json");
 
 const calendarId = "m6vr4kp9epa15isbtbufi06cpk@group.calendar.google.com";
