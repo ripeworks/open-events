@@ -92,7 +92,7 @@ ${volunteerText(body)}`,
     const editToken = Buffer.from(`${newEvent.data.id}::$%^&`).toString(
       "base64"
     );
-    const editUrl = `${process.env.APP_URL}/edit?token=${token}`;
+    const editUrl = `${process.env.APP_URL}/edit?token=${editToken}`;
 
     // send email with edit link
     if (body.organizerEmail && process.env.MAILGUN_KEY) {
