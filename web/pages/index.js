@@ -196,8 +196,15 @@ const Index = ({ events, id }) => {
 };
 
 export async function getStaticProps() {
-  const res = await fetch(`${process.env.API_URL}/api/list?single=true`);
-  const { etag, syncToken, items } = await res.json();
+  // const res = await fetch(`${process.env.API_URL}/api/list?single=true`);
+  // const { etag, syncToken, items } = await res.json();
+
+  return {
+    props: {
+      events: [],
+    },
+    revalidate: 300,
+  };
 
   return {
     props: {
