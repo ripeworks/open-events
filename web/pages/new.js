@@ -85,8 +85,7 @@ export default class Page extends React.Component {
                   <p>Your event has been submitted for review.</p>
                   {!!newEditUrl && (
                     <p>
-                      Need to make changes? Use this link to go back and make
-                      changes:{" "}
+                      Need to make changes? Use this link to go back and edit your submission:{" "}
                       <a href={newEditUrl} target="_blank">
                         {newEditUrl}
                       </a>
