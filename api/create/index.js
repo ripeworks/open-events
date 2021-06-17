@@ -1,7 +1,8 @@
 const { google } = require("googleapis");
 const { json, send } = require("micro");
 const formData = require("form-data");
-const Mailgun = require("mailgun.js")(formData);
+const Mailgun = require("mailgun.js");
+const mg = new Mailgun(formData);
 const credentials = require("../credentials");
 
 const calendarId = process.env.CALENDAR_ID;
@@ -97,7 +98,7 @@ ${volunteerText(body)}`,
 
     // send email with edit link
     if (body.organizerEmail && process.env.MAILGUN_KEY) {
-      const mailgun = Mailgun.client({
+      const mailgun = mg.client({
         username: "api",
         key: process.env.MAILGUN_KEY,
       });
