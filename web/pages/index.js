@@ -57,7 +57,7 @@ const Index = ({ events, id }) => {
         <div className="flush">
           <Alert
             banner
-            message="COVID-19 CALENDAR UPDATE"
+            message="COVID-19 UPDATE"
             description={
               <div>
                 <p>
@@ -65,32 +65,35 @@ const Index = ({ events, id }) => {
                   parties:
                 </p>
                 <p>
-                  The Northport Omena Calendar is rebooted for 2021 meetings and
-                  events. Future event submissions are welcome from Calendar
-                  Partners even in this time of uncertainty.
+                  Leelanau County residents have achieved the highest Covid
+                  vaccination rate in the State of Michigan. Northport-Omena
+                  residents and business owners continue to promote public
+                  health by vigilantly following protocol recommendations.
                   <br />
-                  Village and Township meetings will be posted on the calendar
-                  and will include details for accessing virtual meetings.
-                  Community events that are held safely outdoors or are
-                  attentive to the limitations of indoor social distancing
-                  attendance requirements will also be noted. We are hopeful
-                  a life of public activity and socialization will resume in
-                  2021.
+                  Our community recognizes that because we are a mobile society
+                  Covid-19 and its variants remain a major health concern. The
+                  health and safety of our community is a top priority, and
+                  while restrictions have been lifted, we encourage residents
+                  and visitors alike, to get vaccinated to help stop this
+                  pandemic.
                   <br />
-                  In the meantime, for daily updates related to Covid-19 please
-                  visit 
-                  <a href="http://www.bldhd.org/coronavirus-covid-19">
-                    http://www.bldhd.org/coronavirus-covid-19
-                  </a>
-                  .
-                </p>
-                <p>
-                  Stay safe. Wash your hands frequently. Wear a mask when
-                  interacting with others outside of your immediate "bubble" of
-                  family, friends and associates. Be kind, gracious, respectful
-                  and attentive to others. Remain hopeful for a return to
-                  enjoyable community events, peace and good health for all of
-                  Leelanau Township as soon as possible.
+                  For local Covid testing locations visit: Benzie-Leelanau
+                  District Health Department, 7401 E. Duck Lake Road, Lake
+                  Leelanau. Ph: 231-256-0200 or Northwest Michigan Health
+                  Service, 10767 E. Traverse Hwy Ste B, Traverse City. Ph:
+                  231-642-5292
+                  <br />
+                  For nearby vaccination locations visit: Tuesdays at Suttons
+                  Bay Old Middle School, 310 S. Elm Street from 12:00 to 6:00
+                  P.M. Appointment scheduling and find times at locations for
+                  pop-up clinics at{" "}
+                  <a href="https://www.bldhd.org">www.bldhd.org</a> or
+                  <a href="https://www.vaccines.gov">www.vaccines.gov</a>.
+                  <br />
+                  If you are not vaccinated, we ask that you help stop the
+                  spread of this infectious disease by washing your hands
+                  frequently and wear a mask indoors. Please be kind, gracious,
+                  respectful and attentive to the safety of others.
                 </p>
                 <p>
                   Inquiries, suggestions and comments related to improving the
