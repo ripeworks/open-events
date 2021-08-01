@@ -69,14 +69,16 @@ const Index = ({ events, id }) => {
                   vaccination rate in the State of Michigan. Northport-Omena
                   residents and business owners continue to promote public
                   health by vigilantly following protocol recommendations.
-                  <br />
+                </p>
+                <p>
                   Our community recognizes that because we are a mobile society
                   Covid-19 and its variants remain a major health concern. The
                   health and safety of our community is a top priority, and
                   while restrictions have been lifted, we encourage residents
                   and visitors alike, to get vaccinated to help stop this
                   pandemic.
-                  <br />
+                </p>
+                <p>
                   For local Covid testing locations visit: Benzie-Leelanau
                   District Health Department, 7401 E. Duck Lake Road, Lake
                   Leelanau. Ph: 231-256-0200 or Northwest Michigan Health
@@ -89,7 +91,8 @@ const Index = ({ events, id }) => {
                   pop-up clinics at{" "}
                   <a href="https://www.bldhd.org">www.bldhd.org</a> or
                   <a href="https://www.vaccines.gov">www.vaccines.gov</a>.
-                  <br />
+                </p>
+                <p>
                   If you are not vaccinated, we ask that you help stop the
                   spread of this infectious disease by washing your hands
                   frequently and wear a mask indoors. Please be kind, gracious,
