@@ -85,10 +85,10 @@ const Index = ({ events, id }) => {
                   Service, 10767 E. Traverse Hwy Ste B, Traverse City. Ph:
                   231-642-5292
                   <br />
-                  For nearby vaccination locations visit: Tuesdays at Suttons
-                  Bay Old Middle School, 310 S. Elm Street from 12:00 to 6:00
-                  P.M. Appointment scheduling and find times at locations for
-                  pop-up clinics at{" "}
+                  For nearby vaccination locations visit: Tuesdays at VFW Little
+                  Finger Post 7731, 7475 E Duck Lake Rd, Lake Leelanau from
+                  12:00 to 6:00 P.M. Appointment scheduling and find times at
+                  locations for pop-up clinics at{" "}
                   <a href="https://www.bldhd.org">www.bldhd.org</a> or
                   <a href="https://www.vaccines.gov">www.vaccines.gov</a>.
                 </p>
