@@ -197,11 +197,16 @@ Moderate.getInitialProps = async (ctx) => {
     }
   }
 
-  const res = await fetch(`${process.env.API_URL}/api/list?deleted=true`);
-  const { etag, syncToken, items } = await res.json();
   const { id } = ctx.query;
+  let events = [];
 
-  return { events: items, id };
+  try {
+    const res = await fetch(`${process.env.API_URL}/api/list?deleted=true`);
+    const { etag, syncToken, items } = await res.json();
+    events = items;
+  } catch (err) {}
+
+  return { events, id };
 };
 
 export default Moderate;
