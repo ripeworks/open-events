@@ -25,7 +25,9 @@ module.exports = async (req, res) => {
     };
     await new Promise((resolve) => {
       https.get(options, (redirect) => {
-        const { hostname, pathname } = url.parse(redirect.headers.location);
+        const { hostname, pathname } = url.parse(
+          redirect.headers.location || ""
+        );
         https.get({ host: hostname, path: pathname }, (proxy) => {
           res.writeHead(
             proxy.statusCode,
