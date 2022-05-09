@@ -57,7 +57,7 @@ const Index = ({ events, id }) => {
         <div className="flush">
           <Alert
             banner
-            message="COVID-19 UPDATE"
+            message="COVID-19 UPDATE 2022"
             description={
               <div>
                 <p>
@@ -65,39 +65,18 @@ const Index = ({ events, id }) => {
                   parties:
                 </p>
                 <p>
-                  Leelanau County residents have achieved the highest Covid
-                  vaccination rate in the State of Michigan. Northport-Omena
-                  residents and business owners continue to promote public
-                  health by vigilantly following protocol recommendations.
+                  Celebrating with family and friends is an important and
+                  treasured time, and we hope everyone will remain vigilant when
+                  gathering. The health and safety of our community is a top
+                  priority, and while restrictions have been lifted, we
+                  encourage residents and visitors alike to utilize the tools to
+                  stay safe and lower the risk of COVID-19 infection and severe
+                  illness--wear a well-fitting mask indoors, get tested before
+                  attending indoor gatherings, and get vaccinated and boosted.
+                  Please be kind, gracious, respectful and attentive to the
+                  safety of others.
                 </p>
-                <p>
-                  Our community recognizes that because we are a mobile society
-                  Covid-19 and its variants remain a major health concern. The
-                  health and safety of our community is a top priority, and
-                  while restrictions have been lifted, we encourage residents
-                  and visitors alike, to get vaccinated to help stop this
-                  pandemic.
-                </p>
-                <p>
-                  For local Covid testing locations visit: Benzie-Leelanau
-                  District Health Department, 7401 E. Duck Lake Road, Lake
-                  Leelanau. Ph: 231-256-0200 or Northwest Michigan Health
-                  Service, 10767 E. Traverse Hwy Ste B, Traverse City. Ph:
-                  231-642-5292
-                  <br />
-                  For nearby vaccination locations visit: Tuesdays at VFW Little
-                  Finger Post 7731, 7475 E Duck Lake Rd, Lake Leelanau from
-                  12:00 to 6:00 P.M. Appointment scheduling and find times at
-                  locations for pop-up clinics at{" "}
-                  <a href="https://www.bldhd.org">www.bldhd.org</a> or
-                  <a href="https://www.vaccines.gov">www.vaccines.gov</a>.
-                </p>
-                <p>
-                  If you are not vaccinated, we ask that you help stop the
-                  spread of this infectious disease by washing your hands
-                  frequently and wear a mask indoors. Please be kind, gracious,
-                  respectful and attentive to the safety of others.
-                </p>
+                <p>&nbsp;</p>
                 <p>
                   Inquiries, suggestions and comments related to improving the
                   usefulness of the Northport Omena Calendar may be sent to
