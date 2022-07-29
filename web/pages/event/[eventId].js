@@ -34,7 +34,7 @@ export async function getStaticProps(context) {
   const { items } = await res.json();
   const event = items.find((event) => event.id === eventId);
 
-  return { props: { eventId, event }, notFound: !event };
+  return { props: { eventId, event }, notFound: !event, revalidate: 3600 };
 }
 
 export function getStaticPaths() {
