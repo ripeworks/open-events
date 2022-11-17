@@ -1469,10 +1469,10 @@ nanoid@^3.3.4:
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.4.tgz#730b67e3cd09e2deacf03c027c81c9d9dbc5e8ab"
   integrity sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==
 
-next-use-contextual-routing@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/next-use-contextual-routing/-/next-use-contextual-routing-2.0.0.tgz#f81faeb05ec8e9f18f6cd4cce1893b0358813f67"
-  integrity sha512-h8fVes+TGvDDF4aO/6eZtzi99WVLW9Sdlful66dTlkiuFA35gTqXET7fnbrGI2AjyY0jXnAfxDcMemeEIhv7Dg==
+next-use-contextual-routing@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/next-use-contextual-routing/-/next-use-contextual-routing-2.3.0.tgz#0d626b4b18ab45fa4483b955753cd36741be9176"
+  integrity sha512-JTZ+cUjHfelG58wSOBhmEhwpcNJhSSpQHt9FodV0pOH8NsqF3uL5YSBohXUtN4q3VZriudzIbTGHe2WbJHoesg==
   dependencies:
     qs-stringify "^1.2.1"
 
