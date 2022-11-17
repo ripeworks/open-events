@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Modal, Upload, Icon } from "antd";
+import { Modal, Upload, Icon } from "antd";
 import Cropper from "react-easy-crop";
 import { getPhotoUrl } from "../utils";
 
@@ -84,6 +84,7 @@ export default class extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const { props, state } = this;
 
+    console.log(props, prevProps);
     if (props.fileList !== prevProps.fileList) {
       this.setState({ imageUrl: null });
     }
@@ -126,11 +127,13 @@ export default class extends React.Component {
 
     onChange(fileList);
 
-    this.setState({
-      loading: false,
-      imageBase64: null,
-      imageUrl: getPhotoUrl(json.webViewLink),
-      fileList,
+    setTimeout(() => {
+      this.setState({
+        loading: false,
+        imageBase64: null,
+        imageUrl: getPhotoUrl(json.webViewLink),
+        fileList,
+      });
     });
   };
 

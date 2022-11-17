@@ -1,0 +1,13 @@
+diff --git a/node_modules/async-busboy/index.js b/node_modules/async-busboy/index.js
+index 6060b3e..b6f0d00 100644
+--- a/node_modules/async-busboy/index.js
++++ b/node_modules/async-busboy/index.js
+@@ -18,7 +18,7 @@ module.exports = function (request, options) {
+     const fields = {};
+     const filePromises = [];
+ 
+-    request.on('close', cleanup);
++    // request.on('close', cleanup);
+ 
+     busboy
+       .on('field', onField.bind(null, fields))

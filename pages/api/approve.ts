@@ -1,17 +1,10 @@
-const { google } = require("googleapis");
-const credentials = require("./credentials");
+import { google } from "googleapis";
+import { getAuth } from "../../google";
 
 const calendarId = process.env.CALENDAR_ID;
-const SCOPES = [
-  "https://www.googleapis.com/auth/calendar",
-  "https://www.googleapis.com/auth/calendar.events",
-];
 
 async function main() {
-  const auth = await google.auth.getClient({
-    credentials,
-    scopes: SCOPES,
-  });
+  const auth = await getAuth();
 
   const cal = google.calendar({ version: "v3", auth });
   const eventId = process.argv[2];
@@ -29,7 +22,7 @@ async function main() {
     await cal.events.patch({
       calendarId,
       eventId,
-      resource,
+      requestBody: resource,
     });
 
     process.exit(0);

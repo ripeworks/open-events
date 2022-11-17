@@ -201,9 +201,11 @@ class EventForm extends React.Component {
         <Row gutter={16}>
           <Col>
             <Form.Item label="Location">
-              {getFieldDecorator("location", {})(
+              {getFieldDecorator("location", {
+                initialValue: editingEvent && editingEvent.location,
+              })(
                 <Location
-                  defaultValue={editingEvent && editingEvent.location}
+                  initialValue={editingEvent && editingEvent.location}
                   size="large"
                 />
               )}

@@ -56,11 +56,17 @@ export default class Location extends React.Component {
   };
 
   render() {
-    const { value, onChange, ...props } = this.props;
+    const {
+      value,
+      onChange,
+      initialValue: defaultValue,
+      ...props
+    } = this.props;
 
     return (
       <AutoComplete
         {...props}
+        defaultValue={defaultValue}
         dataSource={this.state.places}
         onSearch={this.loadOptions}
         onSelect={this.onChange}

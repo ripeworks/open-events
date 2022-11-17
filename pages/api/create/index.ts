@@ -1,15 +1,10 @@
-const { google } = require("googleapis");
-const { json, send } = require("micro");
-const formData = require("form-data");
-const Mailgun = require("mailgun.js");
-const mg = new Mailgun(formData);
-const credentials = require("../credentials");
+import {google} from "googleapis";
+import { getAuth } from "../../../google";
+import formData from "form-data";
+import Mailgun from "mailgun.js";
 
+const mg = new Mailgun(formData);
 const calendarId = process.env.CALENDAR_ID;
-const SCOPES = [
-  "https://www.googleapis.com/auth/calendar",
-  "https://www.googleapis.com/auth/calendar.events",
-];
 
 const volunteerText = ({ needsVolunteers, volunteerContact }) => {
   if (!needsVolunteers) return "";
@@ -29,14 +24,12 @@ const getDateTime = ({ date, time, allDay = false }) => {
   return dateTime.toISOString().replace(/Z$/, "");
 };
 
-module.exports = async (req, res) => {
-  const auth = await google.auth.getClient({
-    credentials,
-    scopes: SCOPES,
-  });
+export default async function(req, res) {
+  if (req.method === "OPTIONS") return res.status(200).end();
 
+  const auth = await getAuth();
   const cal = google.calendar({ version: "v3", auth });
-  const body = await json(req);
+  const body = req.body;
   const dateKey = body.allDay ? "date" : "dateTime";
 
   try {
@@ -44,7 +37,7 @@ module.exports = async (req, res) => {
       calendarId,
       supportsAttachments: true,
       // conferenceDataVersion: 1,
-      resource: {
+      requestBody: {
         guestsCanInviteOthers: false,
         guestsCanSeeOtherGuests: false,
         summary: body.title,
@@ -114,9 +107,9 @@ ${volunteerText(body)}`,
       });
     }
 
-    send(res, 200, { id: newEvent.data.id, editUrl, success: true });
+    return res.json({ id: newEvent.data.id, editUrl, success: true });
   } catch (err) {
     console.log(err);
-    send(res, 200, { success: false, message: err.message });
+    return res.json({ success: false, message: err.message });
   }
-};
+}

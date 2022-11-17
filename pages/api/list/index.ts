@@ -1,19 +1,11 @@
-const { google } = require("googleapis");
-const { parse } = require("url");
-const { send } = require("micro");
-const credentials = require("../credentials");
+import {google} from "googleapis";
+import {parse} from "url";
+import { getAuth } from "../../../google";
 
 const calendarId = process.env.CALENDAR_ID;
-const SCOPES = [
-  "https://www.googleapis.com/auth/calendar",
-  "https://www.googleapis.com/auth/calendar.events",
-];
 
-module.exports = async (req, res) => {
-  const auth = await google.auth.getClient({
-    credentials,
-    scopes: SCOPES,
-  });
+export default async function (req, res) {
+  const auth = await getAuth();
 
   // pageToken (for pagination)
   // q (for searching)
@@ -35,6 +27,7 @@ module.exports = async (req, res) => {
   if (single === "true") {
     const timeMax = new Date();
     timeMax.setMonth(timeMax.getMonth() + 6);
+    // @ts-ignore
     params.timeMax = timeMax.toISOString();
   }
 
@@ -51,5 +44,5 @@ module.exports = async (req, res) => {
   };
   const items = await fetchPage();
 
-  send(res, 200, { items });
+  return res.json({ items });
 };

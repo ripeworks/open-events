@@ -1,12 +1,7 @@
-const { google } = require("googleapis");
-const { json, send } = require("micro");
-const credentials = require("../credentials");
+import {google} from "googleapis";
+import { getAuth } from "../../../google";
 
 const calendarId = process.env.CALENDAR_ID;
-const SCOPES = [
-  "https://www.googleapis.com/auth/calendar",
-  "https://www.googleapis.com/auth/calendar.events",
-];
 
 const volunteerText = ({ needsVolunteers, volunteerContact }) => {
   if (!needsVolunteers) return "";
@@ -34,16 +29,14 @@ const getDateTime = ({ date, time, allDay = false }) => {
 };
 
 module.exports = async (req, res) => {
-  const auth = await google.auth.getClient({
-    credentials,
-    scopes: SCOPES,
-  });
+  if (req.method === "OPTIONS") return res.status(200).end();
 
+  const auth = await getAuth();
   const cal = google.calendar({ version: "v3", auth });
-  const body = await json(req);
+  const body = req.body;
   const dateKey = body.allDay ? "date" : "dateTime";
 
-  const resource = {
+  const resource:any = {
     guestsCanInviteOthers: false,
     guestsCanSeeOtherGuests: false,
     summary: body.title,
@@ -104,12 +97,12 @@ ${volunteerText(body)}`,
       calendarId,
       eventId: body.eventId,
       supportsAttachments: true,
-      resource,
+      requestBody: resource,
     });
 
-    send(res, 200, { success: true });
+    return res.json({ success: true });
   } catch (err) {
     console.log(err);
-    send(res, 200, { success: false });
+    return res.json({ success: false });
   }
 };
