@@ -54,39 +54,6 @@ const Index = ({ events, id }) => {
         </Head>
       )}
       <section>
-        <div className="flush">
-          <Alert
-            banner
-            message="COVID-19 UPDATE 2022"
-            description={
-              <div>
-                <p>
-                  Dear neighbors, visitors, calendar partners and interested
-                  parties:
-                </p>
-                <p>
-                  Celebrating with family and friends is an important and
-                  treasured time, and we hope everyone will remain vigilant when
-                  gathering. The health and safety of our community is a top
-                  priority, and while restrictions have been lifted, we
-                  encourage residents and visitors alike to utilize the tools to
-                  stay safe and lower the risk of COVID-19 infection and severe
-                  illness--wear a well-fitting mask indoors, get tested before
-                  attending indoor gatherings, and get vaccinated and boosted.
-                  Please be kind, gracious, respectful and attentive to the
-                  safety of others.
-                </p>
-                <p>&nbsp;</p>
-                <p>
-                  Inquiries, suggestions and comments related to improving the
-                  usefulness of the Northport Omena Calendar may be sent to
-                  leelanaucommunitycalendar@gmail.com.
-                </p>
-              </div>
-            }
-            type="warning"
-          />
-        </div>
         <div className="toolbar">
           {view === "calendar" && (
             <ButtonGroup>

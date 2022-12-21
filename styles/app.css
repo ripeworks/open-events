@@ -164,6 +164,11 @@ section {
   background: 0 0;
 }
 
+.note {
+  color: #8c8c8c;
+  font-style: italic;
+}
+
 @media (min-width: 600px) {
   section {
     padding: 2rem 3rem;

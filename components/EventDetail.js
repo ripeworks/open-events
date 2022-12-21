@@ -129,6 +129,12 @@ export default class EventDetail extends React.Component {
             </p>
           </Detail>
         )}
+        <Detail>
+          <p className="note">
+            To confirm the accuracy of event details shown on this calendar,
+            please contact the event organizers directly.
+          </p>
+        </Detail>
         {page && (
           <Head>
             <title>{event.summary} | Northport Omena Calendar</title>
