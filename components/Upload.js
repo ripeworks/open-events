@@ -84,7 +84,6 @@ export default class extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const { props, state } = this;
 
-    console.log(props, prevProps);
     if (props.fileList !== prevProps.fileList) {
       this.setState({ imageUrl: null });
     }
@@ -134,7 +133,7 @@ export default class extends React.Component {
         imageUrl: getPhotoUrl(json.webViewLink),
         fileList,
       });
-    });
+    }, 15);
   };
 
   render() {
