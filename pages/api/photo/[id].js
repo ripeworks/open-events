@@ -1,5 +1,4 @@
 const https = require("https");
-const url = require("url");
 
 const pickObjectKeys = (object, keys) => {
   return keys.reduce((obj, key) => {
@@ -19,16 +18,18 @@ module.exports = async (req, res) => {
   };
   await new Promise((resolve) => {
     https.get(options, (redirect) => {
-      const { hostname, pathname } = url.parse(redirect.headers.location || "");
-      https.get({ host: hostname, path: pathname }, (proxy) => {
-        res.writeHead(
-          proxy.statusCode,
-          pickObjectKeys(proxy.headers, [
+      https.get(redirect.headers.location, (proxy) => {
+        res.writeHead(proxy.statusCode, {
+          ...pickObjectKeys(proxy.headers, [
             "content-length",
             "content-type",
             "transfer-encoding",
-          ])
-        );
+          ]),
+          "cache-control":
+            proxy.statusCode === 200
+              ? "public, max-age=31536000, immutable"
+              : proxy.headers["cache-control"],
+        });
         proxy.pipe(res);
         res.on("end", () => resolve());
       });
