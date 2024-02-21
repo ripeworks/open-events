@@ -1,12 +1,7 @@
-import {google} from "googleapis";
-import {parse} from "url";
-import { getAuth } from "../../../google";
-
-const calendarId = process.env.CALENDAR_ID;
+import { parse } from "url";
+import { loadEvents } from "../../../utils/server/loadEvents";
 
 export default async function (req, res) {
-  const auth = await getAuth();
-
   // pageToken (for pagination)
   // q (for searching)
   // timeMin, timeMax for date range (use when querying via month?)
@@ -14,35 +9,10 @@ export default async function (req, res) {
   // format: 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z
   const { deleted, single } = parse(req.url, true).query;
 
-  // https://developers.google.com/calendar/v3/reference/events/list
-  const cal = google.calendar({ version: "v3", auth });
-  const params = {
-    calendarId,
-    maxResults: 2500,
+  const items = await loadEvents({
     singleEvents: single === "true",
     showDeleted: deleted === "true",
-  };
-
-  // only show next 6 months of events
-  if (single === "true") {
-    const timeMax = new Date();
-    timeMax.setMonth(timeMax.getMonth() + 6);
-    // @ts-ignore
-    params.timeMax = timeMax.toISOString();
-  }
-
-  const fetchPage = async (pageToken = undefined) => {
-    const events = await cal.events.list({ ...params, pageToken });
-    if (events.data.nextPageToken) {
-      return [
-        ...events.data.items,
-        ...(await fetchPage(events.data.nextPageToken)),
-      ];
-    } else {
-      return events.data.items;
-    }
-  };
-  const items = await fetchPage();
+  });
 
   return res.json({ items });
-};
+}

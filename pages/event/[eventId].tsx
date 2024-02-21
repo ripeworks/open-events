@@ -4,8 +4,14 @@ import Link from "next/link";
 import EventDetail from "../../components/EventDetail";
 
 import { useRouter } from "next/router";
+import { GetStaticPropsContext } from "next";
+import { loadEvent } from "../../utils/server/loadEvents";
 
-const EventPage = ({ event }) => {
+type Props = {
+  event: any;
+};
+
+export default function EventPage({ event }: Props) {
   const router = useRouter();
   useEffect(() => {
     router.prefetch("/");
@@ -24,15 +30,11 @@ const EventPage = ({ event }) => {
   ) : (
     <div />
   );
-};
+}
 
-export default EventPage;
-
-export async function getStaticProps(context) {
+export async function getStaticProps(context: GetStaticPropsContext) {
   const { eventId } = context.params;
-  const res = await fetch(`${process.env.API_URL}/api/list?single=true`);
-  const { items } = await res.json();
-  const event = items.find((event) => event.id === eventId);
+  const event = await loadEvent(String(eventId));
 
   return { props: { eventId, event }, notFound: !event, revalidate: 3600 };
 }
@@ -40,6 +42,6 @@ export async function getStaticProps(context) {
 export function getStaticPaths() {
   return {
     paths: [],
-    fallback: true,
+    fallback: "blocking",
   };
 }

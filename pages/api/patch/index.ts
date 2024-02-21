@@ -1,9 +1,10 @@
 import { google } from "googleapis";
 import { getAuth } from "../../../google";
+import { NextApiRequest, NextApiResponse } from "next";
 
 const calendarId = process.env.CALENDAR_ID;
 
-module.exports = async (req, res) => {
+export default async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "OPTIONS") return res.status(200).end();
 
   const auth = await getAuth();
@@ -19,10 +20,16 @@ module.exports = async (req, res) => {
       eventId: body.eventId,
       requestBody: resource,
     });
+    await Promise.all([
+      res.revalidate("/moderate"),
+      res.revalidate("/moderate/all"),
+      res.revalidate("/"),
+      res.revalidate(`/event/${body.eventId}`),
+    ]);
 
     return res.json({ success: true });
   } catch (err) {
     console.log(err);
     return res.json({ success: false });
   }
-};
+}

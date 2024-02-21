@@ -5,7 +5,7 @@ import { Icon } from "antd";
 import EventDate from "./EventDate";
 import EventDescription from "./EventDescription";
 import Map from "./Map";
-import { getPhotoUrl, getVolunteerText } from "../utils";
+import { getPhotoUrl, getVolunteerText } from "../utils/event";
 
 const Detail = ({ icon, children }) => (
   <div className="detail">

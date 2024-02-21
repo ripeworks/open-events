@@ -1,6 +1,6 @@
 import React from "react";
 import { GoogleMap, Marker, withGoogleMap } from "react-google-maps";
-import { geocodeByAddress, getLatLng } from "../utils";
+import { geocodeByAddress, getLatLng } from "../utils/maps";
 
 class Map extends React.Component {
   state = {

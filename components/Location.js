@@ -1,6 +1,6 @@
 import React from "react";
 import { AutoComplete } from "antd";
-import { geocodeByAddress, getLatLng } from "../utils";
+import { geocodeByAddress, getLatLng } from "../utils/maps";
 
 const { Option } = AutoComplete;
 
@@ -10,7 +10,8 @@ export default class Location extends React.Component {
   };
 
   componentDidMount() {
-    this.autocompleteService = new window.google.maps.places.AutocompleteService();
+    this.autocompleteService =
+      new window.google.maps.places.AutocompleteService();
   }
 
   // user selected an option

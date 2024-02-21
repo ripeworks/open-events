@@ -4,12 +4,16 @@ import Link from "next/link";
 import EventDate from "./EventDate";
 import EventDescription from "./EventDescription";
 import moment from "moment";
-import { getPhotoUrl } from "../utils";
+import { getPhotoUrl } from "../utils/event";
 import { useContextualRouting } from "next-use-contextual-routing";
 
 const { Meta } = Card;
 
-export default function EventCard({ actions, event, noLink = false }) {
+export default function EventCard({
+  actions = undefined,
+  event,
+  noLink = false,
+}) {
   const { makeContextualHref } = useContextualRouting();
 
   const {

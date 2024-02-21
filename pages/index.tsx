@@ -1,21 +1,21 @@
-// @flow
 import React, { useState } from "react";
-import { Alert, Button, Icon } from "antd";
+import { Icon } from "antd";
 import Link from "next/link";
 import Head from "next/head";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import BigCalendar from "react-big-calendar";
 import moment from "moment";
 import Modal from "react-responsive-modal";
 import MagicGrid from "magic-grid-react";
 import { useContextualRouting } from "next-use-contextual-routing";
+import cn from "classnames";
 
 import Header from "../components/Header";
 import EventDetail from "../components/EventDetail";
 import EventCard from "../components/EventCard";
-import { sortEvents } from "../utils";
+import { sortEvents } from "../utils/event";
+import { loadEvents } from "../utils/server/loadEvents";
 
-const ButtonGroup = Button.Group;
 const localizer = BigCalendar.momentLocalizer(moment);
 
 const setMonth = (date, value) => {
@@ -29,15 +29,7 @@ const setMonth = (date, value) => {
   }
 };
 
-Router.events.on("routeChangeComplete", (url) => {
-  process.env.GA_ID &&
-    window.gtag &&
-    window.gtag("config", process.env.GA_ID, {
-      page_location: url,
-    });
-});
-
-const Index = ({ events, id }) => {
+export default function IndexPage({ events }) {
   const router = useRouter();
   const { eventId } = router.query;
   const { makeContextualHref, returnHref } = useContextualRouting();
@@ -48,54 +40,69 @@ const Index = ({ events, id }) => {
   return (
     <main>
       <Header intro />
-      {!id && (
+      {!eventId && (
         <Head>
           <link rel="canonical" href="https://northportomenacalendar.com" />
         </Head>
       )}
-      <section>
+      <section className="mx-auto max-w-6xl bg-white -mt-20 py-8 px-4 sm:px-12">
         <div className="toolbar">
           {view === "calendar" && (
-            <ButtonGroup>
-              <Button
+            <div className="isolate inline-flex rounded-md shadow-sm">
+              <button
+                type="button"
+                className={cn(
+                  "relative inline-flex items-center rounded-l-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+                )}
                 onClick={() => setDate(setMonth(calendarDate, -1))}
-                size="large"
               >
                 <Icon type="left" />
-              </Button>
-              <span className="current-month">
+              </button>
+              <span className="relative -ml-px px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300">
                 {moment(calendarDate).format("MMMM YYYY")}
               </span>
-              <Button
+              <button
+                type="button"
+                className={cn(
+                  "relative -ml-px inline-flex items-center rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+                )}
                 onClick={() => setDate(setMonth(calendarDate, 1))}
-                size="large"
               >
                 <Icon type="right" />
-              </Button>
-            </ButtonGroup>
+              </button>
+            </div>
           )}
           <div className="view-controls">
-            <ButtonGroup>
-              <Button
-                size="large"
-                type={view === "list" ? "primary" : "default"}
+            <div className="isolate inline-flex rounded-md shadow-sm">
+              <button
+                type="button"
+                className={cn(
+                  "relative inline-flex items-center rounded-l-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10",
+                  view === "list" ? "bg-blue-50" : "bg-white"
+                )}
                 onClick={() => setView("list")}
               >
                 List
-              </Button>
-              <Button
-                size="large"
-                type={view === "calendar" ? "primary" : "default"}
+              </button>
+              <button
+                type="button"
+                className={cn(
+                  "relative -ml-px inline-flex items-center rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10",
+                  view === "calendar" ? "bg-blue-50" : "bg-white"
+                )}
                 onClick={() => setView("calendar")}
               >
                 Calendar
-              </Button>
-            </ButtonGroup>
-            <ButtonGroup>
-              <Link href="/new">
-                <Button size="large">Submit Event</Button>
+              </button>
+            </div>
+            <div className="inline-flex ml-8">
+              <Link
+                href="/new"
+                className="shadow-sm items-center rounded-md px-3 py-2 text-sm font-semibold bg-gray-500 text-white ring-offset-0 ring-gray-100 hover:bg-gray-400 hover:text-white focus-visible:outline focus:ring-4"
+              >
+                Submit Event
               </Link>
-            </ButtonGroup>
+            </div>
           </div>
         </div>
         {view === "list" && (
@@ -145,11 +152,10 @@ const Index = ({ events, id }) => {
       </section>
     </main>
   );
-};
+}
 
 export async function getStaticProps() {
-  const res = await fetch(`${process.env.API_URL}/api/list?single=true`);
-  const { etag, syncToken, items } = await res.json();
+  const items = await loadEvents({ singleEvents: true });
 
   return {
     props: {
@@ -162,5 +168,3 @@ export async function getStaticProps() {
     revalidate: 300,
   };
 }
-
-export default Index;

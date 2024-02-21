@@ -43,7 +43,7 @@ Edit.getInitialProps = async (ctx) => {
     ctx.res.end("Invalid token");
   }
 
-  const res = await fetch(`${process.env.API_URL}/api/list?deleted=true`);
+  const res = await fetch(`${process.env.APP_URL}/api/list?deleted=true`);
   const { items } = await res.json();
   const event = items.find((event) => event.id === eventId);
 

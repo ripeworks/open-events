@@ -6,7 +6,8 @@ import TimePicker from "./TimePicker";
 import Location from "./Location";
 import Upload from "./Upload";
 import RecurrenceForm from "./RecurrenceForm";
-import { getPhotoUrl, getVolunteerText } from "../utils";
+import { getPhotoUrl, getVolunteerText } from "../utils/event";
+import Loading from "./Loading";
 
 const dateFormat = "MMM D, YYYY";
 
@@ -164,9 +165,10 @@ class EventForm extends React.Component {
           </Col>
           <Col>
             <Form.Item>
-              {getFieldDecorator("repeats", {})(
-                <RecurrenceForm date={getFieldValue("startDate")} />
-              )}
+              {getFieldDecorator(
+                "repeats",
+                {}
+              )(<RecurrenceForm date={getFieldValue("startDate")} />)}
             </Form.Item>
           </Col>
         </Row>
@@ -215,17 +217,19 @@ class EventForm extends React.Component {
         <Row gutter={16} type="flex">
           <Col span={18}>
             <Form.Item label="Virtual Meeting Link">
-              {getFieldDecorator("meetingUrl", {})(
-                <Input size="large" type="url" />
-              )}
+              {getFieldDecorator(
+                "meetingUrl",
+                {}
+              )(<Input size="large" type="url" />)}
             </Form.Item>
           </Col>
           <Col>
             {!!meetingUrl && (
               <Form.Item label="Access Code">
-                {getFieldDecorator("meetingPassword", {})(
-                  <Input size="large" />
-                )}
+                {getFieldDecorator(
+                  "meetingPassword",
+                  {}
+                )(<Input size="large" />)}
               </Form.Item>
             )}
           </Col>
@@ -304,9 +308,12 @@ class EventForm extends React.Component {
         <Row gutter={16}>
           <Col>
             <Form.Item>
-              <Button type="primary" htmlType="submit" loading={submitting}>
-                Submit
-              </Button>
+              <button
+                type="submit"
+                className="shadow-sm items-center rounded-md px-3 py-2 text-sm font-semibold bg-blue-600 text-white ring-offset-0 ring-blue-100 hover:bg-blue-500 hover:text-white focus-visible:outline focus:ring-4"
+              >
+                {submitting ? <Loading /> : "Submit"}
+              </button>
             </Form.Item>
           </Col>
         </Row>

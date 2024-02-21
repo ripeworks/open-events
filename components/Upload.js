@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, Upload, Icon } from "antd";
 import Cropper from "react-easy-crop";
-import { getPhotoUrl } from "../utils";
+import { getPhotoUrl } from "../utils/event";
 
 const readFile = (file) => {
   return new Promise((resolve) => {

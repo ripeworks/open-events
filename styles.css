@@ -1,8 +1,34 @@
-section {
-  background-color: white;
-  max-width: 1100px;
-  margin: -7rem auto 0 auto;
-  padding: 2rem 1rem;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+header {
+  background-color: gray;
+  background: url(/fall-bg1.jpg) no-repeat center center;
+  background-size: cover;
+}
+
+details summary {
+  outline: none;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details > summary:first-of-type {
+  list-style-type: none;
+}
+
+/* overrides that tailwind borked */
+.ant-btn-primary {
+  background-color: #1890ff;
+}
+.ant-switch {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+.ant-switch-checked {
+  background-color: #1890ff;
 }
 
 .flush {
@@ -170,11 +196,7 @@ section {
 }
 
 @media (min-width: 600px) {
-  section {
-    padding: 2rem 3rem;
-  }
-
-  .flush {
+   .flush {
     margin-left: -3rem;
     margin-right: -3rem;
   }
@@ -185,10 +207,6 @@ section {
 }
 
 @media (min-width: 768px) {
-  section {
-    width: 90%;
-  }
-
   .magic-grid > div {
     width: 33%;
   }
