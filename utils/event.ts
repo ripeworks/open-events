@@ -8,15 +8,15 @@ export function getPhotoUrl(url: string) {
 
 export function sortEvents(a: any, b: any) {
   return (
-    new Date(a.start.dateTime || a.start.date) -
-    new Date(b.start.dateTime || b.start.date)
+    new Date(a.start.dateTime || a.start.date).getTime() -
+    new Date(b.start.dateTime || b.start.date).getTime()
   );
 }
 
 export function sortEventsDescending(a: any, b: any) {
   return (
-    new Date(b.start.dateTime || b.start.date) -
-    new Date(a.start.dateTime || a.start.date)
+    new Date(b.start.dateTime || b.start.date).getTime() -
+    new Date(a.start.dateTime || a.start.date).getTime()
   );
 }
 
