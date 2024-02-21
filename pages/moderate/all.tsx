@@ -167,7 +167,9 @@ function ModerateAllPage({ events }: Props) {
           }}
           onClose={() => router.push("/moderate/all")}
         >
-          {id && <EventEdit event={events.find((event) => event.id === id)} />}
+          {id && (
+            <EventEdit event={eventList.find((event) => event.id === id)} />
+          )}
         </Modal>
         <Modal
           open={typeof window !== "undefined" && !!previewId}
@@ -180,7 +182,7 @@ function ModerateAllPage({ events }: Props) {
         >
           {previewId && (
             <EventDetail
-              event={events.find((event) => event.id === previewId)}
+              event={eventList.find((event) => event.id === previewId)}
             />
           )}
         </Modal>
