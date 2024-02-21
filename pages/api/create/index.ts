@@ -1,4 +1,4 @@
-import {google} from "googleapis";
+import { google } from "googleapis";
 import { getAuth } from "../../../google";
 import formData from "form-data";
 import Mailgun from "mailgun.js";
@@ -24,7 +24,7 @@ const getDateTime = ({ date, time, allDay = false }) => {
   return dateTime.toISOString().replace(/Z$/, "");
 };
 
-export default async function(req, res) {
+export default async function (req, res) {
   if (req.method === "OPTIONS") return res.status(200).end();
 
   const auth = await getAuth();
