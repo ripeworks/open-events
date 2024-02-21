@@ -21,6 +21,16 @@ const { Option } = Select;
 const plural = (word, value) => (value === 1 ? word : `${word}s`);
 
 const wordNums = ["First", "Second", "Third", "Fourth", "Last"];
+const frequencyStrings = [
+  "YEARLY",
+  "MONTHLY",
+  "WEEKLY",
+  "DAILY",
+  "HOURLY",
+  "MINUTELY",
+  "SECONDLY",
+];
+const weekStrings = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
 
 const getWeekOfMonth = (date) => {
   return Math.ceil(date.date() / 7);
@@ -45,11 +55,7 @@ const getRRule = ({
       frequency === "WEEKLY"
         ? (byDay || []).map((day) => RRule[day])
         : frequency === "MONTHLY" && byMonth === "BYMONTHWEEK"
-        ? RRule[
-            moment(date)
-              .format("dd")
-              .toUpperCase()
-          ]
+        ? RRule[moment(date).format("dd").toUpperCase()]
         : null,
     bymonthday:
       frequency === "MONTHLY" && byMonth === "BYMONTHDAY"
@@ -67,6 +73,22 @@ const getRRule = ({
   return rrule;
 };
 
+const getRuleValues = (value) => {
+  if (!value) return {};
+
+  const rule = RRule.fromString(value);
+
+  return {
+    repeats: rule.options.interval,
+    frequency: frequencyStrings[rule.options.freq],
+    byDay: rule.options.byweekday?.map((v) => weekStrings[v]),
+    byMonth: rule.options.bysetpos ? "BYMONTHWEEK" : "BYMONTHDAY",
+    end: rule.options.count ? "after" : rule.options.until ? "on" : "never",
+    count: rule.options.count || undefined,
+    until: rule.options.until,
+  };
+};
+
 const getRuleText = (rrule) => {
   const rule = RRule.fromString(rrule);
 
@@ -80,14 +102,20 @@ const radioStyles = {
 };
 
 const RecurrenceForm = ({ date, onChange, value }) => {
+  const defaultValue = getRuleValues(value);
+
   const [modal, setModal] = useState(false);
-  const [repeats, setRepeats] = useState(1);
-  const [frequency, setFrequency] = useState("DAILY");
-  const [byDay, setByDay] = useState([]);
-  const [byMonth, setByMonth] = useState("BYMONTHDAY");
-  const [end, setEnd] = useState("never");
-  const [count, setCount] = useState(1);
-  const [until, setUntil] = useState(moment(date).add(1, "y"));
+  const [repeats, setRepeats] = useState(defaultValue?.repeats ?? 1);
+  const [frequency, setFrequency] = useState(
+    defaultValue?.frequency ?? "DAILY"
+  );
+  const [byDay, setByDay] = useState(defaultValue?.byDay ?? []);
+  const [byMonth, setByMonth] = useState(defaultValue?.byMonth ?? "BYMONTHDAY");
+  const [end, setEnd] = useState(defaultValue?.end ?? "never");
+  const [count, setCount] = useState(defaultValue?.count ?? 1);
+  const [until, setUntil] = useState(
+    defaultValue?.until ? moment(defaultValue.until) : moment(date).add(1, "y")
+  );
 
   const mDate = moment(date);
 

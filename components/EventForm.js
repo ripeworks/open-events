@@ -168,7 +168,12 @@ class EventForm extends React.Component {
               {getFieldDecorator(
                 "repeats",
                 {}
-              )(<RecurrenceForm date={getFieldValue("startDate")} />)}
+              )(
+                <RecurrenceForm
+                  key={editingEvent?.eventId ?? ""}
+                  date={getFieldValue("startDate")}
+                />
+              )}
             </Form.Item>
           </Col>
         </Row>
