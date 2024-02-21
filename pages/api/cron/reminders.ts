@@ -27,7 +27,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
   });
   await mailgun.messages.create(process.env.MAILGUN_DOMAIN, {
     from: `Northport Omena Calendar <info@${process.env.MAILGUN_DOMAIN}>`,
-    to: "mike@ripeworks.com",
+    to: process.env.DAILY_SUMMARY_EMAILS,
     subject: "Daily Event Summary - Northport Omena Calendar",
     template: "daily_summary",
     "h:X-Mailgun-Variables": JSON.stringify({
