@@ -65,7 +65,7 @@ export default class EventDetail extends React.Component {
     return (
       <div>
         <div className="event-image">
-          {attachment && (
+          {!!attachment && (
             <div
               style={{
                 backgroundImage: `url("${getPhotoUrl(attachment.fileUrl)}")`,
@@ -74,7 +74,7 @@ export default class EventDetail extends React.Component {
           )}
         </div>
         <Detail>
-          <h1>{event.summary}</h1>
+          <h1 className="text-base font-semibold">{event.summary}</h1>
           {organizer && <div>{organizer}</div>}
           <EventDate
             start={start}
