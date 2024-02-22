@@ -140,7 +140,7 @@ export default class EventDetail extends React.Component {
             <title>{event.summary} | Northport Omena Calendar</title>
             <link
               rel="canonical"
-              href={`https://northportomenacalendar.com/event/${event.id}`}
+              href={`https://www.northportomenacalendar.com/event/${event.id}`}
             />
             <meta name="description" content={event.description} />
             <script
@@ -155,7 +155,7 @@ export default class EventDetail extends React.Component {
                   ...(attachment
                     ? { image: getPhotoUrl(attachment.fileUrl) }
                     : {}),
-                  url: `https://northportomenacalendar.com/event/${event.id}`,
+                  url: `https://www.northportomenacalendar.com/event/${event.id}`,
                   description: event.description,
                   ...(event.location
                     ? {

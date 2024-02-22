@@ -42,7 +42,7 @@ export default function IndexPage({ events }) {
       <Header intro />
       {!eventId && (
         <Head>
-          <link rel="canonical" href="https://northportomenacalendar.com" />
+          <link rel="canonical" href="https://www.northportomenacalendar.com" />
         </Head>
       )}
       <section className="mx-auto max-w-6xl bg-white -mt-20 py-8 px-4 sm:px-12">

@@ -2,7 +2,7 @@ const builder = require("xmlbuilder");
 const fetch = require("node-fetch");
 
 const getUrl = (path = "/") => {
-  return `https://northportomenacalendar.com${path}`;
+  return `https://www.northportomenacalendar.com${path}`;
 };
 
 const getSitemap = async () => {
