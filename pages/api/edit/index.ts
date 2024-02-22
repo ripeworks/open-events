@@ -1,5 +1,6 @@
-import {google} from "googleapis";
+import { google } from "googleapis";
 import { getAuth } from "../../../google";
+import { NextApiRequest, NextApiResponse } from "next";
 
 const calendarId = process.env.CALENDAR_ID;
 
@@ -28,7 +29,7 @@ const getDateTime = ({ date, time, allDay = false }) => {
   };
 };
 
-module.exports = async (req, res) => {
+export default async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "OPTIONS") return res.status(200).end();
 
   const auth = await getAuth();
@@ -36,7 +37,7 @@ module.exports = async (req, res) => {
   const body = req.body;
   const dateKey = body.allDay ? "date" : "dateTime";
 
-  const resource:any = {
+  const resource: any = {
     guestsCanInviteOthers: false,
     guestsCanSeeOtherGuests: false,
     summary: body.title,
@@ -105,4 +106,4 @@ ${volunteerText(body)}`,
     console.log(err);
     return res.json({ success: false });
   }
-};
+}

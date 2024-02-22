@@ -75,19 +75,6 @@ details > summary:first-of-type {
   left: 1em;
 }
 
-.event-image {
-  margin: -1.2rem -1.2rem 0 -1.2rem;
-  height: 25vh;
-  overflow: hidden;
-}
-
-.event-image div {
-  background-position: center center;
-  background-size: cover;
-  height: 100%;
-  width: 100%;
-}
-
 .detail h1 {
   padding-top: 1rem;
 }

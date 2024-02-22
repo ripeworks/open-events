@@ -20,7 +20,7 @@ export default function EventPage({ event }: Props) {
 
   return event ? (
     <main>
-      <div className="button-overlay">
+      <div className="button-overlay z-10">
         <Link href="/">
           <Button>Back to Calendar</Button>
         </Link>

@@ -1,6 +1,7 @@
 import React from "react";
 import moment from "moment";
 import Head from "next/head";
+import Image from "next/image";
 import { Icon } from "antd";
 import EventDate from "./EventDate";
 import EventDescription from "./EventDescription";
@@ -64,12 +65,14 @@ export default class EventDetail extends React.Component {
 
     return (
       <div>
-        <div className="event-image">
+        <div className="relative overflow-hidden h-[25vh] -mt-[1.2rem] -ml-[1.2rem] -mr-[1.2rem]">
           {!!attachment && (
-            <div
-              style={{
-                backgroundImage: `url("${getPhotoUrl(attachment.fileUrl)}")`,
-              }}
+            <Image
+              priority
+              fill
+              src={getPhotoUrl(attachment.fileUrl)}
+              alt={event.summary}
+              className="object-cover"
             />
           )}
         </div>

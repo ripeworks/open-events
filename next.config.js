@@ -1,4 +1,14 @@
 module.exports = {
+  transpilePackages: [
+    // these are mostly from antd
+    "rc-pagination",
+    "rc-calendar",
+    "css-animation",
+    "rc-tabs",
+    "rc-util",
+    "rc-time-picker",
+    "rc-tooltip",
+  ],
   async headers() {
     return [
       {

@@ -1,6 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import Router from "next/router";
+import Link from "next/link";
 
 Router.events.on("routeChangeComplete", (url) => {
   process.env.NEXT_PUBLIC_GA_ID &&
@@ -31,7 +32,9 @@ export default function Header({ intro = false }) {
       </Head>
       <hgroup className="mx-auto max-w-6xl flex-shrink-0 pt-24 px-4 pb-40">
         <h1 className="text-4xl font-bold leading-9 tracking-tight text-white">
-          Northport Omena Calendar
+          <Link href="/" className="cursor-default hover:text-white">
+            Northport Omena Calendar
+          </Link>
         </h1>
         {intro && (
           <>

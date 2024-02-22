@@ -1,5 +1,5 @@
-const builder = require("xmlbuilder");
-const fetch = require("node-fetch");
+import { NextApiRequest, NextApiResponse } from "next";
+import builder from "xmlbuilder";
 
 const getUrl = (path = "/") => {
   return `https://www.northportomenacalendar.com${path}`;
@@ -27,8 +27,8 @@ const getSitemap = async () => {
   return sitemap.end({ pretty: true });
 };
 
-module.exports = async (req, res) => {
+export default async function (req: NextApiRequest, res: NextApiResponse) {
   const sitemap = await getSitemap();
   res.writeHead(200, { "Content-Type": "text/xml" });
   res.end(sitemap);
-};
+}

@@ -1,3 +1,5 @@
+import { NextApiRequest, NextApiResponse } from "next";
+
 const https = require("https");
 
 const pickObjectKeys = (object, keys) => {
@@ -7,7 +9,7 @@ const pickObjectKeys = (object, keys) => {
   }, {});
 };
 
-module.exports = async (req, res) => {
+export default async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "GET") return res.status(405).end();
 
   const { id } = req.query;
@@ -16,7 +18,8 @@ module.exports = async (req, res) => {
     path: `/uc?export=view&id=${id}`,
     headers: {},
   };
-  await new Promise((resolve) => {
+
+  await new Promise<void>((resolve) => {
     https.get(options, (redirect) => {
       https.get(redirect.headers.location, (proxy) => {
         res.writeHead(proxy.statusCode, {
@@ -35,4 +38,4 @@ module.exports = async (req, res) => {
       });
     });
   });
-};
+}
