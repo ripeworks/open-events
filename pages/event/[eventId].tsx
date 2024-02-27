@@ -34,9 +34,13 @@ export default function EventPage({ event }: Props) {
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { eventId } = context.params;
-  const event = await loadEvent(String(eventId));
 
-  return { props: { eventId, event }, notFound: !event, revalidate: 3600 };
+  try {
+    const event = await loadEvent(String(eventId));
+    return { props: { eventId, event }, revalidate: 3600 };
+  } catch (err) {
+    return { notFound: true, revalidate: 3600 };
+  }
 }
 
 export function getStaticPaths() {
