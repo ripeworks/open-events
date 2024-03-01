@@ -16,6 +16,7 @@ export default function EventDate({
 }) {
   const [rrule] = recurrence;
   const isSameDay = start.isSame(end, "day");
+  const isThisYear = start.isSame(new Date(), "year");
   const time = allDay ? (
     isSameDay ? (
       "All day"
@@ -32,7 +33,9 @@ export default function EventDate({
   return (
     <div className="event-date">
       {isSameDay ? (
-        <span>{start.format("dddd, MMMM D")}</span>
+        <span>
+          {start.format(isThisYear ? "dddd, MMMM D" : "dddd, MMMM D, YYYY")}
+        </span>
       ) : (
         <span>
           {start.format("MMMM D")} - {end.format("MMMM D, YYYY")}
