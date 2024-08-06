@@ -27,7 +27,7 @@
     "react-easy-crop": "^1.16.1",
     "react-google-maps": "^9.4.5",
     "react-query": "^3.39.3",
-    "react-responsive-modal": "^6.0.0",
+    "react-responsive-modal": "^6.4.2",
     "rrule": "^2.6.2",
     "slate": "^0.45.1",
     "slate-react": "^0.21.21",
