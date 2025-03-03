@@ -99,7 +99,7 @@ export default class EventDetail extends React.Component {
         {!!meetingUrl && (
           <Detail icon={<Icon type="video-camera" />}>
             <span>
-              <a href={meetingUrl} target="_blank">
+              <a href={meetingUrl} target="_blank" className="url-wrap">
                 {meetingUrl}
               </a>
               {!!meetingPassword && (
@@ -126,7 +126,7 @@ export default class EventDetail extends React.Component {
         {websiteUrl && (
           <Detail icon={<Icon type="global" />}>
             <p>
-              <a href={websiteUrl} target="_blank">
+              <a href={websiteUrl} target="_blank" className="url-wrap">
                 {websiteUrl}
               </a>
             </p>

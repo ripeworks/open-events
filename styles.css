@@ -182,8 +182,13 @@ details > summary:first-of-type {
   font-style: italic;
 }
 
+.url-wrap {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
 @media (min-width: 600px) {
-   .flush {
+  .flush {
     margin-left: -3rem;
     margin-right: -3rem;
   }
