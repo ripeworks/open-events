@@ -1,9 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { loadEvents } from "../../../utils/server/loadEvents";
-import formData from "form-data";
-import Mailgun from "mailgun.js";
-
-const mg = new Mailgun(formData);
+import { Resend } from "resend";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   const events = await loadEvents({ showDeleted: true });
@@ -21,19 +18,18 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
   }
 
   // send email
-  const mailgun = mg.client({
-    username: "api",
-    key: process.env.MAILGUN_KEY,
-  });
-  await mailgun.messages.create(process.env.MAILGUN_DOMAIN, {
+  const resend = new Resend(process.env.RESEND_KEY);
+  await resend.emails.send({
     from: `Northport Omena Calendar <info@${process.env.MAILGUN_DOMAIN}>`,
     to: process.env.DAILY_SUMMARY_EMAILS,
     subject: "Daily Event Summary - Northport Omena Calendar",
-    template: "daily_summary",
-    "h:X-Mailgun-Variables": JSON.stringify({
-      count: pending.length,
-      moderate_url: `${process.env.APP_URL}/moderate`,
-    }),
+    template: {
+      id: "northport-omena-calendar-daily-summary",
+      variables: {
+        count: pending.length,
+        moderateUrl: `${process.env.APP_URL}/moderate`,
+      },
+    },
   });
 
   return res.status(201).end();

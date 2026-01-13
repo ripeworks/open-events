@@ -1,10 +1,8 @@
 import { google } from "googleapis";
 import { getAuth } from "../../../google";
-import formData from "form-data";
-import Mailgun from "mailgun.js";
+import { Resend } from "resend";
 import { NextApiRequest, NextApiResponse } from "next";
 
-const mg = new Mailgun(formData);
 const calendarId = process.env.CALENDAR_ID;
 
 const volunteerText = ({ needsVolunteers, volunteerContact }) => {
@@ -91,20 +89,19 @@ ${volunteerText(body)}`,
     const editUrl = `${process.env.APP_URL}/edit?token=${editToken}`;
 
     // send email with edit link
-    if (body.organizerEmail && process.env.MAILGUN_KEY) {
-      const mailgun = mg.client({
-        username: "api",
-        key: process.env.MAILGUN_KEY,
-      });
-      await mailgun.messages.create(process.env.MAILGUN_DOMAIN, {
+    if (body.organizerEmail && process.env.RESEND_KEY) {
+      const resend = new Resend(process.env.RESEND_KEY);
+      await resend.emails.send({
         from: `Northport Omena Calendar <info@${process.env.MAILGUN_DOMAIN}>`,
         to: body.organizerEmail,
         subject: "New Event Submission - Northport Omena Calendar",
-        template: "new_event_submission",
-        "h:X-Mailgun-Variables": JSON.stringify({
-          event_name: body.title,
-          edit_url: editUrl,
-        }),
+        template: {
+          id: "northport-omena-calendar-new-event-submisison",
+          variables: {
+            eventName: body.title,
+            editUrl,
+          },
+        },
       });
     }
 
