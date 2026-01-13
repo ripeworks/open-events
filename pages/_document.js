@@ -8,7 +8,7 @@ class MyDocument extends Document {
           <meta charSet="utf-8" />
           <script
             type="text/javascript"
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFl6qbeWVjcpMSz0L5pRu257-ZLwBCAHQ&libraries=places"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZ39ZTYG_sdJdzaIBPBb_oMeKsIGs_xPc&libraries=places"
           />
           <script
             async
