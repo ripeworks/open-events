@@ -89,10 +89,14 @@ ${volunteerText(body)}`,
     const editUrl = `${process.env.APP_URL}/edit?token=${editToken}`;
 
     // send email with edit link
-    if (body.organizerEmail && process.env.RESEND_KEY) {
+    if (
+      body.organizerEmail &&
+      process.env.RESEND_KEY &&
+      process.env.EMAIL_ADDRESS
+    ) {
       const resend = new Resend(process.env.RESEND_KEY);
       await resend.emails.send({
-        from: `Northport Omena Calendar <info@${process.env.MAILGUN_DOMAIN}>`,
+        from: process.env.EMAIL_ADDRESS,
         to: body.organizerEmail,
         subject: "New Event Submission - Northport Omena Calendar",
         template: {

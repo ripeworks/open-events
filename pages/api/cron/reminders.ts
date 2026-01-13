@@ -18,19 +18,21 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
   }
 
   // send email
-  const resend = new Resend(process.env.RESEND_KEY);
-  await resend.emails.send({
-    from: `Northport Omena Calendar <info@${process.env.MAILGUN_DOMAIN}>`,
-    to: process.env.DAILY_SUMMARY_EMAILS,
-    subject: "Daily Event Summary - Northport Omena Calendar",
-    template: {
-      id: "northport-omena-calendar-daily-summary",
-      variables: {
-        count: pending.length,
-        moderateUrl: `${process.env.APP_URL}/moderate`,
+  if (process.env.RESEND_KEY && process.env.EMAIL_ADDRESS) {
+    const resend = new Resend(process.env.RESEND_KEY);
+    await resend.emails.send({
+      from: process.env.EMAIL_ADDRESS,
+      to: process.env.DAILY_SUMMARY_EMAILS,
+      subject: "Daily Event Summary - Northport Omena Calendar",
+      template: {
+        id: "northport-omena-calendar-daily-summary",
+        variables: {
+          count: pending.length,
+          moderateUrl: `${process.env.APP_URL}/moderate`,
+        },
       },
-    },
-  });
+    });
+  }
 
   return res.status(201).end();
 }
