@@ -10,7 +10,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     (event) =>
       event.visibility === "public" &&
       event.status === "cancelled" &&
-      new Date(event.created) >= minDate
+      new Date(event.created) >= minDate,
   );
 
   if (pending.length < 1) {
@@ -22,7 +22,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     const resend = new Resend(process.env.RESEND_KEY);
     await resend.emails.send({
       from: process.env.EMAIL_ADDRESS,
-      to: process.env.DAILY_SUMMARY_EMAILS,
+      to: process.env.DAILY_SUMMARY_EMAILS.split(","),
       subject: "Daily Event Summary - Northport Omena Calendar",
       template: {
         id: "northport-omena-calendar-daily-summary",
