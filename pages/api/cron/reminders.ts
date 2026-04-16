@@ -20,19 +20,21 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
   // send email
   if (process.env.RESEND_KEY && process.env.EMAIL_ADDRESS) {
     const resend = new Resend(process.env.RESEND_KEY);
-    await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: process.env.EMAIL_ADDRESS,
       to: process.env.DAILY_SUMMARY_EMAILS.split(","),
       subject: "Daily Event Summary - Northport Omena Calendar",
       template: {
         id: "northport-omena-calendar-daily-summary",
         variables: {
-          count: pending.length,
+          count: String(pending.length),
           moderateUrl: `${process.env.APP_URL}/moderate`,
         },
       },
     });
+
+    if (error) throw error;
   }
 
-  return res.status(201).end();
+  return res.json({ success: true, pending: pending.length });
 }
