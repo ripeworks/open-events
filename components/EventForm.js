@@ -94,7 +94,7 @@ class EventForm extends React.Component {
               }
             >
               {getFieldDecorator("title", { rules: [{ required: true }] })(
-                <Input size="large" />
+                <Input size="large" />,
               )}
             </Form.Item>
           </Col>
@@ -111,7 +111,7 @@ class EventForm extends React.Component {
                   onChange={this.onStartDateChange}
                   size="large"
                   format={dateFormat}
-                />
+                />,
               )}
             </Form.Item>
           </Col>
@@ -122,7 +122,7 @@ class EventForm extends React.Component {
                   initialValue: 10,
                   rules: [{ required: true }],
                 })(
-                  <TimePicker onChange={this.onStartTimeChange} size="large" />
+                  <TimePicker onChange={this.onStartTimeChange} size="large" />,
                 )}
               </Form.Item>
             )}
@@ -150,7 +150,7 @@ class EventForm extends React.Component {
                   disabledDate={this.disabledEndDate}
                   size="large"
                   format={dateFormat}
-                />
+                />,
               )}
             </Form.Item>
           </Col>
@@ -159,7 +159,7 @@ class EventForm extends React.Component {
           <Col>
             <Form.Item label="All day">
               {getFieldDecorator("allDay", { valuePropName: "checked" })(
-                <Switch />
+                <Switch />,
               )}
             </Form.Item>
           </Col>
@@ -167,12 +167,12 @@ class EventForm extends React.Component {
             <Form.Item>
               {getFieldDecorator(
                 "repeats",
-                {}
+                {},
               )(
                 <RecurrenceForm
                   key={editingEvent?.eventId ?? ""}
                   date={getFieldValue("startDate")}
-                />
+                />,
               )}
             </Form.Item>
           </Col>
@@ -214,7 +214,7 @@ class EventForm extends React.Component {
                 <Location
                   initialValue={editingEvent && editingEvent.location}
                   size="large"
-                />
+                />,
               )}
             </Form.Item>
           </Col>
@@ -224,7 +224,7 @@ class EventForm extends React.Component {
             <Form.Item label="Virtual Meeting Link">
               {getFieldDecorator(
                 "meetingUrl",
-                {}
+                {},
               )(<Input size="large" type="url" />)}
             </Form.Item>
           </Col>
@@ -233,7 +233,7 @@ class EventForm extends React.Component {
               <Form.Item label="Access Code">
                 {getFieldDecorator(
                   "meetingPassword",
-                  {}
+                  {},
                 )(<Input size="large" />)}
               </Form.Item>
             )}
@@ -253,12 +253,13 @@ class EventForm extends React.Component {
               )}
               {getFieldDecorator("photo", {
                 valuePropName: "fileList",
+                rules: [{ required: true }],
               })(
                 <Upload
                   action="/api/photo"
                   accept="image/jpeg,image/jpg,image/png"
                   name="photo"
-                />
+                />,
               )}
             </Form.Item>
           </Col>
@@ -283,7 +284,7 @@ class EventForm extends React.Component {
             {isFree === false && (
               <Form.Item label="Cost">
                 {getFieldDecorator("cost", { rules: [{ required: true }] })(
-                  <Input size="large" />
+                  <Input size="large" />,
                 )}
               </Form.Item>
             )}
@@ -377,7 +378,7 @@ const mapPropsToFields = (props) => {
     description: Form.createFormField({
       value: event.description.replace(
         `\n\n${getVolunteerText(event.description, true)}`,
-        ""
+        "",
       ),
     }),
     meetingUrl: Form.createFormField({ value: meetingUrl }),
