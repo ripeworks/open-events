@@ -253,7 +253,7 @@ class EventForm extends React.Component {
               )}
               {getFieldDecorator("photo", {
                 valuePropName: "fileList",
-                rules: [{ required: true }],
+                rules: [{ required: !attachment }],
               })(
                 <Upload
                   action="/api/photo"
