@@ -7,7 +7,7 @@ const calendarId = process.env.CALENDAR_ID;
 const volunteerText = ({ needsVolunteers, volunteerContact }) => {
   if (!needsVolunteers) return "";
 
-  return `Interested in being a volunteer? Contact ${volunteerContact}.`;
+  return `\n\nInterested in being a volunteer? Contact ${volunteerContact}.`;
 };
 
 const getDateTime = ({ date, time, allDay = false }) => {
@@ -42,9 +42,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     guestsCanSeeOtherGuests: false,
     summary: body.title,
     location: body.location.address,
-    description: `${body.description}
-
-${volunteerText(body)}`,
+    description: `${body.description}${volunteerText(body)}`,
     start: {
       ...getDateTime({
         date: body.startDate,

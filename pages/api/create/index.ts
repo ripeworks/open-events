@@ -8,7 +8,7 @@ const calendarId = process.env.CALENDAR_ID;
 const volunteerText = ({ needsVolunteers, volunteerContact }) => {
   if (!needsVolunteers) return "";
 
-  return `Interested in being a volunteer? Contact ${volunteerContact}.`;
+  return `\n\nInterested in being a volunteer? Contact ${volunteerContact}.`;
 };
 
 const getDateTime = ({ date, time, allDay = false }) => {
@@ -41,9 +41,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         guestsCanSeeOtherGuests: false,
         summary: body.title,
         location: body.location ? body.location.address : "",
-        description: `${body.description}
-
-${volunteerText(body)}`,
+        description: `${body.description}${volunteerText(body)}`,
         start: {
           [dateKey]: getDateTime({
             date: body.startDate,
@@ -84,7 +82,7 @@ ${volunteerText(body)}`,
     });
 
     const editToken = Buffer.from(`${newEvent.data.id}::$%^&`).toString(
-      "base64"
+      "base64",
     );
     const editUrl = `${process.env.APP_URL}/edit?token=${editToken}`;
 
